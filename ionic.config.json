@@ -1,0 +1,7 @@
+{
+  "name": "E-CO",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
