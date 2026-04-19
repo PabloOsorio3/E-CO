@@ -14,15 +14,21 @@ import { loginApi as apiLogin } from '../../api/login/login.api';
 
 import '../css/login.css';
 
+import { showSuccessAlert } from '../../alerts/success/success-alert';
+import { showErrorAlert } from '../../alerts/errorrs/error-alert';
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
-      await apiLogin({ email, password });
+      const response = await apiLogin({ email, password });
+      console.log(response);
+      showSuccessAlert('¡Inicio de sesión exitoso! Bienvenido.');
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
+      showErrorAlert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
     }
   };
 

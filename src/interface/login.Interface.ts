@@ -11,4 +11,4 @@ export interface LoginResponseInterface {
         email: string;
         role: string;
     };
-}
+}   

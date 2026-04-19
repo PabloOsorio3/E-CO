@@ -1,6 +1,7 @@
 import { IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route } from 'react-router-dom';
+import { Toaster } from 'sonner';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -26,6 +27,7 @@ setupIonicReact();
 const App: React.FC = () => {
   return (
     <IonReactRouter>
+      <Toaster richColors position="top-right" />
       <IonRouterOutlet>
         <Route exact path="/">
           <Login />
