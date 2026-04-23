@@ -1,0 +1,46 @@
+:root {
+    /* Sobrescribimos el color primary de Ionic con tu amarillo */
+    --ion-color-primary: #FFD700;
+    --ion-color-primary-rgb: 255, 214, 0;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #e0bd00;
+    --ion-color-primary-tint: #ffdb1a;
+}
+
+/* Estilos específicos para el contenido */
+#main-content {
+    --background: #f4f4f4;
+    /* Un gris muy claro para que el blanco resalte */
+}
+
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    text-align: center;
+    padding: 20px;
+}
+
+.welcome-container h1 {
+    font-weight: 800;
+    color: #1e1e1e;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.welcome-container p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Un detalle extra: una tarjeta decorativa */
+.admin-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid var(--ion-color-primary);
+}

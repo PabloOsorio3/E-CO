@@ -1,0 +1,60 @@
+/* Paleta de colores sugerida */
+:root {
+    --admin-yellow: #FFD700;
+    /* Un amarillo vibrante pero elegante */
+    --admin-black: #1e1e1e;
+    --admin-white: #ffffff;
+}
+
+#admin-list {
+    background: var(--admin-white);
+    padding-top: 20px;
+}
+
+/* Encabezado del menú */
+ion-list-header {
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--admin-black);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+ion-note {
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* Estilo de los Items */
+ion-item {
+    --border-radius: 12px;
+    --margin-bottom: 8px;
+    margin: 0 12px 8px 12px;
+    font-weight: 500;
+    --transition: 0.3s ease-in-out;
+}
+
+/* Estado No Seleccionado */
+ion-item:not(.selected) {
+    --background: transparent;
+    --color: var(--admin-black);
+}
+
+/* Estado Seleccionado (El efecto "Amarillo") */
+ion-item.selected {
+    --background: var(--admin-yellow);
+    --color: var(--admin-black);
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+}
+
+ion-item.selected ion-icon {
+    color: var(--admin-black);
+}
+
+/* Efecto hover (solo para desktop) */
+ion-item:hover {
+    --background: rgba(255, 215, 0, 0.1);
+}
