@@ -1,37 +1,165 @@
-import React from "react";
-import { IonButtons, IonContent, IonButton, IonHeader, IonIcon, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { personCircleOutline } from "ionicons/icons";
+import React, { useState } from "react";
+import {
+  IonContent,
+  IonPage,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from "@ionic/react";
+import {
+  cashOutline,
+  cubeOutline,
+  cartOutline,
+  peopleOutline,
+  bagHandleOutline,
+  searchOutline,
+} from "ionicons/icons";
+
+import {
+  PageHeader,
+  StatCard,
+  StatusBadge,
+  SearchBar,
+  EmptyState,
+  LoadingSpinner,
+  ConfirmModal,
+} from "../../../components/shared/";
 
 const Home: React.FC = () => {
-    return (
-        <IonPage id="main-content">
-            <IonHeader className="ion-no-border">
-                <IonToolbar style={{ '--background': '#000000ff', '--color': 'white' }}>
-                    <IonButtons slot="start">
-                        <IonMenuButton color="primary" />
-                    </IonButtons>
-                    <IonTitle style={{ fontWeight: 'bold' }}>E - CO</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
-            <IonContent className="ion-padding" scrollY={false}>
-                <div className="welcome-container">
-                    <div className="admin-card">
-                        <IonIcon
-                            icon={personCircleOutline}
-                            style={{ fontSize: '64px', color: 'var(--ion-color-primary)' }}
-                        />
-                        <h1>Bienvenido al Panel de Control</h1>
-                        <p>Gestiona tu tienda con facilidad. Selecciona una opción en el menú lateral para comenzar.</p>
+  return (
+    <IonPage>
+      <PageHeader title="E - CO" subtitle="Panel de Administración" />
 
-                        <IonButton mode="ios" expand="block" color="primary" style={{ marginTop: '20px', fontWeight: 'bold' }}>
-                            Ver Estadísticas
-                        </IonButton>
-                    </div>
-                </div>
-            </IonContent>
-        </IonPage>
-    );
+      <IonContent className="ion-padding" scrollY={true}>
+        {showLoading ? (
+          <LoadingSpinner text="Cargando datos del dashboard..." />
+        ) : (
+          <>
+            {/* --- Stat Cards --- */}
+            <IonGrid>
+              <IonRow>
+                <IonCol size="12" sizeMd="6" sizeLg="3">
+                  <StatCard
+                    label="Ventas Totales"
+                    value="$12,580"
+                    icon={cashOutline}
+                    variant="success"
+                    trendValue={12.5}
+                    periodText="vs. mes anterior"
+                  />
+                </IonCol>
+                <IonCol size="12" sizeMd="6" sizeLg="3">
+                  <StatCard
+                    label="Pedidos Nuevos"
+                    value="34"
+                    icon={cartOutline}
+                    variant="primary"
+                    trendValue={8.2}
+                    periodText="esta semana"
+                  />
+                </IonCol>
+                <IonCol size="12" sizeMd="6" sizeLg="3">
+                  <StatCard
+                    label="Productos"
+                    value="128"
+                    icon={cubeOutline}
+                    variant="info"
+                    trendValue={-2.1}
+                    periodText="stock bajo"
+                  />
+                </IonCol>
+                <IonCol size="12" sizeMd="6" sizeLg="3">
+                  <StatCard
+                    label="Clientes"
+                    value="1,240"
+                    icon={peopleOutline}
+                    variant="warning"
+                    trendValue={5.7}
+                    periodText="nuevos este mes"
+                  />
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+
+            {/* --- Search Bar demo --- */}
+            <SearchBar
+              value={searchTerm}
+              onSearch={setSearchTerm}
+              placeholder="Buscar productos, pedidos..."
+            />
+
+            {/* --- Status Badges demo --- */}
+            <div style={{ padding: "0 16px", display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "20px" }}>
+              <StatusBadge text="Completado" variant="success" />
+              <StatusBadge text="Pendiente" variant="warning" />
+              <StatusBadge text="Cancelado" variant="danger" />
+              <StatusBadge text="En proceso" variant="info" />
+              <StatusBadge text="Borrador" variant="neutral" />
+              <StatusBadge text="Destacado" variant="primary" />
+            </div>
+
+            {/* --- Empty State demo --- */}
+            <EmptyState
+              icon={bagHandleOutline}
+              title="Sin pedidos recientes"
+              description="Cuando tus clientes hagan compras, los pedidos aparecerán aquí."
+              actionText="Ver catálogo"
+              onAction={() => console.log("Ir al catálogo")}
+            />
+
+            {/* --- Confirm Modal demo trigger --- */}
+            <div style={{ textAlign: "center", marginTop: "12px", marginBottom: "32px" }}>
+              <button
+                onClick={() => setShowConfirm(true)}
+                style={{
+                  background: "#ef4444",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "12px",
+                  padding: "12px 24px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontSize: "14px",
+                }}
+              >
+                Probar Modal de Confirmación
+              </button>
+              <span style={{ margin: "0 12px", color: "#999" }}>|</span>
+              <button
+                onClick={() => setShowLoading(true)}
+                style={{
+                  background: "#3b82f6",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "12px",
+                  padding: "12px 24px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontSize: "14px",
+                }}
+              >
+                Probar Loading Spinner
+              </button>
+            </div>
+
+            <ConfirmModal
+              isOpen={showConfirm}
+              onClose={() => setShowConfirm(false)}
+              onConfirm={() => console.log("Acción confirmada!")}
+              title="¿Eliminar producto?"
+              message="El producto será eliminado permanentemente. Esta acción no se puede deshacer."
+              confirmText="Eliminar"
+              variant="danger"
+            />
+          </>
+        )}
+      </IonContent>
+    </IonPage>
+  );
 };
 
 export default Home;

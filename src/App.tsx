@@ -32,17 +32,22 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <Toaster richColors position="top-right" />
-        <IonSplitPane contentId="main">
-          <MenuAdmin />
-          <IonRouterOutlet id="main" animated={false}>
-            <Route exact path="/">
-              <Login />
-            </Route>
-            <Route path="/admin/home">
-              <Home />
-            </Route>
-          </IonRouterOutlet>
-        </IonSplitPane>
+        <IonRouterOutlet id="main" animated={false}>
+          <Route exact path="/">
+            <Login />
+          </Route>
+
+          <Route path="/admin">
+            <IonSplitPane contentId="admin-content">
+              <MenuAdmin />
+              <IonRouterOutlet id="admin-content" animated={false}>
+                <Route path="/admin/home">
+                  <Home />
+                </Route>
+              </IonRouterOutlet>
+            </IonSplitPane>
+          </Route>
+        </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
   );
