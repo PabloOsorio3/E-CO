@@ -23,7 +23,8 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const response = await apiLogin({ email, password });
       console.log(response);
@@ -34,7 +35,6 @@ const Login: React.FC = () => {
       showErrorAlert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
     }
   };
-
   return (
     <IonPage className="container-login">
       <IonGrid className="login-card">
@@ -51,51 +51,48 @@ const Login: React.FC = () => {
           </IonCol>
         </IonRow>
 
-        <IonRow className="login-form">
-          <IonInput
-            label="Correo Electrónico"
-            labelPlacement="floating"
-            fill="outline"
-            type="email"
-            placeholder="nombre@ejemplo.com"
-            value={email}
-            onIonChange={(e) => setEmail(e.detail.value!)}
-            className="custom-input"
-          >
-            <IonIcon slot="start" icon={mailOutline} aria-hidden="true" />
-          </IonInput>
+        <form onSubmit={handleLogin} className="login-form-wrapper">
+          <IonRow className="login-form">
+            <IonInput
+              label="Correo Electrónico"
+              labelPlacement="floating"
+              fill="outline"
+              type="email"
+              required
+              placeholder="nombre@ejemplo.com"
+              value={email}
+              onIonChange={(e) => setEmail(e.detail.value!)}
+              className="custom-input"
+            >
+              <IonIcon slot="start" icon={mailOutline} aria-hidden="true" />
+            </IonInput>
 
-          <IonInput
-            label="Contraseña"
-            labelPlacement="floating"
-            fill="outline"
-            type="password"
-            placeholder="Introduce tu contraseña"
-            value={password}
-            onIonChange={(e) => setPassword(e.detail.value!)}
-            className="custom-input"
-          >
-            <IonIcon slot="start" icon={lockClosedOutline} aria-hidden="true" />
-            <IonInputPasswordToggle slot="end" color="medium" />
-          </IonInput>
+            <IonInput
+              label="Contraseña"
+              labelPlacement="floating"
+              fill="outline"
+              type="password"
+              required
+              placeholder="Introduce tu contraseña"
+              value={password}
+              onIonChange={(e) => setPassword(e.detail.value!)}
+              className="custom-input"
+            >
+              <IonIcon slot="start" icon={lockClosedOutline} aria-hidden="true" />
+              <IonInputPasswordToggle slot="end" color="medium" />
+            </IonInput>
 
-          <IonButton
-            onClick={handleLogin}
-            expand="block"
-            className="login-button"
-          >
-            Iniciar Sesión
-          </IonButton>
-
-          <IonRow className="forgot-password">
-            <IonButton fill="clear" size="small">
-              ¿Olvidaste tu contraseña?
+            <IonButton
+              type="submit"
+              expand="block"
+              className="login-button"
+            >
+              Iniciar Sesión
             </IonButton>
           </IonRow>
-        </IonRow>
+        </form>
       </IonGrid>
     </IonPage>
   );
 };
-
 export default Login;

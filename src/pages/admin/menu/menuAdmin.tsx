@@ -25,7 +25,7 @@ interface AppPage {
 }
 
 const appPages: AppPage[] = [
-    { title: 'Dashboard', url: '/admin/dashboard', icon: gridOutline },
+    { title: 'Dashboard', url: '/admin/home', icon: gridOutline },
     { title: 'Productos', url: '/admin/products', icon: cubeOutline },
     { title: 'Pedidos', url: '/admin/orders', icon: cartOutline },
     { title: 'Clientes', url: '/admin/customers', icon: peopleOutline },
@@ -37,15 +37,16 @@ export const MenuAdmin = () => {
     const location = useLocation();
 
     return (
-        <IonMenu contentId="main" type="overlay">
+        <IonMenu menuId="admin-menu" contentId="admin-content" type="overlay">
             <IonContent style={{ '--background': 'var(--admin-white)' }}>
                 <IonList id="admin-list" lines="none">
                     <IonListHeader>Admin Panel</IonListHeader>
                     <IonNote style={{ marginLeft: '1rem' }}>tienda@ejemplo.com</IonNote>
 
                     {appPages.map((appPage, index) => (
-                        <IonMenuToggle key={index} autoHide={false}>
+                        <IonMenuToggle key={index} menu="admin-menu" autoHide={false}>
                             <IonItem
+                                button
                                 className={location.pathname === appPage.url ? 'selected' : ''}
                                 routerLink={appPage.url}
                                 routerDirection="none"

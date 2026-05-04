@@ -1,0 +1,214 @@
+.products-page {
+    --background: #f4f5f7;
+}
+
+.products-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.products-toolbar .products-count {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.btn-new-product {
+    --border-radius: 12px;
+    --box-shadow: 0 4px 14px rgba(255, 206, 0, 0.3);
+    font-weight: 600;
+    text-transform: none;
+    height: 42px;
+    font-size: 14px;
+}
+
+.products-table-wrapper {
+    margin: 0 16px 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.products-table thead {
+    background: #f9fafb;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.products-table th {
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.products-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: #1e1e1e;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+}
+
+.products-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.products-table tbody tr:hover {
+    background: rgba(255, 215, 0, 0.04);
+}
+
+.products-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.product-name-cell {
+    font-weight: 600;
+    color: #1e1e1e;
+}
+
+.product-brand-cell {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.product-price-cell {
+    font-weight: 700;
+    color: #059669;
+    font-size: 15px;
+}
+
+.product-actions-cell {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.product-actions-cell ion-button {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    height: 34px;
+    font-size: 18px;
+}
+
+.product-modal {
+    --border-radius: 20px 20px 0 0;
+    --height: auto;
+    --max-height: 90vh;
+}
+
+.product-modal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.product-modal .modal-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e1e1e;
+    margin: 0;
+}
+
+.product-modal .modal-body {
+    padding: 16px 20px 24px;
+    overflow-y: auto;
+    max-height: calc(90vh - 160px);
+}
+
+.product-modal .modal-body ion-item {
+    --background: transparent;
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 8px;
+}
+
+.product-modal .form-input {
+    --background: #f9fafb;
+    --border-color: #e5e7eb;
+    --border-radius: 12px;
+    --padding-start: 14px;
+    --highlight-color-focused: var(--ion-color-primary);
+    margin-bottom: 12px;
+}
+
+.product-modal .form-textarea {
+    --background: #f9fafb;
+    --border-color: #e5e7eb;
+    --border-radius: 12px;
+    --padding-start: 14px;
+    --highlight-color-focused: var(--ion-color-primary);
+    margin-bottom: 12px;
+    min-height: 100px;
+}
+
+.product-modal .form-select {
+    --background: #f9fafb;
+    --border-color: #e5e7eb;
+    --border-radius: 12px;
+    --padding-start: 14px;
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.product-modal .modal-footer {
+    display: flex;
+    gap: 12px;
+    padding: 16px 20px 24px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.product-modal .modal-footer ion-button {
+    flex: 1;
+    --border-radius: 12px;
+    font-weight: 600;
+    height: 48px;
+    text-transform: none;
+    font-size: 15px;
+}
+
+.product-modal .btn-save {
+    --background: var(--ion-color-primary);
+    --color: #1e1e1e;
+    --box-shadow: 0 4px 14px rgba(255, 206, 0, 0.3);
+}
+
+.product-modal .btn-modal-cancel {
+    --background: #f3f4f6;
+    --color: #4b5563;
+}
+
+@media (max-width: 768px) {
+    .products-table-wrapper {
+        margin: 0 8px 24px;
+        overflow-x: auto;
+    }
+
+    .products-table th,
+    .products-table td {
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+
+    .col-description {
+        display: none;
+    }
+
+    .col-subcategory {
+        display: none;
+    }
+}

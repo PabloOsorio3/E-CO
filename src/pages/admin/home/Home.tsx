@@ -85,14 +85,12 @@ const Home: React.FC = () => {
               </IonRow>
             </IonGrid>
 
-            {/* --- Search Bar demo --- */}
-            <SearchBar
+            {/* <SearchBar
               value={searchTerm}
               onSearch={setSearchTerm}
               placeholder="Buscar productos, pedidos..."
             />
 
-            {/* --- Status Badges demo --- */}
             <div style={{ padding: "0 16px", display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "20px" }}>
               <StatusBadge text="Completado" variant="success" />
               <StatusBadge text="Pendiente" variant="warning" />
@@ -102,7 +100,6 @@ const Home: React.FC = () => {
               <StatusBadge text="Destacado" variant="primary" />
             </div>
 
-            {/* --- Empty State demo --- */}
             <EmptyState
               icon={bagHandleOutline}
               title="Sin pedidos recientes"
@@ -111,7 +108,6 @@ const Home: React.FC = () => {
               onAction={() => console.log("Ir al catálogo")}
             />
 
-            {/* --- Confirm Modal demo trigger --- */}
             <div style={{ textAlign: "center", marginTop: "12px", marginBottom: "32px" }}>
               <button
                 onClick={() => setShowConfirm(true)}
@@ -154,7 +150,7 @@ const Home: React.FC = () => {
               message="El producto será eliminado permanentemente. Esta acción no se puede deshacer."
               confirmText="Eliminar"
               variant="danger"
-            />
+            /> */}
           </>
         )}
       </IonContent>
