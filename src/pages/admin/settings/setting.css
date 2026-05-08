@@ -1,0 +1,30 @@
+.setting-card {
+    margin: 1rem;
+}
+
+.setting-icon {
+    margin-top: 0.75rem;
+    margin-left: 0.75rem;
+}
+
+.setting-card ion-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+    opacity: 0.25;
+    font-size: 3rem;
+}
+
+.setting-card ion-card-header {
+    padding-bottom: 1rem;
+}
+
+.setting-card ion-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.setting-card ion-card-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}

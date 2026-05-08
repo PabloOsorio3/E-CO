@@ -23,9 +23,11 @@ import '@ionic/react/css/display.css';
 import Login from './pages/login/Login';
 import Home from './pages/admin/home/Home';
 import Products from './pages/admin/products/Products';
-import { MenuAdmin } from './pages/admin/menu/menuAdmin';
+import { MenuAdmin } from './pages/admin/menu/MenuAdmin';
 import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
+import Setting from './pages/admin/settings/Setting';
+import Categories from './pages/admin/settings/categories/Categories';
 
 setupIonicReact();
 
@@ -53,6 +55,12 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/admin/products">
                   <Products />
+                </Route>
+                <Route path="/admin/settings">
+                  <Setting />
+                </Route>
+                <Route path="/admin/settings-categories">
+                  <Categories />
                 </Route>
               </IonRouterOutlet>
             </IonSplitPane>
