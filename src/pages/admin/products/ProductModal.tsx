@@ -16,7 +16,7 @@ import { productService } from '../../../services/product/product.service';
 
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store/store';
-import type { SubCategorieResponse } from '../../../interface/subcategorie.interface';
+import type { SubCategoryResponse } from '../../../interface/subCategory.interface';
 import type { StatusResponse } from '../../../interface/status.interface';
 import type { BrandResponse } from '../../../interface/brand.interface';
 import type { CategoryResponse } from '../../../interface/category.interface';
@@ -44,13 +44,13 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const [brandId, setBrandId] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<number>(1);
-  const [subcategorieId, setSubcategorieId] = useState<number>(1);
+  const [subcategoryId, setSubcategoryId] = useState<number>(1);
   const [statusId, setStatusId] = useState<number>(1);
 
-  const subcategories = useSelector((state: RootState) => state.subcategorie.items);
+  const subcategory = useSelector((state: RootState) => state.subcategory.items);
   const status = useSelector((state: RootState) => state.status.items);
   const brands = useSelector((state: RootState) => state.brand.items);
-  const categories = useSelector((state: RootState) => state.category.items);
+  const category = useSelector((state: RootState) => state.category.items);
 
   const isEditing = !!product;
 
@@ -61,7 +61,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
       setBrandId(product.brand_id);
       setPrice(product.price);
       setCategoryId(product.category_id);
-      setSubcategorieId(product.subcategorie_id);
+      setSubcategoryId(product.subcategory_id);
       setStatusId(product.status_id);
     } else {
       setName('');
@@ -69,7 +69,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
       setBrandId(1);
       setPrice(0);
       setCategoryId(1);
-      setSubcategorieId(1);
+      setSubcategoryId(1);
       setStatusId(1);
     }
   }, [product, isOpen]);
@@ -81,7 +81,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
       brand_id: brandId,
       price,
       category_id: categoryId,
-      subcategorie_id: subcategorieId,
+      subcategory_id: subcategoryId,
       status_id: statusId,
     };
 
@@ -154,15 +154,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
           value={categoryId}
           onIonChange={(e) => {
             setCategoryId(e.detail.value);
-            const firstSubCat = subcategories.find(sc => sc.category_id === e.detail.value);
+            const firstSubCat = subcategory.find(sc => sc.category.id_category === e.detail.value);
             if (firstSubCat) {
-              setSubcategorieId(firstSubCat.id_subcategorie);
+              setSubcategoryId(firstSubCat.id_subcategory);
             } else {
-              setSubcategorieId(0);
+              setSubcategoryId(0);
             }
           }}
         >
-          {categories.map((c) => (
+          {category.map((c) => (
             <IonSelectOption key={c.id_category} value={c.id_category}>
               {c.name}
             </IonSelectOption>
@@ -174,14 +174,14 @@ const ProductModal: React.FC<ProductModalProps> = ({
           label="Subcategoría"
           labelPlacement="floating"
           fill="outline"
-          value={subcategorieId}
-          onIonChange={(e) => setSubcategorieId(e.detail.value)}
+          value={subcategoryId}
+          onIonChange={(e) => setSubcategoryId(e.detail.value)}
           disabled={!categoryId}
         >
-          {subcategories
-            .filter((sc) => sc.category_id === categoryId)
+          {subcategory
+            .filter((sc) => sc.category.id_category === categoryId)
             .map((sc) => (
-              <IonSelectOption key={sc.id_subcategorie} value={sc.id_subcategorie}>
+              <IonSelectOption key={sc.id_subcategory} value={sc.id_subcategory}>
                 {sc.name}
               </IonSelectOption>
             ))}

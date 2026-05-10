@@ -27,7 +27,9 @@ import { MenuAdmin } from './pages/admin/menu/MenuAdmin';
 import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
 import Setting from './pages/admin/settings/Setting';
-import Categories from './pages/admin/settings/categories/Categories';
+import Category from './pages/admin/settings/category/Category';
+import Subcategory from './pages/admin/settings/subcategory/Subcategory';
+
 
 setupIonicReact();
 
@@ -59,9 +61,13 @@ const App: React.FC = () => {
                 <Route path="/admin/settings">
                   <Setting />
                 </Route>
-                <Route path="/admin/settings-categories">
-                  <Categories />
+                <Route path="/admin/settings-category">
+                  <Category />
                 </Route>
+                <Route path="/admin/settings-subcategory">
+                  <Subcategory />
+                </Route>
+
               </IonRouterOutlet>
             </IonSplitPane>
           </Route>

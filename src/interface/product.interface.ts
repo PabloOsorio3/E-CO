@@ -3,7 +3,7 @@ export interface ProductBase {
   description: string;
   price: number;
   category_id: number;
-  subcategorie_id: number;
+  subcategory_id: number;
   status_id: number;
   brand_id: number;
 }
@@ -13,7 +13,7 @@ export interface ProductCreate {
   description: string;
   price: number;
   category_id: number;
-  subcategorie_id: number;
+  subcategory_id: number;
   status_id: number;
   brand_id: number;
 }
@@ -23,7 +23,7 @@ export interface ProductUpdate {
   description?: string;
   price?: number;
   category_id?: number;
-  subcategorie_id?: number;
+  subcategory_id?: number;
   status_id?: number;
   brand_id?: number;
 }

@@ -33,7 +33,7 @@ import '../../css/products.css';
 const Products: React.FC = () => {
   const dispatch = useAppDispatch();
   const { items: products, loading } = useAppSelector((state) => state.products);
-  const { items: subcategories } = useAppSelector((state) => state.subcategorie);
+  const { items: subcategory } = useAppSelector((state) => state.subcategory);
   const { items: brands } = useAppSelector((state) => state.brand);
 
   const productsActive = products.filter((p) => p.status_id === 1 || p.status_id === 5);//5 = nuevo
@@ -159,7 +159,7 @@ const Products: React.FC = () => {
               <tbody>
                 {filteredProducts.map((product) => {
                   const status = product.status_id === 1 ? 'Activo' : product.status_id === 5 ? 'Nuevo' : 'Eliminado';
-                  const subCat = subcategories.find(s => s.id_subcategorie === product.subcategorie_id);
+                  const subCat = subcategory.find(s => s.id_subcategory === product.subcategory_id);
                   const subCatName = subCat ? subCat.name : 'N/A';
                   const brandObj = brands.find(b => b.id_brand === product.brand_id);
                   const brandNameRow = brandObj ? brandObj.brand_name : 'N/A';

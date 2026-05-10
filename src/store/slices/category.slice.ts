@@ -17,8 +17,8 @@ const initialState: CategoryState = {
     error: null,
 };
 
-export const fetchCategories = createAsyncThunk(
-    'categories/fetchAll',
+export const fetchCategory = createAsyncThunk(
+    'category/fetchAll',
     async (_, { rejectWithValue }) => {
         try {
             return await getCategory();
@@ -29,7 +29,7 @@ export const fetchCategories = createAsyncThunk(
 );
 
 export const createCategoryThunk = createAsyncThunk(
-    'categories/create',
+    'category/create',
     async (data: CategoryCreate, { rejectWithValue }) => {
         try {
             return await postCategory(data);
@@ -40,7 +40,7 @@ export const createCategoryThunk = createAsyncThunk(
 );
 
 export const deleteCategoryThunk = createAsyncThunk(
-    'categories/delete',
+    'category/delete',
     async (id: number, { rejectWithValue }) => {
         try {
             await deleteCategory(id);
@@ -52,7 +52,7 @@ export const deleteCategoryThunk = createAsyncThunk(
 );
 
 const categorySlice = createSlice({
-    name: 'categories',
+    name: 'category',
     initialState,
     reducers: {
         clearError: (state) => {
@@ -62,15 +62,15 @@ const categorySlice = createSlice({
     extraReducers: (builder) => {
         builder
             // Fetch
-            .addCase(fetchCategories.pending, (state) => {
+            .addCase(fetchCategory.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchCategories.fulfilled, (state, action: PayloadAction<CategoryResponse[]>) => {
+            .addCase(fetchCategory.fulfilled, (state, action: PayloadAction<CategoryResponse[]>) => {
                 state.loading = false;
                 state.items = action.payload;
             })
-            .addCase(fetchCategories.rejected, (state, action) => {
+            .addCase(fetchCategory.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             })

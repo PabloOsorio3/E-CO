@@ -22,37 +22,42 @@ import { useHistory } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
-    fetchCategories,
-    createCategoryThunk,
-    deleteCategoryThunk,
-} from '../../../../store/slices/category.slice';
-import type { CategoryCreate } from '../../../../interface/category.interface';
+    fetchSubCategory,
+    createSubCategoryThunk,
+    deleteSubCategoryThunk,
+} from '../../../../store/slices/subcategory.slice';
+import { fetchCategory } from '../../../../store/slices/category.slice';
+import type { SubCategoryCreate } from '../../../../interface/subcategory.interface';
 
 import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
-import CategoryModal from './CategoryModal';
+import SubCategoryModal from './SubcategoryModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
 
-const Categories: React.FC = () => {
+const subcategorys: React.FC = () => {
     const history = useHistory();
     const dispatch = useAppDispatch();
-    const { items: categories, loading } = useAppSelector((state) => state.category);
+    const { items: subcategorys, loading } = useAppSelector((state) => state.subcategory);
+    const { items: category } = useAppSelector((state) => state.category);
 
     const [showModal, setShowModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
 
     useEffect(() => {
-        dispatch(fetchCategories());
-    }, [dispatch]);
+        dispatch(fetchSubCategory());
+        if (category.length === 0) {
+            dispatch(fetchCategory());
+        }
+    }, [dispatch, category.length]);
 
-    const handleSave = async (data: CategoryCreate) => {
+    const handleSave = async (data: SubCategoryCreate) => {
         try {
-            await dispatch(createCategoryThunk(data)).unwrap();
-            showSuccessAlert('Categoría creada exitosamente');
+            await dispatch(createSubCategoryThunk(data)).unwrap();
+            showSuccessAlert('Subcategoría creada exitosamente');
             setShowModal(false);
         } catch (error: any) {
-            showErrorAlert(error || 'Error al crear la categoría');
+            showErrorAlert(error || 'Error al crear la subcategoría');
         }
     };
 
@@ -64,19 +69,25 @@ const Categories: React.FC = () => {
     const handleDeleteConfirm = async () => {
         if (deletingId === null) return;
         try {
-            await dispatch(deleteCategoryThunk(deletingId)).unwrap();
-            showSuccessAlert('Categoría eliminada exitosamente');
+            await dispatch(deleteSubCategoryThunk(deletingId)).unwrap();
+            showSuccessAlert('Subcategoría eliminada exitosamente');
         } catch (error: any) {
-            showErrorAlert(error || 'Error al eliminar la categoría');
+            showErrorAlert(error || 'Error al eliminar la subcategoría');
         }
         setDeletingId(null);
+        setShowDeleteConfirm(false);
+    };
+
+    const getCategoryName = (categoryId: number) => {
+        const cat = category.find(cat => cat.id_category === categoryId);
+        return cat ? cat.name : 'Categoría desconocida';
     };
 
     return (
         <IonPage>
             <PageHeader
-                title="Categorías"
-                subtitle="Gestionar categorías de productos"
+                title="Subcategorías"
+                subtitle="Gestionar subcategorías de productos"
                 actionIcon={addOutline}
                 onAction={() => setShowModal(true)}
             />
@@ -87,21 +98,21 @@ const Categories: React.FC = () => {
                     Volver a Configuración
                 </IonButton>
 
-                {loading && categories.length === 0 ? (
-                    <LoadingSpinner text="Cargando categorías..." />
-                ) : categories.length === 0 ? (
+                {loading && subcategorys.length === 0 ? (
+                    <LoadingSpinner text="Cargando subcategorías..." />
+                ) : subcategorys.length === 0 ? (
                     <EmptyState
                         icon={fileTrayFull}
-                        title="No hay categorías"
-                        description="Aún no has creado ninguna categoría. ¡Comienza creando una!"
-                        actionText="Crear Categoría"
+                        title="No hay subcategorías"
+                        description="Aún no has creado ninguna subcategoría. ¡Comienza creando una!"
+                        actionText="Crear Subcategoría"
                         onAction={() => setShowModal(true)}
                     />
                 ) : (
                     <IonGrid>
                         <IonRow>
-                            {categories.map((category) => (
-                                <IonCol size="12" sizeMd="6" sizeLg="4" key={category.id_category}>
+                            {subcategorys.map((subcat) => (
+                                <IonCol size="12" sizeMd="6" sizeLg="4" key={subcat.id_subcategory}>
                                     <IonCard style={{
                                         borderRadius: '16px',
                                         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
@@ -111,13 +122,13 @@ const Categories: React.FC = () => {
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                 <div>
                                                     <IonCardTitle style={{ fontSize: '1.1rem', fontWeight: '700' }}>
-                                                        {category.name}
+                                                        {subcat.name}
                                                     </IonCardTitle>
                                                     <IonCardSubtitle style={{ textTransform: 'none' }}>
-                                                        Slug: {category.slug}
+                                                        Categoría: {getCategoryName(subcat.category_id)}
                                                     </IonCardSubtitle>
                                                 </div>
-                                                <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(category.id_category)}>
+                                                <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(subcat.id_subcategory)}>
                                                     <IonIcon icon={trashOutline} />
                                                 </IonButton>
                                             </div>
@@ -129,7 +140,7 @@ const Categories: React.FC = () => {
                     </IonGrid>
                 )}
 
-                <CategoryModal
+                <SubCategoryModal
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onSave={handleSave}
@@ -143,8 +154,8 @@ const Categories: React.FC = () => {
                         setDeletingId(null);
                     }}
                     onConfirm={handleDeleteConfirm}
-                    title="¿Eliminar categoría?"
-                    message="Esta acción eliminará la categoría permanentemente. Asegúrate de que no haya productos asociados."
+                    title="¿Eliminar subcategoría?"
+                    message="Esta acción eliminará la subcategoría permanentemente."
                     confirmText="Eliminar"
                     variant="danger"
                 />
@@ -153,4 +164,4 @@ const Categories: React.FC = () => {
     );
 };
 
-export default Categories;
+export default subcategorys;

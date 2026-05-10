@@ -25,25 +25,21 @@ interface CategoryModalProps {
 
 const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, onClose, onSave, loading }) => {
     const [name, setName] = useState('');
-    const [slug, setSlug] = useState('');
 
     useEffect(() => {
         if (!isOpen) {
             setName('');
-            setSlug('');
         }
     }, [isOpen]);
 
     const handleSave = () => {
-        if (!name.trim() || !slug.trim()) return;
-        onSave({ name, slug });
+        if (!name.trim()) return;
+        onSave({ name });
     };
 
     const handleNameChange = (e: any) => {
         const val = e.detail.value || '';
         setName(val);
-        // Auto-generate slug
-        setSlug(val.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''));
     };
 
     return (
@@ -69,14 +65,6 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, onClose, onSave, 
                         />
                     </IonItem>
 
-                    <IonItem className="admin-input-item">
-                        <IonLabel position="stacked">Slug (URL)</IonLabel>
-                        <IonInput
-                            value={slug}
-                            onIonInput={(e) => setSlug(e.detail.value || '')}
-                            placeholder="ej-electronica"
-                        />
-                    </IonItem>
                 </IonList>
 
                 <div className="ion-padding-top">
