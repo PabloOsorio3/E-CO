@@ -29,6 +29,7 @@ import { useAppInit } from './hooks/useAppInit';
 import Setting from './pages/admin/settings/Setting';
 import Category from './pages/admin/settings/category/Category';
 import Subcategory from './pages/admin/settings/subcategory/Subcategory';
+import Brand from './pages/admin/settings/brand/Brand';
 
 
 setupIonicReact();
@@ -66,6 +67,9 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/admin/settings-subcategory">
                   <Subcategory />
+                </Route>
+                <Route path="/admin/settings-brands">
+                  <Brand />
                 </Route>
 
               </IonRouterOutlet>
