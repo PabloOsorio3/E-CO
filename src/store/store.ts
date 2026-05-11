@@ -4,6 +4,7 @@ import subCategoryReducer from './slices/subcategory.slice';
 import statusReducer from './slices/status.slice';
 import brandReducer from './slices/brand.slice';
 import categoryReducer from './slices/category.slice';
+import paymentReducer from './slices/payment.slice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     status: statusReducer,
     brand: brandReducer,
     category: categoryReducer,
+    payment: paymentReducer,
   },
 });
 

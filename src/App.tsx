@@ -30,6 +30,8 @@ import Setting from './pages/admin/settings/Setting';
 import Category from './pages/admin/settings/category/Category';
 import Subcategory from './pages/admin/settings/subcategory/Subcategory';
 import Brand from './pages/admin/settings/brand/Brand';
+import Payment from './pages/admin/settings/payment/Payment';
+import StatusPage from './pages/admin/settings/status/StatusPage';
 
 
 setupIonicReact();
@@ -70,6 +72,12 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/admin/settings-brands">
                   <Brand />
+                </Route>
+                <Route path="/admin/settings-payments">
+                  <Payment />
+                </Route>
+                <Route path="/admin/settings-status">
+                  <StatusPage />
                 </Route>
 
               </IonRouterOutlet>

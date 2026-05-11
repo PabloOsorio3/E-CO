@@ -179,7 +179,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
           disabled={!categoryId}
         >
           {subcategory
-            .filter((sc) => sc.category.id_category === categoryId)
             .map((sc) => (
               <IonSelectOption key={sc.id_subcategory} value={sc.id_subcategory}>
                 {sc.name}
