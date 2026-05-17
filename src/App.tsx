@@ -30,7 +30,7 @@ import Setting from './pages/admin/settings/Setting';
 import Category from './pages/admin/settings/category/Category';
 import Subcategory from './pages/admin/settings/subcategory/Subcategory';
 import Brand from './pages/admin/settings/brand/Brand';
-import Payment from './pages/admin/settings/payment/Payment';
+import Payment from './pages/admin/settings/payment/PaymentMethod';
 import StatusPage from './pages/admin/settings/status/StatusPage';
 
 

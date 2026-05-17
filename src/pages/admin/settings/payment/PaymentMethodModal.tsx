@@ -13,6 +13,7 @@ import {
     IonList,
     IonIcon,
     IonLoading,
+    IonTextarea,
 } from '@ionic/react';
 import { closeOutline, saveOutline } from 'ionicons/icons';
 import type { PaymentCreate, PaymentResponse } from '../../../../interface/payment.interface';
@@ -25,20 +26,23 @@ interface PaymentModalProps {
     loading?: boolean;
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSave, payment, loading }) => {
+const PaymentMethodModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSave, payment, loading }) => {
     const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         if (isOpen && payment) {
             setName(payment.payment_name);
+            setDescription(payment.description ?? '');
         } else if (!isOpen) {
             setName('');
+            setDescription('');
         }
     }, [isOpen, payment]);
 
     const handleSave = () => {
         if (!name.trim()) return;
-        onSave({ payment_name: name });
+        onSave({ payment_name: name, description });
     };
 
     return (
@@ -65,17 +69,26 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSave, pa
                     </IonItem>
                 </IonList>
 
+                <IonItem className="admin-input-item">
+                    <IonLabel position="stacked">Descripción</IonLabel>
+                    <IonTextarea
+                        value={description}
+                        onIonInput={(e) => setDescription(e.detail.value || '')}
+                        placeholder="Ej. Descripción del producto"
+                        rows={3}
+                    />
+                </IonItem>
+
                 <div className="ion-padding-top">
                     <IonButton expand="block" onClick={handleSave} disabled={loading || !name.trim()}>
                         <IonIcon slot="start" icon={saveOutline} />
                         {payment ? 'Actualizar' : 'Guardar'}
                     </IonButton>
                 </div>
-
                 <IonLoading isOpen={loading} message={payment ? 'Actualizando...' : 'Guardando...'} />
             </IonContent>
         </IonModal>
     );
 };
 
-export default PaymentModal;
+export default PaymentMethodModal;

@@ -30,11 +30,11 @@ import {
 import type { PaymentCreate, PaymentResponse } from '../../../../interface/payment.interface';
 
 import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
-import PaymentModal from './PaymentModal';
+import PaymentModal from './PaymentMethodModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
 
-const Payment: React.FC = () => {
+const PaymentMethod: React.FC = () => {
     const history = useHistory();
     const dispatch = useAppDispatch();
     const { items: payments, loading } = useAppSelector((state: any) => state.payment);
@@ -188,4 +188,4 @@ const Payment: React.FC = () => {
     );
 };
 
-export default Payment;
+export default PaymentMethod;

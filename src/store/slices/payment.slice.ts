@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
-import { getPayments } from '../../api/admin/get/get_payment';
-import { postPayment } from '../../api/admin/post/post_payment';
-import { updatePaymentApi } from '../../api/admin/put/put_payment';
-import { deletePaymentApi } from '../../api/admin/delete/delete_payment';
+import { getPaymentMethod } from '../../api/admin/get/get_payment_method.ts';
+import { postPaymentMethod } from '../../api/admin/post/post_payment_method.ts';
+import { updatePaymentMethodApi } from '../../api/admin/put/put_payment_method.ts';
+import { deletePaymentMethod } from '../../api/admin/delete/delete_payment_method.ts';
 import type { PaymentResponse, PaymentCreate, PaymentUpdate } from '../../interface/payment.interface';
 
 interface PaymentState {
@@ -17,44 +17,38 @@ const initialState: PaymentState = {
     error: null,
 };
 
-export const fetchPayments = createAsyncThunk(
+export const fetchPaymentMethods = createAsyncThunk(
     'payments/fetchAll',
-    async (_, { rejectWithValue }) => {
-        try {
-            return await getPayments();
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.detail || 'Error al cargar tipos de pago');
-        }
+    async () => {
+        const result = await getPaymentMethod();
+        return result;
     }
 );
 
-export const createPaymentThunk = createAsyncThunk(
+export const createPaymentMethodThunk = createAsyncThunk(
     'payments/create',
-    async (data: PaymentCreate, { rejectWithValue }) => {
-        try {
-            return await postPayment(data);
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.detail || 'Error al crear el tipo de pago');
-        }
+    async (data: PaymentCreate) => {
+        const result = await postPaymentMethod(data);
+        return result;
     }
 );
 
-export const updatePaymentThunk = createAsyncThunk(
+export const updatePaymentMethodThunk = createAsyncThunk(
     'payments/update',
     async ({ id, data }: { id: number; data: PaymentUpdate }, { rejectWithValue }) => {
         try {
-            return await updatePaymentApi(id, data);
+            return await updatePaymentMethodApi(id, data);
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.detail || 'Error al actualizar el tipo de pago');
         }
     }
 );
 
-export const deletePaymentThunk = createAsyncThunk(
+export const deletePaymentMethodThunk = createAsyncThunk(
     'payments/delete',
     async (id: number, { rejectWithValue }) => {
         try {
-            await deletePaymentApi(id);
+            await deletePaymentMethod(id);
             return id;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.detail || 'Error al eliminar el tipo de pago');
@@ -73,52 +67,52 @@ const paymentSlice = createSlice({
     extraReducers: (builder) => {
         builder
             // Fetch
-            .addCase(fetchPayments.pending, (state) => {
+            .addCase(fetchPaymentMethods.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchPayments.fulfilled, (state, action: PayloadAction<PaymentResponse[]>) => {
+            .addCase(fetchPaymentMethods.fulfilled, (state, action: PayloadAction<PaymentResponse[]>) => {
                 state.loading = false;
                 state.items = action.payload;
             })
-            .addCase(fetchPayments.rejected, (state, action) => {
+            .addCase(fetchPaymentMethods.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             })
             // Create
-            .addCase(createPaymentThunk.pending, (state) => {
+            .addCase(createPaymentMethodThunk.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(createPaymentThunk.fulfilled, (state, action: PayloadAction<PaymentResponse>) => {
+            .addCase(createPaymentMethodThunk.fulfilled, (state, action: PayloadAction<PaymentResponse>) => {
                 state.loading = false;
                 state.items.push(action.payload);
             })
-            .addCase(createPaymentThunk.rejected, (state, action) => {
+            .addCase(createPaymentMethodThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             })
             // Update
-            .addCase(updatePaymentThunk.pending, (state) => {
+            .addCase(updatePaymentMethodThunk.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(updatePaymentThunk.fulfilled, (state, action: PayloadAction<PaymentResponse>) => {
+            .addCase(updatePaymentMethodThunk.fulfilled, (state, action: PayloadAction<PaymentResponse>) => {
                 state.loading = false;
                 const index = state.items.findIndex(item => item.id_payment === action.payload.id_payment);
                 if (index !== -1) state.items[index] = action.payload;
             })
-            .addCase(updatePaymentThunk.rejected, (state, action) => {
+            .addCase(updatePaymentMethodThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             })
             // Delete
-            .addCase(deletePaymentThunk.pending, (state) => {
+            .addCase(deletePaymentMethodThunk.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(deletePaymentThunk.fulfilled, (state, action: PayloadAction<number>) => {
+            .addCase(deletePaymentMethodThunk.fulfilled, (state, action: PayloadAction<number>) => {
                 state.loading = false;
                 state.items = state.items.filter(item => item.id_payment !== action.payload);
             })
-            .addCase(deletePaymentThunk.rejected, (state, action) => {
+            .addCase(deletePaymentMethodThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             });
