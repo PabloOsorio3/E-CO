@@ -143,7 +143,7 @@ const PaymentMethod: React.FC = () => {
                                                         <IonIcon icon={cardOutline} style={{ color: 'white', fontSize: '20px' }} />
                                                     </div>
                                                     <IonCardTitle style={{ fontSize: '1.1rem', fontWeight: '700' }}>
-                                                        {payment.payment_method}
+                                                        {payment.name}
                                                     </IonCardTitle>
                                                 </div>
                                                 <div>

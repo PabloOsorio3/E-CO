@@ -32,7 +32,7 @@ const PaymentMethodModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSa
 
     useEffect(() => {
         if (isOpen && payment) {
-            setName(payment.payment_method);
+            setName(payment.name);
             setDescription(payment.description ?? '');
         } else if (!isOpen) {
             setName('');
@@ -42,7 +42,7 @@ const PaymentMethodModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSa
 
     const handleSave = () => {
         if (!name.trim()) return;
-        onSave({ payment_method: name, description });
+        onSave({ name: name, description });
     };
 
     return (

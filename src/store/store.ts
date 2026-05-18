@@ -5,6 +5,7 @@ import statusReducer from './slices/status.slice';
 import brandReducer from './slices/brand.slice';
 import categoryReducer from './slices/category.slice';
 import paymentReducer from './slices/payment.slice';
+import orderReducer from './slices/order.slice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     brand: brandReducer,
     category: categoryReducer,
     payment: paymentReducer,
+    order: orderReducer,
   },
 });
 

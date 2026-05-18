@@ -23,6 +23,7 @@ import '@ionic/react/css/display.css';
 import Login from './pages/login/Login.tsx';
 import Home from './pages/admin/home/Home.tsx';
 import Products from './pages/admin/products/Products.tsx';
+import Orders from './pages/admin/orders/Orders.tsx';
 import { MenuAdmin } from './pages/admin/menu/MenuAdmin.tsx';
 import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
@@ -60,6 +61,9 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/admin/products">
                   <Products />
+                </Route>
+                <Route path="/admin/orders">
+                  <Orders />
                 </Route>
                 <Route path="/admin/settings">
                   <Setting />

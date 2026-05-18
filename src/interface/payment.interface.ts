@@ -16,17 +16,17 @@ export interface PaymentUpdate {
 
 export interface PaymentMethodResponse {
     id_payment_method: number;
-    payment_method: string;
+    name: string;
     description: string;
 }
 
 export interface PaymentMethodCreate {
-    payment_method: string;
+    name: string;
     description: string;
 }
 
 export interface PaymentMethodUpdate {
     id_payment_method: number;
-    payment_method: string;
+    name: string;
     description: string;
 }
