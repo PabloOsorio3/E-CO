@@ -1,7 +1,7 @@
 import apiInstance from '../../instance/instance';
-import type { CategoryCreate } from '../../../interface/category.interface';
+import type { CategoryCreate, CategoryResponse } from '../../../interface/category.interface';
 
-export const postCategory = async (data: CategoryCreate): Promise<CategoryCreate> => {
+export const postCategory = async (data: CategoryCreate): Promise<CategoryResponse> => {
     const response = await apiInstance.post('/admin/post_category', data);
     return response.data;
 };

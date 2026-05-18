@@ -2,11 +2,11 @@ import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/tool
 import { getPaymentMethod } from '../../api/admin/get/get_pyment_method.ts';
 import { postPaymentMethod } from '../../api/admin/post/post_pyment_method.ts';
 import { updatePaymentMethod } from '../../api/admin/put/put_pyment_method.ts';
-import { } from '../../api/admin/delete/delete_pyment_method.ts';
-import type { PaymentResponse, PaymentCreate, PaymentUpdate } from '../../interface/payment.interface';
+import { deletePaymentMethod } from '../../api/admin/delete/delete_pyment_method.ts';
+import type { PaymentMethodResponse, PaymentMethodCreate, PaymentMethodUpdate } from '../../interface/payment.interface';
 
 interface PaymentState {
-    items: PaymentResponse[];
+    items: PaymentMethodResponse[];
     loading: boolean;
     error: string | null;
 }
@@ -27,7 +27,7 @@ export const fetchPaymentMethods = createAsyncThunk(
 
 export const createPaymentMethodThunk = createAsyncThunk(
     'payments/create',
-    async (data: PaymentCreate) => {
+    async (data: PaymentMethodCreate) => {
         const result = await postPaymentMethod(data);
         return result;
     }
@@ -35,9 +35,9 @@ export const createPaymentMethodThunk = createAsyncThunk(
 
 export const updatePaymentMethodThunk = createAsyncThunk(
     'payments/update',
-    async ({ id, data }: { id: number; data: PaymentUpdate }, { rejectWithValue }) => {
+    async ({ id, data }: { id: number; data: PaymentMethodUpdate }, { rejectWithValue }) => {
         try {
-            return await updatePaymentMethodApi(id, data);
+            return await updatePaymentMethod(id, data);
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.detail || 'Error al actualizar el tipo de pago');
         }
@@ -71,7 +71,7 @@ const paymentSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchPaymentMethods.fulfilled, (state, action: PayloadAction<PaymentResponse[]>) => {
+            .addCase(fetchPaymentMethods.fulfilled, (state, action: PayloadAction<PaymentMethodResponse[]>) => {
                 state.loading = false;
                 state.items = action.payload;
             })
@@ -83,7 +83,7 @@ const paymentSlice = createSlice({
             .addCase(createPaymentMethodThunk.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(createPaymentMethodThunk.fulfilled, (state, action: PayloadAction<PaymentResponse>) => {
+            .addCase(createPaymentMethodThunk.fulfilled, (state, action: PayloadAction<PaymentMethodResponse>) => {
                 state.loading = false;
                 state.items.push(action.payload);
             })
@@ -95,9 +95,9 @@ const paymentSlice = createSlice({
             .addCase(updatePaymentMethodThunk.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(updatePaymentMethodThunk.fulfilled, (state, action: PayloadAction<PaymentResponse>) => {
+            .addCase(updatePaymentMethodThunk.fulfilled, (state, action: PayloadAction<PaymentMethodResponse>) => {
                 state.loading = false;
-                const index = state.items.findIndex(item => item.id_payment === action.payload.id_payment);
+                const index = state.items.findIndex(item => item.id_payment_method === action.payload.id_payment_method);
                 if (index !== -1) state.items[index] = action.payload;
             })
             .addCase(updatePaymentMethodThunk.rejected, (state, action) => {
@@ -110,7 +110,7 @@ const paymentSlice = createSlice({
             })
             .addCase(deletePaymentMethodThunk.fulfilled, (state, action: PayloadAction<number>) => {
                 state.loading = false;
-                state.items = state.items.filter(item => item.id_payment !== action.payload);
+                state.items = state.items.filter(item => item.id_payment_method !== action.payload);
             })
             .addCase(deletePaymentMethodThunk.rejected, (state, action) => {
                 state.loading = false;

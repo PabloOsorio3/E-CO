@@ -3,6 +3,7 @@ import type { ProductResponse, ProductCreate, ProductUpdate } from '../../interf
 import { getProducts } from '../../api/admin/get/get_products';
 import { createProduct as apiCreateProduct } from '../../api/admin/post/post_product';
 import { updateProduct as apiUpdateProduct } from '../../api/admin/put/put_product';
+import { deleteProduct as apiDeleteProduct } from '../../api/admin/delete/delete_product';
 
 interface ProductState {
   items: ProductResponse[];

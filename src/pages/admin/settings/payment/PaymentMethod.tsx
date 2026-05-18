@@ -22,12 +22,12 @@ import { useHistory } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
-    fetchPayments,
-    createPaymentThunk,
-    updatePaymentThunk,
-    deletePaymentThunk,
+    fetchPaymentMethods,
+    createPaymentMethodThunk,
+    updatePaymentMethodThunk,
+    deletePaymentMethodThunk,
 } from '../../../../store/slices/payment.slice';
-import type { PaymentCreate, PaymentResponse } from '../../../../interface/payment.interface';
+import type { PaymentMethodCreate, PaymentMethodResponse } from '../../../../interface/payment.interface';
 
 import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
 import PaymentModal from './PaymentMethodModal';
@@ -40,12 +40,12 @@ const PaymentMethod: React.FC = () => {
     const { items: payments, loading } = useAppSelector((state: any) => state.payment);
 
     const [showModal, setShowModal] = useState(false);
-    const [selectedPayment, setSelectedPayment] = useState<PaymentResponse | null>(null);
+    const [selectedPayment, setSelectedPayment] = useState<PaymentMethodResponse | null>(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
 
     useEffect(() => {
-        dispatch(fetchPayments());
+        dispatch(fetchPaymentMethods());
     }, [dispatch]);
 
     const handleOpenCreate = () => {
@@ -53,21 +53,21 @@ const PaymentMethod: React.FC = () => {
         setShowModal(true);
     };
 
-    const handleOpenEdit = (payment: PaymentResponse) => {
+    const handleOpenEdit = (payment: PaymentMethodResponse) => {
         setSelectedPayment(payment);
         setShowModal(true);
     };
 
-    const handleSave = async (data: PaymentCreate) => {
+    const handleSave = async (data: PaymentMethodCreate) => {
         try {
             if (selectedPayment) {
-                await dispatch(updatePaymentThunk({
-                    id: selectedPayment.id_payment,
+                await dispatch(updatePaymentMethodThunk({
+                    id: selectedPayment.id_payment_method,
                     data: { ...selectedPayment, ...data }
                 })).unwrap();
                 showSuccessAlert('Tipo de pago actualizado exitosamente');
             } else {
-                await dispatch(createPaymentThunk(data)).unwrap();
+                await dispatch(createPaymentMethodThunk(data)).unwrap();
                 showSuccessAlert('Tipo de pago creado exitosamente');
             }
             setShowModal(false);
@@ -84,7 +84,7 @@ const PaymentMethod: React.FC = () => {
     const handleDeleteConfirm = async () => {
         if (deletingId === null) return;
         try {
-            await dispatch(deletePaymentThunk(deletingId)).unwrap();
+            await dispatch(deletePaymentMethodThunk(deletingId)).unwrap();
             showSuccessAlert('Tipo de pago eliminado exitosamente');
         } catch (error: any) {
             showErrorAlert(error || 'Error al eliminar el tipo de pago');
@@ -121,8 +121,8 @@ const PaymentMethod: React.FC = () => {
                 ) : (
                     <IonGrid>
                         <IonRow>
-                            {payments.map((payment: PaymentResponse) => (
-                                <IonCol size="12" sizeMd="6" sizeLg="4" key={payment.id_payment}>
+                            {payments.map((payment: PaymentMethodResponse) => (
+                                <IonCol size="12" sizeMd="6" sizeLg="4" key={payment.id_payment_method}>
                                     <IonCard style={{
                                         borderRadius: '16px',
                                         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
@@ -143,14 +143,14 @@ const PaymentMethod: React.FC = () => {
                                                         <IonIcon icon={cardOutline} style={{ color: 'white', fontSize: '20px' }} />
                                                     </div>
                                                     <IonCardTitle style={{ fontSize: '1.1rem', fontWeight: '700' }}>
-                                                        {payment.payment_name}
+                                                        {payment.payment_method}
                                                     </IonCardTitle>
                                                 </div>
                                                 <div>
                                                     <IonButton fill="clear" color="primary" onClick={() => handleOpenEdit(payment)}>
                                                         <IonIcon icon={pencilOutline} />
                                                     </IonButton>
-                                                    <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(payment.id_payment)}>
+                                                    <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(payment.id_payment_method)}>
                                                         <IonIcon icon={trashOutline} />
                                                     </IonButton>
                                                 </div>

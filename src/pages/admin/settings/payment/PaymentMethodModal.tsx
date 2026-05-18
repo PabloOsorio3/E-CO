@@ -16,13 +16,13 @@ import {
     IonTextarea,
 } from '@ionic/react';
 import { closeOutline, saveOutline } from 'ionicons/icons';
-import type { PaymentCreate, PaymentResponse } from '../../../../interface/payment.interface';
+import type { PaymentMethodCreate, PaymentMethodResponse } from '../../../../interface/payment.interface';
 
 interface PaymentModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSave: (data: PaymentCreate) => void;
-    payment?: PaymentResponse | null;
+    onSave: (data: PaymentMethodCreate) => void;
+    payment?: PaymentMethodResponse | null;
     loading?: boolean;
 }
 
@@ -32,7 +32,7 @@ const PaymentMethodModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSa
 
     useEffect(() => {
         if (isOpen && payment) {
-            setName(payment.payment_name);
+            setName(payment.payment_method);
             setDescription(payment.description ?? '');
         } else if (!isOpen) {
             setName('');
@@ -42,7 +42,7 @@ const PaymentMethodModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSa
 
     const handleSave = () => {
         if (!name.trim()) return;
-        onSave({ payment_name: name, description });
+        onSave({ payment_method: name, description });
     };
 
     return (
