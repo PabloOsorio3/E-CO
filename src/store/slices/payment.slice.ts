@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
-import { getPaymentMethod } from '../../api/admin/get/get_payment_method.ts';
-import { postPaymentMethod } from '../../api/admin/post/post_payment_method.ts';
-import { updatePaymentMethodApi } from '../../api/admin/put/put_payment_method.ts';
-import { deletePaymentMethod } from '../../api/admin/delete/delete_payment_method.ts';
+import { getPaymentMethod } from '../../api/admin/get/get_pyment_method.ts';
+import { postPaymentMethod } from '../../api/admin/post/post_pyment_method.ts';
+import { updatePaymentMethod } from '../../api/admin/put/put_pyment_method.ts';
+import { } from '../../api/admin/delete/delete_pyment_method.ts';
 import type { PaymentResponse, PaymentCreate, PaymentUpdate } from '../../interface/payment.interface';
 
 interface PaymentState {

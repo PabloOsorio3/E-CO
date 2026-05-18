@@ -2,7 +2,7 @@ import type { PaymentMethodCreate, PaymentMethodResponse } from "../../../interf
 import axiosInstance from "../../instance/instance";
 
 
-export const createPaymentMethod = async (payment_method: PaymentMethodCreate): Promise<PaymentMethodResponse> => {
+export const postPaymentMethod = async (payment_method: PaymentMethodCreate): Promise<PaymentMethodResponse> => {
     const response = await axiosInstance.post('/admin/post_payment_method', payment_method, {
         headers: {
             'Content-Type': 'application/json'

@@ -20,13 +20,13 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 // Importing Custom Pages
-import Login from './pages/login/Login';
-import Home from './pages/admin/home/Home';
-import Products from './pages/admin/products/Products';
-import { MenuAdmin } from './pages/admin/menu/MenuAdmin';
+import Login from './pages/login/Login.tsx';
+import Home from './pages/admin/home/Home.tsx';
+import Products from './pages/admin/products/Products.tsx';
+import { MenuAdmin } from './pages/admin/menu/MenuAdmin.tsx';
 import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
-import Setting from './pages/admin/settings/Setting';
+import Setting from './pages/admin/settings/Setting.tsx';
 import Category from './pages/admin/settings/category/Category';
 import Subcategory from './pages/admin/settings/subcategory/Subcategory';
 import Brand from './pages/admin/settings/brand/Brand';
