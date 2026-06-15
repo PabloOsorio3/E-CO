@@ -6,6 +6,8 @@ import brandReducer from './slices/brand.slice';
 import categoryReducer from './slices/category.slice';
 import paymentReducer from './slices/payment.slice';
 import orderReducer from './slices/order.slice';
+import typeUserReducer from './slices/typeuser.slice';
+import signupReducer from './slices/signup.slice.ts';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ export const store = configureStore({
     category: categoryReducer,
     payment: paymentReducer,
     order: orderReducer,
+    typeuser: typeUserReducer,
+    signup: signupReducer,
   },
 });
 

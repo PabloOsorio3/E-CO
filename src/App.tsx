@@ -33,6 +33,7 @@ import Subcategory from './pages/admin/settings/subcategory/Subcategory';
 import Brand from './pages/admin/settings/brand/Brand';
 import Payment from './pages/admin/settings/payment/PaymentMethod';
 import StatusPage from './pages/admin/settings/status/StatusPage';
+import Signup from './pages/signup/Signup.tsx';
 
 
 setupIonicReact();
@@ -47,6 +48,9 @@ const App: React.FC = () => {
         <IonRouterOutlet id="main" animated={false}>
           <Route exact path="/">
             <Login />
+          </Route>
+          <Route exact path="/signup">
+            <Signup />
           </Route>
 
           <Route path="/admin">
@@ -83,7 +87,6 @@ const App: React.FC = () => {
                 <Route path="/admin/settings-status">
                   <StatusPage />
                 </Route>
-
               </IonRouterOutlet>
             </IonSplitPane>
           </Route>

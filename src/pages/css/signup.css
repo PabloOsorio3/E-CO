@@ -1,0 +1,203 @@
+/* ==============================
+   Fondo general
+   ============================== */
+.signup-content {
+    --background: #f7f9fc;
+    min-height: 100vh;
+}
+
+/* ==============================
+   Contenedor centrado
+   ============================== */
+.signup-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+}
+
+/* ==============================
+   Tarjeta principal
+   ============================== */
+.signup-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    max-width: 420px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ==============================
+   Logo
+   ============================== */
+.signup-logo {
+    display: flex;
+    justify-content: center;
+}
+
+.signup-logo-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #fffbe6;
+    border: 2px solid #ffce00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-logo-circle ion-icon {
+    font-size: 30px;
+    color: #e6ba00;
+}
+
+/* ==============================
+   Encabezado
+   ============================== */
+.signup-header {
+    text-align: center;
+}
+
+.signup-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+}
+
+.signup-header p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ==============================
+   Formulario
+   ============================== */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+/* ==============================
+   Inputs
+   ============================== */
+.signup-input {
+    --background: transparent;
+    --border-color: #e5e7eb;
+    --border-radius: 12px;
+    --padding-start: 12px;
+    --highlight-color-focused: #ffce00;
+}
+
+.signup-input ion-icon {
+    color: #9ca3af;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.signup-input.ion-focused ion-icon {
+    color: #ffce00;
+}
+
+/* ==============================
+   Botón de registro
+   ============================== */
+.signup-button {
+    --background: #ffce00;
+    --background-hover: #e6ba00;
+    --background-activated: #d4ab00;
+    --background-focused: #e6ba00;
+    --color: #1a1a1a;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 14px rgba(255, 206, 0, 0.3);
+    font-weight: 700;
+    height: 52px;
+    margin-top: 6px;
+    font-size: 16px;
+    text-transform: none;
+}
+
+.signup-button ion-spinner {
+    color: #1a1a1a;
+    margin-right: 8px;
+}
+
+/* ==============================
+   Select tipo de usuario
+   ============================== */
+.signup-select-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 6px 12px;
+    background: transparent;
+    gap: 10px;
+    transition: border-color 0.2s ease;
+}
+
+.signup-select-wrapper:focus-within {
+    border-color: #ffce00;
+}
+
+.signup-select-icon {
+    color: #9ca3af;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.signup-select {
+    flex: 1;
+    --placeholder-color: #9ca3af;
+    --color: #1a1a1a;
+    --highlight-color-focused: #ffce00;
+    font-size: 15px;
+}
+
+/* ==============================
+   Footer / link a login
+   ============================== */
+.signup-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.signup-link {
+    --color: #1a1a1a;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: none;
+    text-decoration: underline;
+    --padding-start: 4px;
+    --padding-end: 4px;
+}
+
+/* ==============================
+   Responsive — móvil
+   ============================== */
+@media (max-width: 480px) {
+    .signup-card {
+        padding: 30px 20px;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .signup-container {
+        background-color: #ffffff;
+        align-items: flex-start;
+        padding-top: 50px;
+    }
+}
