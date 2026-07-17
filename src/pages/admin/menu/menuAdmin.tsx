@@ -1,4 +1,5 @@
-import "../../css/menu.css"
+import React from 'react';
+import "../../css/menu.css";
 import { clearSession } from '../../../core/current_user';
 import {
     IonContent,
@@ -6,16 +7,27 @@ import {
     IonItem,
     IonLabel,
     IonList,
-    IonListHeader,
     IonMenu,
     IonMenuToggle,
-    IonNote,
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
 import {
-    gridOutline, cubeOutline, cartOutline,
-    peopleOutline, pricetagOutline, settingsOutline, logOutOutline
+    gridOutline,
+    cartOutline,
+    peopleOutline,
+    pricetagOutline,
+    cubeOutline,
+    cardOutline,
+    starOutline,
+    addCircleOutline,
+    imagesOutline,
+    listOutline,
+    chatboxEllipsesOutline,
+    personOutline,
+    settingsOutline,
+    logOutOutline,
+    openOutline
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -24,13 +36,40 @@ interface AppPage {
     title: string;
 }
 
-const appPages: AppPage[] = [
-    { title: 'Dashboard', url: '/admin/home', icon: gridOutline },
-    { title: 'Productos', url: '/admin/products', icon: cubeOutline },
-    { title: 'Pedidos', url: '/admin/orders', icon: cartOutline },
-    { title: 'Clientes', url: '/admin/customers', icon: peopleOutline },
-    { title: 'Promociones', url: '/admin/marketing', icon: pricetagOutline },
-    { title: 'Configuración', url: '/admin/settings', icon: settingsOutline },
+interface MenuSection {
+    title: string;
+    pages: AppPage[];
+}
+
+const menuSections: MenuSection[] = [
+    {
+        title: 'Main menu',
+        pages: [
+            { title: 'Dashboard', url: '/admin/home', icon: gridOutline },
+            { title: 'Order Management', url: '/admin/orders', icon: cartOutline },
+            { title: 'Customers', url: '/admin/customers', icon: peopleOutline },
+            { title: 'Coupon Code', url: '/admin/settings-status', icon: pricetagOutline }, // status can represent coupon state or dummy
+            { title: 'Categories', url: '/admin/settings-category', icon: cubeOutline },
+            { title: 'Transaction', url: '/admin/settings-payments', icon: cardOutline },
+            { title: 'Brand', url: '/admin/settings-brands', icon: starOutline },
+        ]
+    },
+    {
+        title: 'Product',
+        pages: [
+            { title: 'Add Products', url: '/admin/settings-subcategory', icon: addCircleOutline }, // subcategory as add product standin or placeholder
+            { title: 'Product Media', url: '/admin/settings', icon: imagesOutline },
+            { title: 'Product List', url: '/admin/products', icon: listOutline },
+            { title: 'Product Reviews', url: '/admin/customers', icon: chatboxEllipsesOutline },
+        ]
+    },
+    {
+        title: 'Admin',
+        pages: [
+            { title: 'Admin role', url: '/admin/home', icon: personOutline },
+            { title: 'Control Authority', url: '/admin/settings', icon: settingsOutline },
+        ]
+    }
 ];
 
 export const MenuAdmin = () => {
@@ -38,39 +77,79 @@ export const MenuAdmin = () => {
 
     return (
         <IonMenu menuId="admin-menu" contentId="admin-content" type="overlay">
-            <IonContent style={{ '--background': 'var(--admin-white)' }}>
-                <IonList id="admin-list" lines="none">
-                    <IonListHeader>Admin Panel</IonListHeader>
-                    <IonNote style={{ marginLeft: '1rem' }}>tienda@ejemplo.com</IonNote>
+            <IonContent style={{ '--background': 'var(--sidebar-bg)' }} scrollY={false}>
+                <div id="admin-list">
+                    {/* Top Section: Logo and Title */}
+                    <div>
+                        <div className="logo-container">
+                            <span className="logo-text">E-CO</span>
+                        </div>
 
-                    {appPages.map((appPage, index) => (
-                        <IonMenuToggle key={index} menu="admin-menu" autoHide={false}>
-                            <IonItem
-                                button
-                                className={location.pathname === appPage.url ? 'selected' : ''}
-                                routerLink={appPage.url}
-                                routerDirection="none"
-                                detail={false}
+                        {/* Navigation Groups */}
+                        <IonList lines="none" style={{ background: 'transparent', padding: 0 }}>
+                            {menuSections.map((section, sIndex) => (
+                                <React.Fragment key={sIndex}>
+                                    <div className="menu-section-title">{section.title}</div>
+                                    {section.pages.map((appPage, pIndex) => (
+                                        <IonMenuToggle key={`${sIndex}-${pIndex}`} menu="admin-menu" autoHide={false}>
+                                            <IonItem
+                                                button
+                                                className={location.pathname === appPage.url ? 'selected' : ''}
+                                                routerLink={appPage.url}
+                                                routerDirection="none"
+                                                detail={false}
+                                            >
+                                                <IonIcon slot="start" icon={appPage.icon} />
+                                                <IonLabel>{appPage.title}</IonLabel>
+                                            </IonItem>
+                                        </IonMenuToggle>
+                                    ))}
+                                </React.Fragment>
+                            ))}
+                        </IonList>
+                    </div>
+
+                    {/* Bottom Section: Profile Summary and External Link */}
+                    <div className="sidebar-footer">
+                        {/* Profile Info Card */}
+                        <div className="profile-card">
+                            <div className="profile-avatar">
+                                <img
+                                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
+                                    alt="User Profile"
+                                />
+                            </div>
+                            <div className="profile-info">
+                                <span className="profile-name">John Doe</span>
+                                <span className="profile-email">john.doe@example.com</span>
+                            </div>
+                            <div
+                                className="logout-btn"
+                                title="Cerrar Sesión"
+                                onClick={() => {
+                                    clearSession();
+                                    window.location.href = '/';
+                                }}
                             >
-                                <IonIcon slot="start" icon={appPage.icon} />
-                                <IonLabel>{appPage.title}</IonLabel>
-                            </IonItem>
-                        </IonMenuToggle>
-                    ))}
-                    <div style={{ height: '1px', background: '#eee', margin: '20px 1rem' }}></div>
+                                <IonIcon icon={logOutOutline} style={{ margin: 0 }} />
+                            </div>
+                        </div>
 
-                    <IonItem
-                        button
-                        onClick={() => {
-                            clearSession();
-                            window.location.href = '/';
-                        }}
-                        className="logout-item"
-                    >
-                        <IonIcon slot="start" icon={logOutOutline} color="danger" />
-                        <IonLabel color="danger">Cerrar Sesión</IonLabel>
-                    </IonItem>
-                </IonList>
+                        {/* Your Shop Link */}
+                        <div
+                            className="shop-link-card"
+                            onClick={() => {
+                                window.open('https://github.com', '_blank');
+                            }}
+                        >
+                            <div className="shop-link-left">
+                                <IonIcon icon={gridOutline} style={{ color: 'var(--dealport-green)' }} />
+                                <span>Your Shop</span>
+                            </div>
+                            <IonIcon icon={openOutline} style={{ color: 'var(--text-muted)', fontSize: '14px' }} />
+                        </div>
+                    </div>
+                </div>
             </IonContent>
         </IonMenu>
     );

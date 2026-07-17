@@ -34,6 +34,7 @@ import Brand from './pages/admin/settings/brand/Brand';
 import Payment from './pages/admin/settings/payment/PaymentMethod';
 import StatusPage from './pages/admin/settings/status/StatusPage';
 import Signup from './pages/signup/Signup.tsx';
+import Customer from './pages/admin/customer/Customer.tsx';
 
 
 setupIonicReact();
@@ -86,6 +87,9 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/admin/settings-status">
                   <StatusPage />
+                </Route>
+                <Route path="/admin/customers">
+                  <Customer />
                 </Route>
               </IonRouterOutlet>
             </IonSplitPane>
