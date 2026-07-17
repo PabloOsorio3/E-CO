@@ -19,17 +19,23 @@ const initialState: PaymentState = {
 
 export const fetchPaymentMethods = createAsyncThunk(
     'payments/fetchAll',
-    async () => {
-        const result = await getPaymentMethod();
-        return result;
+    async (_, { rejectWithValue }) => {
+        try {
+            return await getPaymentMethod();
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.detail || 'Error al cargar tipos de pago');
+        }
     }
 );
 
 export const createPaymentMethodThunk = createAsyncThunk(
     'payments/create',
-    async (data: PaymentMethodCreate) => {
-        const result = await postPaymentMethod(data);
-        return result;
+    async (data: PaymentMethodCreate, { rejectWithValue }) => {
+        try {
+            return await postPaymentMethod(data);
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.detail || 'Error al crear el tipo de pago');
+        }
     }
 );
 

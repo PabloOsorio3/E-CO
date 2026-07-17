@@ -9,6 +9,6 @@ export const getStatus = async (): Promise<StatusResponse[]> => {
         return response.data;
     } catch (error) {
         console.error('Error fetching statuses:', error);
-        return {};
+        throw error;
     }
 }

@@ -1,13 +1,18 @@
 import { jwtDecode } from "jwt-decode";
+import type { JwtPayload } from "jwt-decode";
+
+interface AppJwtPayload extends JwtPayload {
+    type_user_id?: number;
+}
 
 export const getCurrentToken = () => {
     return localStorage.getItem('token');
 }
 
-export const getCurrentUser = () => {
+export const getCurrentUser = (): AppJwtPayload | null => {
     const token = getCurrentToken();
     if (token) {
-        return jwtDecode(token);
+        return jwtDecode<AppJwtPayload>(token);
     }
     return null;
 }

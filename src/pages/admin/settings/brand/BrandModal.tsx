@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IonModal,
     IonHeader,
@@ -25,15 +25,9 @@ interface BrandModalProps {
 }
 
 const BrandModal: React.FC<BrandModalProps> = ({ isOpen, onClose, onSave, brand, loading }) => {
-    const [name, setName] = useState('');
-
-    useEffect(() => {
-        if (isOpen && brand) {
-            setName(brand.brand_name);
-        } else if (!isOpen) {
-            setName('');
-        }
-    }, [isOpen, brand]);
+    // El componente se remonta (via `key` en el padre) cada vez que se abre,
+    // por lo que el estado inicial se calcula una sola vez a partir de `brand`.
+    const [name, setName] = useState(() => brand?.brand_name ?? '');
 
     const handleSave = () => {
         if (!name.trim()) return;

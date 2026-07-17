@@ -34,7 +34,7 @@ import SubCategoryModal from './SubcategoryModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
 
-const subcategorys: React.FC = () => {
+const Subcategory: React.FC = () => {
     const history = useHistory();
     const dispatch = useAppDispatch();
     const { items: subcategorys, loading } = useAppSelector((state) => state.subcategory);
@@ -43,6 +43,9 @@ const subcategorys: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+    // Se incrementa en cada apertura para forzar el remount del modal
+    // (así el modal inicializa su estado local desde props sin usar un efecto).
+    const [modalKey, setModalKey] = useState(0);
 
     useEffect(() => {
         dispatch(fetchSubCategory());
@@ -50,6 +53,11 @@ const subcategorys: React.FC = () => {
             dispatch(fetchCategory());
         }
     }, [dispatch, category.length]);
+
+    const handleOpenCreate = () => {
+        setModalKey((k) => k + 1);
+        setShowModal(true);
+    };
 
     const handleSave = async (data: SubCategoryCreate) => {
         try {
@@ -89,7 +97,7 @@ const subcategorys: React.FC = () => {
                 title="Subcategorías"
                 subtitle="Gestionar subcategorías de productos"
                 actionIcon={addOutline}
-                onAction={() => setShowModal(true)}
+                onAction={handleOpenCreate}
             />
 
             <IonContent className="ion-padding">
@@ -106,7 +114,7 @@ const subcategorys: React.FC = () => {
                         title="No hay subcategorías"
                         description="Aún no has creado ninguna subcategoría. ¡Comienza creando una!"
                         actionText="Crear Subcategoría"
-                        onAction={() => setShowModal(true)}
+                        onAction={handleOpenCreate}
                     />
                 ) : (
                     <IonGrid>
@@ -125,7 +133,7 @@ const subcategorys: React.FC = () => {
                                                         {subcat.name}
                                                     </IonCardTitle>
                                                     <IonCardSubtitle style={{ textTransform: 'none' }}>
-                                                        Categoría: {getCategoryName(subcat.category_id)}
+                                                        Categoría: {getCategoryName(subcat.category.id_category)}
                                                     </IonCardSubtitle>
                                                 </div>
                                                 <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(subcat.id_subcategory)}>
@@ -141,6 +149,7 @@ const subcategorys: React.FC = () => {
                 )}
 
                 <SubCategoryModal
+                    key={modalKey}
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onSave={handleSave}
@@ -164,4 +173,4 @@ const subcategorys: React.FC = () => {
     );
 };
 
-export default subcategorys;
+export default Subcategory;

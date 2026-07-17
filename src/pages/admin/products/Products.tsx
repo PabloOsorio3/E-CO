@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   IonContent,
   IonPage,
@@ -18,7 +18,6 @@ import {
   fetchProducts,
   createProductThunk,
   updateProductThunk,
-  deleteProductThunk,
 } from '../../../store/slices/product.slice';
 import type { ProductCreate, ProductResponse, ProductUpdate } from '../../../interface/product.interface';
 
@@ -36,15 +35,16 @@ const Products: React.FC = () => {
   const { items: subcategory } = useAppSelector((state) => state.subcategory);
   const { items: brands } = useAppSelector((state) => state.brand);
 
-  const productsActive = products.filter((p) => p.status_id === 1 || p.status_id === 5);//5 = nuevo
+  const productsActive = products.filter((p) => p.status_id === 1 || p.status_id === 5);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<ProductResponse | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletingProductId, setDeletingProductId] = useState<number | null>(null);
-
-
+  // Se incrementa en cada apertura para forzar el remount del modal
+  // (así el modal inicializa su estado local desde props sin usar un efecto).
+  const [modalKey, setModalKey] = useState(0);
 
   const filteredProducts = productsActive.filter((p) => {
     const term = searchTerm.toLowerCase();
@@ -59,11 +59,13 @@ const Products: React.FC = () => {
 
   const handleOpenCreate = () => {
     setEditingProduct(null);
+    setModalKey((k) => k + 1);
     setShowModal(true);
   };
 
   const handleOpenEdit = (product: ProductResponse) => {
     setEditingProduct(product);
+    setModalKey((k) => k + 1);
     setShowModal(true);
   };
 
@@ -158,7 +160,6 @@ const Products: React.FC = () => {
               </thead>
               <tbody>
                 {filteredProducts.map((product) => {
-                  const status = product.status_id === 1 ? 'Activo' : product.status_id === 5 ? 'Nuevo' : 'Eliminado';
                   const subCat = subcategory.find(s => s.id_subcategory === product.subcategory_id);
                   const subCatName = subCat ? subCat.name : 'N/A';
                   const brandObj = brands.find(b => b.id_brand === product.brand_id);
@@ -195,6 +196,7 @@ const Products: React.FC = () => {
         )}
 
         <ProductModal
+          key={modalKey}
           isOpen={showModal}
           onClose={() => {
             setShowModal(false);

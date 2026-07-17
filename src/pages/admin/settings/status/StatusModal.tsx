@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IonModal,
     IonHeader,
@@ -26,15 +26,9 @@ interface StatusModalProps {
 }
 
 const StatusModal: React.FC<StatusModalProps> = ({ isOpen, onClose, onSave, status, loading }) => {
-    const [name, setName] = useState('');
-
-    useEffect(() => {
-        if (isOpen && status) {
-            setName(status.name);
-        } else if (!isOpen) {
-            setName('');
-        }
-    }, [isOpen, status]);
+    // El componente se remonta (via `key` en el padre) cada vez que se abre,
+    // por lo que el estado inicial se calcula una sola vez a partir de `status`.
+    const [name, setName] = useState(() => status?.name ?? '');
 
     const handleSave = () => {
         if (!name.trim()) return;

@@ -25,7 +25,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           return <Redirect to="/" />;
         }
 
-        if (allowedRoles && !allowedRoles.includes(role)) {
+        if (allowedRoles && !allowedRoles.includes(String(role))) {
           return <Redirect to="/" />;
         }
 

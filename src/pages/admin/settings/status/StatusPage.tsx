@@ -52,12 +52,15 @@ const getStatusColor = (name: string) => {
 const StatusPage: React.FC = () => {
     const history = useHistory();
     const dispatch = useAppDispatch();
-    const { items: statuses, loading } = useAppSelector((state: any) => state.status);
+    const { items: statuses, loading } = useAppSelector((state) => state.status);
 
     const [showModal, setShowModal] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState<StatusResponse | null>(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+    // Se incrementa en cada apertura para forzar el remount del modal
+    // (así el modal inicializa su estado local desde props sin usar un efecto).
+    const [modalKey, setModalKey] = useState(0);
 
     useEffect(() => {
         dispatch(fetchStatus());
@@ -65,11 +68,13 @@ const StatusPage: React.FC = () => {
 
     const handleOpenCreate = () => {
         setSelectedStatus(null);
+        setModalKey((k) => k + 1);
         setShowModal(true);
     };
 
     const handleOpenEdit = (status: StatusResponse) => {
         setSelectedStatus(status);
+        setModalKey((k) => k + 1);
         setShowModal(true);
     };
 
@@ -179,6 +184,7 @@ const StatusPage: React.FC = () => {
                 )}
 
                 <StatusModal
+                    key={modalKey}
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onSave={handleSave}

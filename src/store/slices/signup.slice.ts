@@ -1,14 +1,27 @@
-import type { SignupInterface } from "../../interface/signup.interface.ts";
+import type { SignupInterface, SignupResponseInterface } from "../../interface/signup.interface.ts";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { signupApi } from "../../api/signup/signup.ts";
 
-export const signup = createAsyncThunk("signup/signup", async (user: SignupInterface) => {
-    const response = await signupApi(user);
-    return response;
-});
+export const signup = createAsyncThunk<
+    SignupResponseInterface,
+    SignupInterface,
+    { rejectValue: SignupResponseInterface }
+>(
+    "signup/signup",
+    async (user: SignupInterface, { rejectWithValue }) => {
+        try {
+            const response = await signupApi(user);
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(
+                error.response?.data || { status: error.response?.status || 500, message: error.message || 'Error al registrar el usuario' }
+            );
+        }
+    }
+);
 
 interface SignupState {
-    item: any;
+    item: SignupResponseInterface | null;
     loading: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
 }
@@ -34,7 +47,7 @@ const signupSlice = createSlice({
             })
             .addCase(signup.rejected, (state, action) => {
                 state.loading = "idle";
-                state.error = action.error.message;
+                state.error = action.payload?.message || action.error.message || null;
             });
     },
 });
