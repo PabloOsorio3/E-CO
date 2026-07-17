@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IonModal,
     IonHeader,
@@ -24,13 +24,9 @@ interface CategoryModalProps {
 }
 
 const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, onClose, onSave, loading }) => {
+    // El componente se remonta (via `key` en el padre) cada vez que se abre,
+    // por lo que no se necesita un efecto para limpiar el campo.
     const [name, setName] = useState('');
-
-    useEffect(() => {
-        if (!isOpen) {
-            setName('');
-        }
-    }, [isOpen]);
 
     const handleSave = () => {
         if (!name.trim()) return;

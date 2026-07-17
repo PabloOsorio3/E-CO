@@ -37,12 +37,15 @@ import { showErrorAlert } from '../../../../alerts/error/error-alert';
 const PaymentMethod: React.FC = () => {
     const history = useHistory();
     const dispatch = useAppDispatch();
-    const { items: payments, loading } = useAppSelector((state: any) => state.payment);
+    const { items: payments, loading } = useAppSelector((state) => state.payment);
 
     const [showModal, setShowModal] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState<PaymentMethodResponse | null>(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+    // Se incrementa en cada apertura para forzar el remount del modal
+    // (así el modal inicializa su estado local desde props sin usar un efecto).
+    const [modalKey, setModalKey] = useState(0);
 
     useEffect(() => {
         dispatch(fetchPaymentMethods());
@@ -50,11 +53,13 @@ const PaymentMethod: React.FC = () => {
 
     const handleOpenCreate = () => {
         setSelectedPayment(null);
+        setModalKey((k) => k + 1);
         setShowModal(true);
     };
 
     const handleOpenEdit = (payment: PaymentMethodResponse) => {
         setSelectedPayment(payment);
+        setModalKey((k) => k + 1);
         setShowModal(true);
     };
 
@@ -164,6 +169,7 @@ const PaymentMethod: React.FC = () => {
                 )}
 
                 <PaymentModal
+                    key={modalKey}
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onSave={handleSave}

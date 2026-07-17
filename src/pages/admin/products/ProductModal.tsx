@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   IonModal,
   IonButton,
@@ -7,21 +7,13 @@ import {
   IonSelect,
   IonSelectOption,
   IonIcon,
-  IonAlert,
 } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
-import type { ProductCreate, ProductResponse, ProductUpdate } from '../../../interface/product.interface';
+import type { ProductCreate, ProductResponse } from '../../../interface/product.interface';
 import '../../css/products.css';
-import { productService } from '../../../services/product/product.service';
 
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store/store';
-import type { SubCategoryResponse } from '../../../interface/subCategory.interface';
-import type { StatusResponse } from '../../../interface/status.interface';
-import type { BrandResponse } from '../../../interface/brand.interface';
-import type { CategoryResponse } from '../../../interface/category.interface';
-
-
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -39,13 +31,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
   product,
   loading = false,
 }) => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [brandId, setBrandId] = useState<number>(1);
-  const [price, setPrice] = useState<number>(0);
-  const [categoryId, setCategoryId] = useState<number>(1);
-  const [subcategoryId, setSubcategoryId] = useState<number>(1);
-  const [statusId, setStatusId] = useState<number>(1);
+  // El componente se remonta (via `key` en el padre) cada vez que se abre,
+  // por lo que el estado inicial se calcula una sola vez a partir de `product`.
+  const [name, setName] = useState(() => product?.name ?? '');
+  const [description, setDescription] = useState(() => product?.description ?? '');
+  const [brandId, setBrandId] = useState<number>(() => product?.brand_id ?? 1);
+  const [price, setPrice] = useState<number>(() => product?.price ?? 0);
+  const [categoryId, setCategoryId] = useState<number>(() => product?.category_id ?? 1);
+  const [subcategoryId, setSubcategoryId] = useState<number>(() => product?.subcategory_id ?? 1);
+  const [statusId, setStatusId] = useState<number>(() => product?.status_id ?? 1);
 
   const subcategory = useSelector((state: RootState) => state.subcategory.items);
   const status = useSelector((state: RootState) => state.status.items);
@@ -53,26 +47,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const category = useSelector((state: RootState) => state.category.items);
 
   const isEditing = !!product;
-
-  useEffect(() => {
-    if (product) {
-      setName(product.name);
-      setDescription(product.description);
-      setBrandId(product.brand_id);
-      setPrice(product.price);
-      setCategoryId(product.category_id);
-      setSubcategoryId(product.subcategory_id);
-      setStatusId(product.status_id);
-    } else {
-      setName('');
-      setDescription('');
-      setBrandId(1);
-      setPrice(0);
-      setCategoryId(1);
-      setSubcategoryId(1);
-      setStatusId(1);
-    }
-  }, [product, isOpen]);
 
   const handleSaveProduct = () => {
     const data: ProductCreate = {

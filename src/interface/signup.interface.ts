@@ -4,3 +4,8 @@ export interface SignupInterface {
     password: string;
     confirm_password: string;
 }
+
+export interface SignupResponseInterface {
+    status: number;
+    message: string;
+}

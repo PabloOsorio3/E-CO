@@ -34,7 +34,7 @@ const Signup = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
-    const [typeUserId, setTypeUserId] = useState<string | number | undefined>(undefined);
+    const [typeUserId, setTypeUserId] = useState<number | undefined>(undefined);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordsMatch, setPasswordsMatch] = useState(true);

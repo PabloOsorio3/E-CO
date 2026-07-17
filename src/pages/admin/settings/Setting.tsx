@@ -1,6 +1,6 @@
 import React from 'react';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/react';
-import { bookmark, bookmarkOutline, cubeOutline, fileTrayFull, fileTrayStacked, folderOpenOutline, gridOutline, pricetagOutline, settingsOutline, cardOutline } from 'ionicons/icons';
+import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/react';
+import { bookmarkOutline, fileTrayFull, fileTrayStacked, gridOutline, settingsOutline, cardOutline } from 'ionicons/icons';
 import { PageHeader } from '../../../components/shared';
 import './setting.css';
 

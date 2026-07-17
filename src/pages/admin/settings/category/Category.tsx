@@ -10,7 +10,6 @@ import {
     IonCard,
     IonCardHeader,
     IonCardTitle,
-    IonCardSubtitle,
 } from '@ionic/react';
 import {
     addOutline,
@@ -41,10 +40,18 @@ const Category: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+    // Se incrementa en cada apertura para forzar el remount del modal
+    // (así el modal inicializa su estado local desde props sin usar un efecto).
+    const [modalKey, setModalKey] = useState(0);
 
     useEffect(() => {
         dispatch(fetchCategory());
     }, [dispatch]);
+
+    const handleOpenCreate = () => {
+        setModalKey((k) => k + 1);
+        setShowModal(true);
+    };
 
     const handleSave = async (data: CategoryCreate) => {
         try {
@@ -78,7 +85,7 @@ const Category: React.FC = () => {
                 title="Categorías"
                 subtitle="Gestionar categorías de productos"
                 actionIcon={addOutline}
-                onAction={() => setShowModal(true)}
+                onAction={handleOpenCreate}
             />
 
             <IonContent className="ion-padding">
@@ -95,7 +102,7 @@ const Category: React.FC = () => {
                         title="No hay categorías"
                         description="Aún no has creado ninguna categoría. ¡Comienza creando una!"
                         actionText="Crear Categoría"
-                        onAction={() => setShowModal(true)}
+                        onAction={handleOpenCreate}
                     />
                 ) : (
                     <IonGrid>
@@ -127,6 +134,7 @@ const Category: React.FC = () => {
                 )}
 
                 <CategoryModal
+                    key={modalKey}
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onSave={handleSave}

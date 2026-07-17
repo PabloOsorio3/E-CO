@@ -26,8 +26,7 @@ const Login: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await apiLogin({ email, password });
-            console.log(response);
+            await apiLogin({ email, password });
             showSuccessAlert('¡Inicio de sesión exitoso! Bienvenido.');
             history.push('/admin/home');
         } catch (error) {
@@ -59,7 +58,7 @@ const Login: React.FC = () => {
                             fill="outline"
                             type="email"
                             required
-                            placeholder="nombre@ejemplo.com"
+                            placeholder="Micorreo@ejemplo.com"
                             value={email}
                             onIonChange={(e) => setEmail(e.detail.value!)}
                             className="custom-input"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IonModal,
     IonHeader,
@@ -28,14 +28,10 @@ interface OrderModalProps {
 }
 
 const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, onSave, order, loading }) => {
-    const [statusId, setStatusId] = useState<number>(0);
-    const { items: statuses } = useAppSelector((state: any) => state.status);
-
-    useEffect(() => {
-        if (isOpen && order) {
-            setStatusId(order.status_id);
-        }
-    }, [isOpen, order]);
+    // El componente se remonta (via `key` en el padre) cada vez que se abre,
+    // por lo que el estado inicial se calcula una sola vez a partir de `order`.
+    const [statusId, setStatusId] = useState<number>(() => order?.status_id ?? 0);
+    const { items: statuses } = useAppSelector((state) => state.status);
 
     const handleSave = () => {
         if (!statusId) return;

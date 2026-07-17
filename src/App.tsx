@@ -24,19 +24,59 @@ import Login from './pages/login/Login.tsx';
 import Home from './pages/admin/home/Home.tsx';
 import Products from './pages/admin/products/Products.tsx';
 import Orders from './pages/admin/orders/Orders.tsx';
-import { MenuAdmin } from './pages/admin/menu/MenuAdmin.tsx';
+import { MenuAdmin } from './pages/admin/menu/menuAdmin.tsx';
 import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
 import Setting from './pages/admin/settings/Setting.tsx';
-import Category from './pages/admin/settings/category/Category';
-import Subcategory from './pages/admin/settings/subcategory/Subcategory';
-import Brand from './pages/admin/settings/brand/Brand';
-import Payment from './pages/admin/settings/payment/PaymentMethod';
-import StatusPage from './pages/admin/settings/status/StatusPage';
+import Category from './pages/admin/settings/category/Category.tsx';
+import Subcategory from './pages/admin/settings/subcategory/Subcategory.tsx';
+import Brand from './pages/admin/settings/brand/Brand.tsx';
+import Payment from './pages/admin/settings/payment/PaymentMethod.tsx';
+import StatusPage from './pages/admin/settings/status/StatusPage.tsx';
 import Signup from './pages/signup/Signup.tsx';
+import ProtectedRoute from './components/auth/ProtectedRoute.tsx';
 
 
 setupIonicReact();
+
+// Layout de las rutas /admin/*, protegido por sesión via ProtectedRoute.
+const AdminLayout: React.FC = () => (
+  <IonSplitPane contentId="admin-content">
+    <MenuAdmin />
+    <IonRouterOutlet id="admin-content" animated={false}>
+      <Route exact path="/admin">
+        <Redirect to="/admin/home" />
+      </Route>
+      <Route path="/admin/home">
+        <Home />
+      </Route>
+      <Route path="/admin/products">
+        <Products />
+      </Route>
+      <Route path="/admin/orders">
+        <Orders />
+      </Route>
+      <Route path="/admin/settings">
+        <Setting />
+      </Route>
+      <Route path="/admin/settings-category">
+        <Category />
+      </Route>
+      <Route path="/admin/settings-subcategory">
+        <Subcategory />
+      </Route>
+      <Route path="/admin/settings-brands">
+        <Brand />
+      </Route>
+      <Route path="/admin/settings-payments">
+        <Payment />
+      </Route>
+      <Route path="/admin/settings-status">
+        <StatusPage />
+      </Route>
+    </IonRouterOutlet>
+  </IonSplitPane>
+);
 
 const App: React.FC = () => {
   useAppInit();
@@ -53,43 +93,7 @@ const App: React.FC = () => {
             <Signup />
           </Route>
 
-          <Route path="/admin">
-            <IonSplitPane contentId="admin-content">
-              <MenuAdmin />
-              <IonRouterOutlet id="admin-content" animated={false}>
-                <Route exact path="/admin">
-                  <Redirect to="/admin/home" />
-                </Route>
-                <Route path="/admin/home">
-                  <Home />
-                </Route>
-                <Route path="/admin/products">
-                  <Products />
-                </Route>
-                <Route path="/admin/orders">
-                  <Orders />
-                </Route>
-                <Route path="/admin/settings">
-                  <Setting />
-                </Route>
-                <Route path="/admin/settings-category">
-                  <Category />
-                </Route>
-                <Route path="/admin/settings-subcategory">
-                  <Subcategory />
-                </Route>
-                <Route path="/admin/settings-brands">
-                  <Brand />
-                </Route>
-                <Route path="/admin/settings-payments">
-                  <Payment />
-                </Route>
-                <Route path="/admin/settings-status">
-                  <StatusPage />
-                </Route>
-              </IonRouterOutlet>
-            </IonSplitPane>
-          </Route>
+          <ProtectedRoute path="/admin" component={AdminLayout} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

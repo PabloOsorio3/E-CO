@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IonModal,
     IonHeader,
@@ -29,15 +29,10 @@ interface SubcategoryModalProps {
 
 const SubCategoryModal: React.FC<SubcategoryModalProps> = ({ isOpen, onClose, onSave, loading }) => {
     const { items: category } = useAppSelector((state) => state.category);
+    // El componente se remonta (via `key` en el padre) cada vez que se abre,
+    // por lo que no se necesita un efecto para limpiar los campos.
     const [name, setName] = useState('');
     const [categoryId, setCategoryId] = useState<number | null>(null);
-
-    useEffect(() => {
-        if (!isOpen) {
-            setName('');
-            setCategoryId(null);
-        }
-    }, [isOpen]);
 
     const handleSave = () => {
         if (!name.trim() || categoryId === null) return;

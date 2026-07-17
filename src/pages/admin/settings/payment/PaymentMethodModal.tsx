@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IonModal,
     IonHeader,
@@ -27,18 +27,10 @@ interface PaymentModalProps {
 }
 
 const PaymentMethodModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSave, payment, loading }) => {
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-
-    useEffect(() => {
-        if (isOpen && payment) {
-            setName(payment.name);
-            setDescription(payment.description ?? '');
-        } else if (!isOpen) {
-            setName('');
-            setDescription('');
-        }
-    }, [isOpen, payment]);
+    // El componente se remonta (via `key` en el padre) cada vez que se abre,
+    // por lo que el estado inicial se calcula una sola vez a partir de `payment`.
+    const [name, setName] = useState(() => payment?.name ?? '');
+    const [description, setDescription] = useState(() => payment?.description ?? '');
 
     const handleSave = () => {
         if (!name.trim()) return;

@@ -10,7 +10,6 @@ import {
     IonCard,
     IonCardHeader,
     IonCardTitle,
-    IonCardSubtitle,
 } from '@ionic/react';
 import {
     addOutline,
@@ -38,12 +37,15 @@ import { pencilOutline } from 'ionicons/icons';
 const Brand: React.FC = () => {
     const history = useHistory();
     const dispatch = useAppDispatch();
-    const { items: brands, loading } = useAppSelector((state: any) => state.brand);
+    const { items: brands, loading } = useAppSelector((state) => state.brand);
 
     const [showModal, setShowModal] = useState(false);
     const [selectedBrand, setSelectedBrand] = useState<BrandResponse | null>(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
+    // Se incrementa en cada apertura para forzar el remount del modal
+    // (así el modal inicializa su estado local desde props sin usar un efecto).
+    const [modalKey, setModalKey] = useState(0);
 
     useEffect(() => {
         dispatch(fetchBrands());
@@ -51,11 +53,13 @@ const Brand: React.FC = () => {
 
     const handleOpenCreate = () => {
         setSelectedBrand(null);
+        setModalKey((k) => k + 1);
         setShowModal(true);
     };
 
     const handleOpenEdit = (brand: BrandResponse) => {
         setSelectedBrand(brand);
+        setModalKey((k) => k + 1);
         setShowModal(true);
     };
 
@@ -150,6 +154,7 @@ const Brand: React.FC = () => {
                 )}
 
                 <BrandModal
+                    key={modalKey}
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onSave={handleSave}

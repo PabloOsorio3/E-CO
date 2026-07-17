@@ -10,7 +10,6 @@ import {
     IonCard,
     IonCardHeader,
     IonCardTitle,
-    IonBadge,
 } from '@ionic/react';
 import {
     cartOutline,
@@ -31,10 +30,13 @@ import { showErrorAlert } from '../../../alerts/error/error-alert';
 
 const Orders: React.FC = () => {
     const dispatch = useAppDispatch();
-    const { items: orders, loading } = useAppSelector((state: any) => state.order);
+    const { items: orders, loading } = useAppSelector((state) => state.order);
 
     const [showModal, setShowModal] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<OrderResponse | null>(null);
+    // Se incrementa en cada apertura para forzar el remount del modal
+    // (así el modal inicializa su estado local desde props sin usar un efecto).
+    const [modalKey, setModalKey] = useState(0);
 
     useEffect(() => {
         dispatch(fetchOrdersThunk());
@@ -42,6 +44,7 @@ const Orders: React.FC = () => {
 
     const handleOpenView = (order: OrderResponse) => {
         setSelectedOrder(order);
+        setModalKey((k) => k + 1);
         setShowModal(true);
     };
 
@@ -124,6 +127,7 @@ const Orders: React.FC = () => {
                 )}
 
                 <OrderModal
+                    key={modalKey}
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
                     onSave={handleSaveStatus}
