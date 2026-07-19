@@ -10,6 +10,7 @@ import typeUserReducer from './slices/typeuser.slice';
 import signupReducer from './slices/signup.slice.ts';
 import customerReducer from './slices/customer.slice';
 import dashboardReducer from './slices/dashboard.slice';
+import inventoryReducer from './slices/inventory.slice';
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     signup: signupReducer,
     customer: customerReducer,
     dashboard: dashboardReducer,
+    inventory: inventoryReducer,
   },
 });
 
