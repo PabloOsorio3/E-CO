@@ -1,6 +1,6 @@
 import React from 'react';
 import "../../css/menu.css";
-import { clearSession } from '../../../core/current_user';
+import { clearSession, getCurrentUser } from '../../../core/current_user';
 import {
     IonContent,
     IonIcon,
@@ -12,6 +12,7 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../../store/hooks';
 import {
     gridOutline,
     cartOutline,
@@ -21,10 +22,9 @@ import {
     cardOutline,
     starOutline,
     addCircleOutline,
-    imagesOutline,
     listOutline,
-    chatboxEllipsesOutline,
     personOutline,
+    personCircleOutline,
     settingsOutline,
     logOutOutline,
     openOutline
@@ -48,7 +48,7 @@ const menuSections: MenuSection[] = [
             { title: 'Dashboard', url: '/admin/home', icon: gridOutline },
             { title: 'Order Management', url: '/admin/orders', icon: cartOutline },
             { title: 'Customers', url: '/admin/customers', icon: peopleOutline },
-            { title: 'Coupon Code', url: '/admin/settings-status', icon: pricetagOutline }, // status can represent coupon state or dummy
+            { title: 'Estados', url: '/admin/settings-status', icon: pricetagOutline },
             { title: 'Categories', url: '/admin/settings-category', icon: cubeOutline },
             { title: 'Transaction', url: '/admin/settings-payments', icon: cardOutline },
             { title: 'Brand', url: '/admin/settings-brands', icon: starOutline },
@@ -58,9 +58,8 @@ const menuSections: MenuSection[] = [
         title: 'Product',
         pages: [
             { title: 'Add Products', url: '/admin/settings-subcategory', icon: addCircleOutline }, // subcategory as add product standin or placeholder
-            { title: 'Product Media', url: '/admin/settings', icon: imagesOutline },
+            { title: 'Configuración', url: '/admin/settings', icon: settingsOutline },
             { title: 'Product List', url: '/admin/products', icon: listOutline },
-            { title: 'Product Reviews', url: '/admin/customers', icon: chatboxEllipsesOutline },
         ]
     },
     {
@@ -74,6 +73,9 @@ const menuSections: MenuSection[] = [
 
 export const MenuAdmin = () => {
     const location = useLocation();
+    const currentUser = getCurrentUser();
+    const { items: typeUsers } = useAppSelector((state) => state.typeuser);
+    const roleName = typeUsers.find((t) => t.id_type_user === currentUser?.type_user_id)?.name ?? 'Usuario';
 
     return (
         <IonMenu menuId="admin-menu" contentId="admin-content" type="overlay">
@@ -114,14 +116,13 @@ export const MenuAdmin = () => {
                         {/* Profile Info Card */}
                         <div className="profile-card">
                             <div className="profile-avatar">
-                                <img
-                                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
-                                    alt="User Profile"
-                                />
+                                <IonIcon icon={personCircleOutline} />
                             </div>
                             <div className="profile-info">
-                                <span className="profile-name">John Doe</span>
-                                <span className="profile-email">john.doe@example.com</span>
+                                <span className="profile-name">{roleName}</span>
+                                <span className="profile-email">
+                                    {currentUser ? `ID de usuario #${currentUser.id_user}` : 'Sesión no disponible'}
+                                </span>
                             </div>
                             <div
                                 className="logout-btn"

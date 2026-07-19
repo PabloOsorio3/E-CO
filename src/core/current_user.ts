@@ -2,7 +2,10 @@ import { jwtDecode } from "jwt-decode";
 import type { JwtPayload } from "jwt-decode";
 
 interface AppJwtPayload extends JwtPayload {
+    id_user?: number;
     type_user_id?: number;
+    email?: string;
+    full_name?: string;
 }
 
 export const getCurrentToken = () => {
