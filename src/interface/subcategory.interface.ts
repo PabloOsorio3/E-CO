@@ -1,10 +1,7 @@
 export interface SubCategoryResponse {
     id_subcategory: number;
     name: string;
-    category: {
-        id_category: number;
-        name: string;
-    }
+    category_id: number;
 }
 
 export interface SubCategoryCreate {

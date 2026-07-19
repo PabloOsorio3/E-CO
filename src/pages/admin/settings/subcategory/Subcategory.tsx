@@ -133,7 +133,7 @@ const Subcategory: React.FC = () => {
                                                         {subcat.name}
                                                     </IonCardTitle>
                                                     <IonCardSubtitle style={{ textTransform: 'none' }}>
-                                                        Categoría: {getCategoryName(subcat.category.id_category)}
+                                                        Categoría: {getCategoryName(subcat.category_id)}
                                                     </IonCardSubtitle>
                                                 </div>
                                                 <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(subcat.id_subcategory)}>
