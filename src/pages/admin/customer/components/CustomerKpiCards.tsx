@@ -1,44 +1,39 @@
 import React from 'react';
-import { IonIcon } from '@ionic/react';
-import { notificationsOutline } from 'ionicons/icons';
 
-const CustomerKpiCards: React.FC = () => {
+interface CustomerKpiCardsProps {
+    total: number;
+    active: number;
+    inactive: number;
+}
+
+const CustomerKpiCards: React.FC<CustomerKpiCardsProps> = ({ total, active, inactive }) => {
     return (
         <div className="kpis-vertical-stack">
             <div className="metric-kpi-card">
                 <div className="kpi-card-header">
-                    <span>Total Customers</span>
-                    <IonIcon icon={notificationsOutline} style={{ cursor: 'pointer' }} />
+                    <span>Total Clientes</span>
                 </div>
                 <div className="kpi-card-body">
-                    <span className="kpi-value">11,040</span>
-                    <span className="kpi-trend-tag">↑ 14.4%</span>
+                    <span className="kpi-value">{total}</span>
                 </div>
-                <span className="kpi-card-footer">Last 7 days</span>
             </div>
 
             <div className="metric-kpi-card">
                 <div className="kpi-card-header">
-                    <span>New Customers</span>
-                    <IonIcon icon={notificationsOutline} style={{ cursor: 'pointer' }} />
+                    <span>Activos</span>
                 </div>
                 <div className="kpi-card-body">
-                    <span className="kpi-value">2,370</span>
-                    <span className="kpi-trend-tag">↑ 20%</span>
+                    <span className="kpi-value">{active}</span>
                 </div>
-                <span className="kpi-card-footer">Last 7 days</span>
             </div>
 
             <div className="metric-kpi-card">
                 <div className="kpi-card-header">
-                    <span>Visitor</span>
-                    <IonIcon icon={notificationsOutline} style={{ cursor: 'pointer' }} />
+                    <span>Inactivos</span>
                 </div>
                 <div className="kpi-card-body">
-                    <span className="kpi-value">250k</span>
-                    <span className="kpi-trend-tag">↑ 20%</span>
+                    <span className="kpi-value">{inactive}</span>
                 </div>
-                <span className="kpi-card-footer">Last 7 days</span>
             </div>
         </div>
     );

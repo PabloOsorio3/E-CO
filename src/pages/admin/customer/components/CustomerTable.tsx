@@ -1,16 +1,19 @@
 import React from 'react';
-import { IonIcon } from '@ionic/react';
-import { chatboxEllipsesOutline, trashOutline, chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import type { CustomerDetail } from '../customer.mock';
+import { IonIcon, IonButton } from '@ionic/react';
+import { chatboxEllipsesOutline, createOutline, addOutline, chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+import type { CustomerResponse } from '../../../../interface/customer.interface';
+import StatusBadge from '../../../../components/shared/StatusBadge';
 
 interface CustomerTableProps {
     loading: boolean;
-    pageCustomers: CustomerDetail[];
-    selectedCustomer: CustomerDetail | null;
-    onSelectCustomer: (customer: CustomerDetail) => void;
+    pageCustomers: CustomerResponse[];
+    selectedCustomer: CustomerResponse | null;
+    onSelectCustomer: (customer: CustomerResponse) => void;
     onOpenChat: (name: string) => void;
-    onDeleteCustomer: (id: string, name: string) => void;
+    onEditCustomer: (customer: CustomerResponse) => void;
+    onCreateCustomer: () => void;
     currentPage: number;
+    totalPages: number;
     onPageChange: (page: number) => void;
 }
 
@@ -20,120 +23,121 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
     selectedCustomer,
     onSelectCustomer,
     onOpenChat,
-    onDeleteCustomer,
+    onEditCustomer,
+    onCreateCustomer,
     currentPage,
+    totalPages,
     onPageChange
 }) => {
     return (
         <div className="customer-details-card">
-            <h2>Customer Details</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h2>Customer Details</h2>
+                <IonButton size="small" onClick={onCreateCustomer}>
+                    <IonIcon icon={addOutline} slot="start" />
+                    Nuevo Cliente
+                </IonButton>
+            </div>
 
             <div className="responsive-table-container">
                 <table className="premium-dashboard-table">
                     <thead>
                         <tr>
                             <th>Customer ID</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Order Count</th>
-                            <th>Total Spend</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan={7} style={{ textAlign: 'center', padding: '40px' }}>
+                                <td colSpan={6} style={{ textAlign: 'center', padding: '40px' }}>
                                     Cargando clientes...
                                 </td>
                             </tr>
                         ) : pageCustomers.length === 0 ? (
                             <tr>
-                                <td colSpan={7} style={{ textAlign: 'center', padding: '40px' }}>
+                                <td colSpan={6} style={{ textAlign: 'center', padding: '40px' }}>
                                     No se encontraron clientes.
                                 </td>
                             </tr>
                         ) : (
-                            pageCustomers.map((cust) => (
-                                <tr
-                                    key={cust.id}
-                                    className={selectedCustomer?.id === cust.id ? 'selected-row' : ''}
-                                    onClick={() => onSelectCustomer(cust)}
-                                >
-                                    <td className="cust-id-col">{cust.id}</td>
-                                    <td className="cust-name-col">{cust.name}</td>
-                                    <td>{cust.phone}</td>
-                                    <td>{cust.orderCount}</td>
-                                    <td>${cust.totalSpend}</td>
-                                    <td>
-                                        <span className={`cust-status-badge ${cust.status.toLowerCase()}`}>
-                                            <span className="badge-status-dot"></span>
-                                            {cust.status}
-                                        </span>
-                                    </td>
-                                    <td className="table-action-cell" onClick={(e) => e.stopPropagation()}>
-                                        <button
-                                            className="action-icon-button"
-                                            title="Mensaje"
-                                            onClick={() => onOpenChat(cust.name)}
-                                        >
-                                            <IonIcon icon={chatboxEllipsesOutline} />
-                                        </button>
-                                        <button
-                                            className="action-icon-button delete"
-                                            title="Eliminar"
-                                            onClick={() => onDeleteCustomer(cust.id, cust.name)}
-                                        >
-                                            <IonIcon icon={trashOutline} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
+                            pageCustomers.map((cust) => {
+                                const displayName = cust.name ?? `Usuario #${cust.user_id}`;
+                                return (
+                                    <tr
+                                        key={cust.id_customer}
+                                        className={selectedCustomer?.id_customer === cust.id_customer ? 'selected-row' : ''}
+                                        onClick={() => onSelectCustomer(cust)}
+                                    >
+                                        <td className="cust-id-col">#{cust.id_customer}</td>
+                                        <td className="cust-name-col">{displayName}</td>
+                                        <td>{cust.email ?? '—'}</td>
+                                        <td>{cust.phone ?? '—'}</td>
+                                        <td>
+                                            <StatusBadge statusId={cust.status_id} />
+                                        </td>
+                                        <td className="table-action-cell" onClick={(e) => e.stopPropagation()}>
+                                            <button
+                                                className="action-icon-button"
+                                                title="Mensaje"
+                                                onClick={() => onOpenChat(displayName)}
+                                            >
+                                                <IonIcon icon={chatboxEllipsesOutline} />
+                                            </button>
+                                            <button
+                                                className="action-icon-button"
+                                                title="Editar"
+                                                onClick={() => onEditCustomer(cust)}
+                                            >
+                                                <IonIcon icon={createOutline} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         )}
                     </tbody>
                 </table>
             </div>
 
             {/* Table Pagination controls */}
-            <div className="table-pagination-controls">
-                <button
-                    className="pagination-nav-btn"
-                    disabled={currentPage === 1}
-                    onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
-                >
-                    <IonIcon icon={chevronBackOutline} />
-                    Previous
-                </button>
-
-                <div className="pagination-numbers-list">
-                    {[1, 2, 3, 4, 5].map((pageNum) => (
-                        <button
-                            key={pageNum}
-                            className={`pagination-num-btn ${currentPage === pageNum ? 'active' : ''}`}
-                            onClick={() => onPageChange(pageNum)}
-                        >
-                            {pageNum}
-                        </button>
-                    ))}
-                    <span className="pagination-ellipsis">.....</span>
+            {totalPages > 1 && (
+                <div className="table-pagination-controls">
                     <button
-                        className={`pagination-num-btn ${currentPage === 24 ? 'active' : ''}`}
-                        onClick={() => onPageChange(24)}
+                        className="pagination-nav-btn"
+                        disabled={currentPage === 1}
+                        onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
                     >
-                        24
+                        <IonIcon icon={chevronBackOutline} />
+                        Previous
+                    </button>
+
+                    <div className="pagination-numbers-list">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                            <button
+                                key={pageNum}
+                                className={`pagination-num-btn ${currentPage === pageNum ? 'active' : ''}`}
+                                onClick={() => onPageChange(pageNum)}
+                            >
+                                {pageNum}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        className="pagination-nav-btn"
+                        disabled={currentPage === totalPages}
+                        onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
+                    >
+                        Next
+                        <IonIcon icon={chevronForwardOutline} />
                     </button>
                 </div>
-
-                <button
-                    className="pagination-nav-btn"
-                    disabled={currentPage === 24}
-                    onClick={() => onPageChange(Math.min(currentPage + 1, 24))}
-                >
-                    Next
-                    <IonIcon icon={chevronForwardOutline} />
-                </button>
-            </div>
+            )}
         </div>
     );
 };

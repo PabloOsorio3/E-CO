@@ -4,16 +4,18 @@ import {
     copyOutline,
     callOutline,
     locationOutline,
+    personCircleOutline,
     logoFacebook,
     logoWhatsapp,
     logoTwitter,
     logoLinkedin,
     logoInstagram
 } from 'ionicons/icons';
-import type { CustomerDetail } from '../customer.mock';
+import type { CustomerResponse } from '../../../../interface/customer.interface';
+import StatusBadge from '../../../../components/shared/StatusBadge';
 
 interface CustomerProfileSidebarProps {
-    selectedCustomer: CustomerDetail | null;
+    selectedCustomer: CustomerResponse | null;
     onCopyEmail: (email: string) => void;
 }
 
@@ -26,25 +28,30 @@ const CustomerProfileSidebar: React.FC<CustomerProfileSidebarProps> = ({ selecte
         );
     }
 
+    const displayName = selectedCustomer.name ?? `Usuario #${selectedCustomer.user_id}`;
+
     return (
         <div className="customer-sidebar-card">
             {/* Sidebar header */}
             <div className="sidebar-profile-header">
                 <div className="sidebar-profile-avatar">
-                    <img src={selectedCustomer.avatar} alt={selectedCustomer.name} />
+                    <IonIcon icon={personCircleOutline} />
                 </div>
                 <div className="profile-header-details">
-                    <h3 className="profile-main-name">{selectedCustomer.name}</h3>
+                    <h3 className="profile-main-name">{displayName}</h3>
                     <div className="profile-main-email-row">
-                        <span>{selectedCustomer.email}</span>
-                        <button
-                            className="email-copy-btn"
-                            title="Copiar correo"
-                            onClick={() => onCopyEmail(selectedCustomer.email)}
-                        >
-                            <IonIcon icon={copyOutline} />
-                        </button>
+                        <span>{selectedCustomer.email ?? 'Sin correo registrado'}</span>
+                        {selectedCustomer.email && (
+                            <button
+                                className="email-copy-btn"
+                                title="Copiar correo"
+                                onClick={() => onCopyEmail(selectedCustomer.email!)}
+                            >
+                                <IonIcon icon={copyOutline} />
+                            </button>
+                        )}
                     </div>
+                    <StatusBadge statusId={selectedCustomer.status_id} />
                 </div>
             </div>
 
@@ -52,11 +59,11 @@ const CustomerProfileSidebar: React.FC<CustomerProfileSidebarProps> = ({ selecte
             <div className="customer-info-inputs-section">
                 <div className="sidebar-info-input-box">
                     <IonIcon icon={callOutline} />
-                    <span>{selectedCustomer.phone}</span>
+                    <span>{selectedCustomer.phone ?? 'Sin teléfono registrado'}</span>
                 </div>
                 <div className="sidebar-info-input-box">
                     <IonIcon icon={locationOutline} />
-                    <span>{selectedCustomer.address}</span>
+                    <span>{selectedCustomer.address ?? 'Sin dirección registrada'}</span>
                 </div>
             </div>
 
@@ -67,36 +74,6 @@ const CustomerProfileSidebar: React.FC<CustomerProfileSidebarProps> = ({ selecte
                 <button className="social-circle-btn"><IonIcon icon={logoTwitter} /></button>
                 <button className="social-circle-btn"><IonIcon icon={logoLinkedin} /></button>
                 <button className="social-circle-btn"><IonIcon icon={logoInstagram} /></button>
-            </div>
-
-            {/* Customer Activity Log dates */}
-            <div className="activity-log-section">
-                <h3>Activity</h3>
-                <div className="activity-log-line">
-                    Registration: <span>{selectedCustomer.registrationDate}</span>
-                </div>
-                <div className="activity-log-line">
-                    Last purchase: <span>{selectedCustomer.lastPurchaseDate}</span>
-                </div>
-            </div>
-
-            {/* Orders summary overview grid */}
-            <div className="order-overview-summary-section">
-                <h3>Order overview</h3>
-                <div className="order-overview-boxes-grid">
-                    <div className="order-overview-stat-box blue">
-                        <span className="overview-box-value">{selectedCustomer.totalOrders}</span>
-                        <span className="overview-box-label">Total order</span>
-                    </div>
-                    <div className="order-overview-stat-box green">
-                        <span className="overview-box-value">{selectedCustomer.completedOrders}</span>
-                        <span className="overview-box-label">Completed</span>
-                    </div>
-                    <div className="order-overview-stat-box red">
-                        <span className="overview-box-value">{selectedCustomer.canceledOrders}</span>
-                        <span className="overview-box-label">Canceled</span>
-                    </div>
-                </div>
             </div>
         </div>
     );
