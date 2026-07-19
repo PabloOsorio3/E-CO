@@ -3,6 +3,10 @@ import { showErrorAlert } from '../../alerts/error/error-alert';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
+// Los archivos estáticos (imágenes de producto) se sirven en la raíz del host,
+// no bajo /api como el resto de la API.
+export const STATIC_BASE_URL = API_URL.replace(/\/api\/?$/, '');
+
 const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
