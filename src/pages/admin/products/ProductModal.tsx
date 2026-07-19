@@ -40,6 +40,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const [categoryId, setCategoryId] = useState<number>(() => product?.category_id ?? 1);
   const [subcategoryId, setSubcategoryId] = useState<number>(() => product?.subcategory_id ?? 1);
   const [statusId, setStatusId] = useState<number>(() => product?.status_id ?? 1);
+  const [initialStock, setInitialStock] = useState<number>(0);
 
   const subcategory = useSelector((state: RootState) => state.subcategory.items);
   const status = useSelector((state: RootState) => state.status.items);
@@ -57,6 +58,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
       category_id: categoryId,
       subcategory_id: subcategoryId,
       status_id: statusId,
+      ...(isEditing ? {} : { initial_stock: initialStock }),
     };
 
     onSave(data);
@@ -128,7 +130,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           value={categoryId}
           onIonChange={(e) => {
             setCategoryId(e.detail.value);
-            const firstSubCat = subcategory.find(sc => sc.category.id_category === e.detail.value);
+            const firstSubCat = subcategory.find(sc => sc.category_id === e.detail.value);
             if (firstSubCat) {
               setSubcategoryId(firstSubCat.id_subcategory);
             } else {
@@ -174,6 +176,20 @@ const ProductModal: React.FC<ProductModalProps> = ({
             </IonSelectOption>
           ))}
         </IonSelect>
+
+        {!isEditing && (
+          <IonInput
+            className="form-input"
+            label="Stock inicial"
+            labelPlacement="floating"
+            fill="outline"
+            type="number"
+            min={0}
+            value={initialStock}
+            onIonInput={(e) => setInitialStock(parseInt(e.detail.value ?? '0', 10) || 0)}
+            placeholder="0"
+          />
+        )}
       </div>
 
       <div className="modal-footer">

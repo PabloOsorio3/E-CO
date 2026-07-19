@@ -16,6 +16,7 @@ export interface ProductCreate {
   subcategory_id: number;
   status_id: number;
   brand_id: number;
+  initial_stock?: number;
 }
 
 export interface ProductUpdate {
@@ -30,6 +31,7 @@ export interface ProductUpdate {
 
 export interface ProductResponse extends ProductBase {
   id_product: number;
+  stock: number;
 }
 
 export interface ProductDelete {

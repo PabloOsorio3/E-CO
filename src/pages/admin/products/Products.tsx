@@ -11,6 +11,7 @@ import {
   createOutline,
   trashOutline,
   cubeOutline,
+  swapVerticalOutline,
 } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
@@ -19,10 +20,13 @@ import {
   createProductThunk,
   updateProductThunk,
 } from '../../../store/slices/product.slice';
+import { createInventoryMovementThunk } from '../../../store/slices/inventory.slice';
 import type { ProductCreate, ProductResponse, ProductUpdate } from '../../../interface/product.interface';
+import type { InventoryMovementCreate } from '../../../interface/inventory.interface';
 
 import { PageHeader, SearchBar, LoadingSpinner, EmptyState, ConfirmModal, StatusBadge } from '../../../components/shared';
 import ProductModal from './ProductModal';
+import StockModal from './StockModal';
 
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
@@ -42,9 +46,12 @@ const Products: React.FC = () => {
   const [editingProduct, setEditingProduct] = useState<ProductResponse | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletingProductId, setDeletingProductId] = useState<number | null>(null);
+  const [showStockModal, setShowStockModal] = useState(false);
+  const [stockProduct, setStockProduct] = useState<ProductResponse | null>(null);
   // Se incrementa en cada apertura para forzar el remount del modal
   // (así el modal inicializa su estado local desde props sin usar un efecto).
   const [modalKey, setModalKey] = useState(0);
+  const [stockModalKey, setStockModalKey] = useState(0);
 
   const filteredProducts = productsActive.filter((p) => {
     const term = searchTerm.toLowerCase();
@@ -103,6 +110,24 @@ const Products: React.FC = () => {
     setDeletingProductId(null);
   };
 
+  const handleOpenStock = (product: ProductResponse) => {
+    setStockProduct(product);
+    setStockModalKey((k) => k + 1);
+    setShowStockModal(true);
+  };
+
+  const handleSaveStock = async (data: InventoryMovementCreate) => {
+    try {
+      await dispatch(createInventoryMovementThunk(data)).unwrap();
+      dispatch(fetchProducts());
+      showSuccessAlert('Movimiento de inventario registrado exitosamente');
+      setShowStockModal(false);
+      setStockProduct(null);
+    } catch (error: any) {
+      showErrorAlert(error || 'Error al registrar el movimiento de inventario');
+    }
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(price);
   };
@@ -155,6 +180,7 @@ const Products: React.FC = () => {
                   <th>Precio</th>
                   <th className="col-subcategory">Categoría</th>
                   <th>Estado</th>
+                  <th>Stock</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -177,10 +203,14 @@ const Products: React.FC = () => {
                       <td>
                         <StatusBadge statusId={product.status_id} />
                       </td>
+                      <td className="product-stock-cell">{product.stock}</td>
                       <td>
                         <IonGrid className="product-actions-cell">
                           <IonButton fill="clear" color="primary" onClick={() => handleOpenEdit(product)}>
                             <IonIcon icon={createOutline} />
+                          </IonButton>
+                          <IonButton fill="clear" color="medium" onClick={() => handleOpenStock(product)} title="Ajustar stock">
+                            <IonIcon icon={swapVerticalOutline} />
                           </IonButton>
                           <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(product.id_product)}>
                             <IonIcon icon={trashOutline} />
@@ -204,6 +234,18 @@ const Products: React.FC = () => {
           }}
           onSave={handleSave}
           product={editingProduct}
+          loading={loading}
+        />
+
+        <StockModal
+          key={stockModalKey}
+          isOpen={showStockModal}
+          onClose={() => {
+            setShowStockModal(false);
+            setStockProduct(null);
+          }}
+          onSave={handleSaveStock}
+          product={stockProduct}
           loading={loading}
         />
 
