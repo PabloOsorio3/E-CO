@@ -11,6 +11,7 @@ import {
   createOutline,
   trashOutline,
   cubeOutline,
+  imagesOutline,
 } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
@@ -23,6 +24,7 @@ import type { ProductCreate, ProductResponse, ProductUpdate } from '../../../int
 
 import { PageHeader, SearchBar, LoadingSpinner, EmptyState, ConfirmModal, StatusBadge } from '../../../components/shared';
 import ProductModal from './ProductModal';
+import ImageManagerModal from './ImageManagerModal';
 
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
@@ -42,6 +44,8 @@ const Products: React.FC = () => {
   const [editingProduct, setEditingProduct] = useState<ProductResponse | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletingProductId, setDeletingProductId] = useState<number | null>(null);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [imageProduct, setImageProduct] = useState<ProductResponse | null>(null);
   // Se incrementa en cada apertura para forzar el remount del modal
   // (así el modal inicializa su estado local desde props sin usar un efecto).
   const [modalKey, setModalKey] = useState(0);
@@ -101,6 +105,11 @@ const Products: React.FC = () => {
       showErrorAlert(error || 'Error al desactivar el producto');
     }
     setDeletingProductId(null);
+  };
+
+  const handleOpenImages = (product: ProductResponse) => {
+    setImageProduct(product);
+    setShowImageModal(true);
   };
 
   const formatPrice = (price: number) => {
@@ -182,6 +191,9 @@ const Products: React.FC = () => {
                           <IonButton fill="clear" color="primary" onClick={() => handleOpenEdit(product)}>
                             <IonIcon icon={createOutline} />
                           </IonButton>
+                          <IonButton fill="clear" color="medium" onClick={() => handleOpenImages(product)} title="Gestionar imágenes">
+                            <IonIcon icon={imagesOutline} />
+                          </IonButton>
                           <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(product.id_product)}>
                             <IonIcon icon={trashOutline} />
                           </IonButton>
@@ -205,6 +217,15 @@ const Products: React.FC = () => {
           onSave={handleSave}
           product={editingProduct}
           loading={loading}
+        />
+
+        <ImageManagerModal
+          isOpen={showImageModal}
+          onClose={() => {
+            setShowImageModal(false);
+            setImageProduct(null);
+          }}
+          product={imageProduct}
         />
 
         <ConfirmModal
