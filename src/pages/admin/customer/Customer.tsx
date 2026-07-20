@@ -13,10 +13,10 @@ import { showErrorAlert } from '../../../alerts/error/error-alert';
 import { showInfoAlert } from '../../../alerts/info/info-alert';
 import CustomerTopBar from './components/CustomerTopBar';
 import CustomerKpiCards from './components/CustomerKpiCards';
-import CustomerOverviewChart from './components/CustomerOverviewChart';
 import CustomerTable from './components/CustomerTable';
 import CustomerProfileSidebar from './components/CustomerProfileSidebar';
 import CustomerModal from './CustomerModal';
+import { PlaceholderCard } from '../../../components/shared';
 import '../../css/customer.css';
 
 const PAGE_SIZE = 10;
@@ -153,10 +153,9 @@ const Customer: React.FC = () => {
 
                         {/* Left Content Area */}
                         <div className="dashboard-left-column">
-                            <div className="analytics-section">
-                                <CustomerKpiCards total={kpis.total} active={kpis.active} inactive={kpis.inactive} />
-                                <CustomerOverviewChart />
-                            </div>
+                            <CustomerKpiCards total={kpis.total} active={kpis.active} inactive={kpis.inactive} />
+
+                            <PlaceholderCard title="Customer Overview" />
 
                             <CustomerTable
                                 loading={loading}

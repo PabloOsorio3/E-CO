@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { IonContent, IonPage } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 
-import { PageHeader, LoadingSpinner } from "../../../components/shared";
+import { PageHeader, LoadingSpinner, PlaceholderCard } from "../../../components/shared";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { fetchDashboardStatsThunk } from "../../../store/slices/dashboard.slice";
 import { fetchOrdersThunk } from "../../../store/slices/order.slice";
@@ -12,7 +12,6 @@ import DashboardStatCard from "./components/DashboardStatCard";
 import DashboardPendingCard from "./components/DashboardPendingCard";
 import DashboardTransactionsTable from "./components/DashboardTransactionsTable";
 import DashboardQuickProducts from "./components/DashboardQuickProducts";
-import DashboardPlaceholderCard from "./components/DashboardPlaceholderCard";
 
 import "../../css/dashboard.css";
 
@@ -79,8 +78,8 @@ const Home: React.FC = () => {
             </div>
 
             <div className="home-content-row">
-              <DashboardPlaceholderCard title="Report for this week" />
-              <DashboardPlaceholderCard title="Sales by Country" />
+              <PlaceholderCard title="Report for this week" />
+              <PlaceholderCard title="Sales by Country" />
             </div>
 
             <div className="home-content-row">
@@ -90,11 +89,11 @@ const Home: React.FC = () => {
                 onFilter={() => showInfoAlert("Función no disponible todavía")}
                 onDetails={() => history.push("/admin/orders")}
               />
-              <DashboardPlaceholderCard title="Best Selling Products" />
+              <PlaceholderCard title="Best Selling Products" />
             </div>
 
             <div className="home-content-row">
-              <DashboardPlaceholderCard title="Best Selling Product" />
+              <PlaceholderCard title="Best Selling Product" />
               <DashboardQuickProducts
                 categories={categories}
                 products={activeProducts}
