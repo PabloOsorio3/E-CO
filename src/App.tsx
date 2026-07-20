@@ -35,6 +35,7 @@ import Payment from './pages/admin/settings/payment/PaymentMethod.tsx';
 import StatusPage from './pages/admin/settings/status/StatusPage.tsx';
 import Signup from './pages/signup/Signup.tsx';
 import Customer from './pages/admin/customer/Customer.tsx';
+import Profile from './pages/admin/profile/Profile.tsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.tsx';
 
 
@@ -77,6 +78,9 @@ const AdminLayout: React.FC = () => (
       </Route>
       <Route path="/admin/customers">
         <Customer />
+      </Route>
+      <Route path="/admin/profile">
+        <Profile />
       </Route>
     </IonRouterOutlet>
   </IonSplitPane>

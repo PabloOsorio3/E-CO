@@ -65,7 +65,7 @@ const menuSections: MenuSection[] = [
     {
         title: 'Admin',
         pages: [
-            { title: 'Admin role', url: '/admin/home', icon: personOutline },
+            { title: 'Admin role', url: '/admin/profile', icon: personOutline },
             { title: 'Control Authority', url: '/admin/settings', icon: settingsOutline },
         ]
     }
