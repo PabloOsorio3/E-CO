@@ -23,6 +23,7 @@ import '@ionic/react/css/display.css';
 import Login from './pages/login/Login.tsx';
 import Home from './pages/admin/home/Home.tsx';
 import Products from './pages/admin/products/Products.tsx';
+import AddProduct from './pages/admin/products/AddProduct.tsx';
 import Orders from './pages/admin/orders/Orders.tsx';
 import { MenuAdmin } from './pages/admin/menu/menuAdmin.tsx';
 import './pages/css/app.css';
@@ -52,8 +53,11 @@ const AdminLayout: React.FC = () => (
       <Route path="/admin/home">
         <Home />
       </Route>
-      <Route path="/admin/products">
+      <Route exact path="/admin/products">
         <Products />
+      </Route>
+      <Route path="/admin/products/add">
+        <AddProduct />
       </Route>
       <Route path="/admin/orders">
         <Orders />

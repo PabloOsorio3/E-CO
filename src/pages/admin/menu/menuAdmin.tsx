@@ -57,7 +57,7 @@ const menuSections: MenuSection[] = [
     {
         title: 'Product',
         pages: [
-            { title: 'Add Products', url: '/admin/settings-subcategory', icon: addCircleOutline }, // subcategory as add product standin or placeholder
+            { title: 'Add Products', url: '/admin/products/add', icon: addCircleOutline },
             { title: 'Configuración', url: '/admin/settings', icon: settingsOutline },
             { title: 'Product List', url: '/admin/products', icon: listOutline },
         ]
