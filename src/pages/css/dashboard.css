@@ -1,0 +1,372 @@
+.home-dashboard-content {
+    --background: #f4f5f7;
+}
+
+.home-page-inner {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.home-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    position: relative;
+}
+
+.home-card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.home-card-title-row h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #23272e;
+    margin: 0;
+}
+
+.home-card-menu-icon {
+    color: #9ca3af;
+    font-size: 18px;
+}
+
+/* Stats row */
+.home-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .home-stats-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.home-stat-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-stat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home-stat-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #23272e;
+}
+
+.home-stat-card-period {
+    font-size: 14px;
+    color: #6a717f;
+    margin-top: 4px;
+}
+
+.home-stat-card-value-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.home-stat-card-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #023337;
+}
+
+.home-stat-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.home-stat-trend.is-up {
+    color: #21c45d;
+}
+
+.home-stat-trend.is-down {
+    color: #ef4343;
+}
+
+.home-stat-card-hint {
+    font-size: 14px;
+    color: #6a717f;
+    margin-top: 8px;
+}
+
+.home-details-btn {
+    align-self: flex-end;
+    margin-top: 16px;
+    background: transparent;
+    border: 1px solid #6467f2;
+    color: #6467f2;
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.home-details-btn:hover {
+    background: rgba(100, 103, 242, 0.08);
+}
+
+.home-details-btn--right {
+    display: block;
+    margin-left: auto;
+}
+
+/* Pending & Canceled card */
+.home-pending-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.home-pending-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.home-pending-label {
+    font-size: 14px;
+    color: #23272e;
+}
+
+.home-pending-value {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.home-pending-value.is-pending {
+    color: #023337;
+}
+
+.home-pending-value.is-canceled {
+    color: #ef4343;
+}
+
+.home-pending-divider {
+    width: 1px;
+    align-self: stretch;
+    background: #e5e7eb;
+}
+
+/* Content grid (rows below stats) */
+.home-content-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+}
+
+@media (max-width: 1100px) {
+    .home-content-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.home-empty-hint {
+    color: #9ca3af;
+    font-size: 14px;
+    text-align: center;
+    padding: 24px 0;
+}
+
+/* Transactions table */
+.home-filter-btn {
+    background: #4ea674;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.home-transactions-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 12px 4px;
+    font-size: 14px;
+    color: #23272e;
+}
+
+.home-transactions-head {
+    color: #7c7c7c;
+    font-weight: 600;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+.home-transactions-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.home-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.home-status-dot.is-paid {
+    background: #21c45d;
+}
+
+.home-status-dot.is-pending {
+    background: #f5a623;
+}
+
+.home-status-dot.is-canceled {
+    background: #ef4343;
+}
+
+/* Quick products / categories card */
+.home-add-new-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: #6467f2;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.home-quick-section-label {
+    display: block;
+    font-size: 14px;
+    color: #6a717f;
+    margin: 16px 0 8px;
+}
+
+.home-quick-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.home-quick-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px;
+    border-radius: 6px;
+    box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.15);
+    cursor: default;
+}
+
+.home-quick-icon {
+    width: 46px;
+    height: 46px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.home-quick-name {
+    flex: 1;
+    font-size: 15px;
+    color: #000000;
+    margin: 0;
+}
+
+.home-quick-chevron {
+    color: #9ca3af;
+}
+
+.home-quick-product-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.home-quick-product-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.home-quick-product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-quick-price {
+    color: #4ea674;
+    font-weight: 700;
+    font-size: 14px;
+    margin: 4px 0 0;
+}
+
+.home-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #4ea674;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.home-see-more {
+    display: block;
+    margin: 12px auto 0;
+    background: transparent;
+    border: none;
+    color: #6467f2;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Placeholder cards */
+.home-placeholder-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 160px;
+    color: #9ca3af;
+    text-align: center;
+}
+
+.home-placeholder-body ion-icon {
+    font-size: 32px;
+}
+
+.home-placeholder-body p {
+    font-size: 14px;
+    margin: 0;
+}
