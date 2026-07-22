@@ -260,6 +260,82 @@
     color: #4b5563;
 }
 
+.add-product-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 1100px) {
+    .add-product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.add-product-field {
+    margin-bottom: 16px;
+}
+
+.add-product-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.add-product-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #023337;
+    margin-bottom: 6px;
+}
+
+.add-product-input {
+    --background: #f9fafb;
+    --border-color: #e5e7eb;
+    --border-radius: 8px;
+    --padding-start: 12px;
+    width: 100%;
+}
+
+.add-product-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #23272e;
+    margin: 20px 0 12px;
+}
+
+.add-product-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.add-product-btn-publish {
+    --background: #4ea674;
+    --background-hover: #439461;
+    --color: #ffffff;
+    --border-radius: 8px;
+    font-weight: 700;
+    text-transform: none;
+}
+
+.add-product-btn-published {
+    --background: #e8f5e9;
+    --color: #388e3c;
+    --border-radius: 8px;
+    font-weight: 700;
+    text-transform: none;
+}
+
+.add-product-btn-secondary {
+    --border-radius: 8px;
+    --color: #023337;
+    font-weight: 700;
+    text-transform: none;
+}
+
 @media (max-width: 768px) {
     .products-table-wrapper {
         margin: 0 8px 24px;

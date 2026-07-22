@@ -15,6 +15,7 @@ import {
   imagesOutline,
 } from 'ionicons/icons';
 
+import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   fetchProducts,
@@ -37,6 +38,7 @@ import '../../css/products.css';
 
 const Products: React.FC = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const { items: products, loading } = useAppSelector((state) => state.products);
   const { items: subcategory } = useAppSelector((state) => state.subcategory);
   const { items: brands } = useAppSelector((state) => state.brand);
@@ -69,9 +71,7 @@ const Products: React.FC = () => {
   });
 
   const handleOpenCreate = () => {
-    setEditingProduct(null);
-    setModalKey((k) => k + 1);
-    setShowModal(true);
+    history.push('/admin/products/add');
   };
 
   const handleOpenEdit = (product: ProductResponse) => {
