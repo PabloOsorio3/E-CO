@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f7f9fc;
+    background-color: #f9fafb;
     margin: 0;
     padding: 20px;
 }
@@ -12,9 +12,10 @@
 /* Tarjeta de login blanca y minimalista */
 .login-card {
     background: #ffffff;
-    border-radius: 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
     padding: 40px 30px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     max-width: 400px;
     width: 100%;
     display: flex;
@@ -29,9 +30,20 @@
     margin-bottom: 10px;
 }
 
+.logo-circle {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: #eaf8e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .logo-circle ion-icon {
-    font-size: 35px;
-    color: #e6ba00;
+    font-size: 30px;
+    color: #4ea674;
 }
 
 /* Encabezado */
@@ -42,13 +54,13 @@
 .login-header h1 {
     font-size: 28px;
     font-weight: 800;
-    color: #1a1a1a;
+    color: #023337;
     margin: 0 0 8px 0;
     letter-spacing: -0.5px;
 }
 
 .login-header p {
-    color: #6b7280;
+    color: #6a717f;
     font-size: 14px;
     margin: 0;
 }
@@ -63,11 +75,11 @@
 
 /* Inputs personalizados */
 .custom-input {
-    --background: transparent;
+    --background: #f9fafb;
     --border-color: #e5e7eb;
     --border-radius: 12px;
     --padding-start: 12px;
-    --highlight-color-focused: #ffce00;
+    --highlight-color-focused: #4ea674;
     margin-bottom: 4px;
 }
 
@@ -78,18 +90,18 @@
 }
 
 .custom-input.ion-focused ion-icon {
-    color: #ffce00;
+    color: #4ea674;
 }
 
 /* Botón de Iniciar Sesión */
 .login-button {
-    --background: #ffce00;
-    --background-hover: #e6ba00;
-    --background-activated: #d4ab00;
-    --background-focused: #e6ba00;
-    --color: #1a1a1a;
+    --background: #4ea674;
+    --background-hover: #439461;
+    --background-activated: #3a8154;
+    --background-focused: #439461;
+    --color: #ffffff;
     --border-radius: 12px;
-    --box-shadow: 0 4px 14px rgba(255, 206, 0, 0.3);
+    --box-shadow: 0 4px 14px rgba(78, 166, 116, 0.3);
     font-weight: 700;
     height: 52px;
     margin-top: 10px;
