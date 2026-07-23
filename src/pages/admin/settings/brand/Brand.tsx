@@ -4,9 +4,6 @@ import {
     IonPage,
     IonButton,
     IonIcon,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -33,6 +30,7 @@ import BrandModal from './BrandModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
 import { pencilOutline } from 'ionicons/icons';
+import '../../../css/settings.css';
 
 const Brand: React.FC = () => {
     const history = useHistory();
@@ -103,55 +101,50 @@ const Brand: React.FC = () => {
                 onAction={handleOpenCreate}
             />
 
-            <IonContent className="ion-padding">
-                <IonButton fill="clear" onClick={() => history.push('/admin/settings')} style={{ marginBottom: '10px' }}>
-                    <IonIcon slot="start" icon={arrowBackOutline} />
-                    Volver a Configuración
-                </IonButton>
+            <IonContent className="settings-page">
+                <div className="settings-list">
+                    <IonButton fill="clear" className="settings-back-link" onClick={() => history.push('/admin/settings')}>
+                        <IonIcon slot="start" icon={arrowBackOutline} />
+                        Volver a Configuración
+                    </IonButton>
 
-                {loading && brands.length === 0 ? (
-                    <LoadingSpinner text="Cargando marcas..." />
-                ) : brands.length === 0 ? (
-                    <EmptyState
-                        icon={fileTrayFull}
-                        title="No hay marcas"
-                        description="Aún no has creado ninguna marca. ¡Comienza creando una!"
-                        actionText="Crear Marca"
-                        onAction={handleOpenCreate}
-                    />
-                ) : (
-                    <IonGrid>
-                        <IonRow>
-                            {brands.map((brand) => (
-                                <IonCol size="12" sizeMd="6" sizeLg="4" key={brand.id_brand}>
-                                    <IonCard style={{
-                                        borderRadius: '16px',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-                                        margin: '8px 0'
-                                    }}>
-                                        <IonCardHeader>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <div>
-                                                    <IonCardTitle style={{ fontSize: '1.1rem', fontWeight: '700' }}>
-                                                        {brand.brand_name}
-                                                    </IonCardTitle>
-                                                </div>
-                                                <div>
-                                                    <IonButton fill="clear" color="primary" onClick={() => handleOpenEdit(brand)}>
-                                                        <IonIcon icon={pencilOutline} />
-                                                    </IonButton>
-                                                    <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(brand.id_brand)}>
-                                                        <IonIcon icon={trashOutline} />
-                                                    </IonButton>
-                                                </div>
+                    {loading && brands.length === 0 ? (
+                        <LoadingSpinner text="Cargando marcas..." />
+                    ) : brands.length === 0 ? (
+                        <EmptyState
+                            icon={fileTrayFull}
+                            title="No hay marcas"
+                            description="Aún no has creado ninguna marca. ¡Comienza creando una!"
+                            actionText="Crear Marca"
+                            onAction={handleOpenCreate}
+                        />
+                    ) : (
+                        brands.map((brand) => (
+                            <IonCard className="settings-item-card" key={brand.id_brand}>
+                                <IonCardHeader>
+                                    <div className="settings-item-row">
+                                        <div className="settings-item-info">
+                                            <div className="settings-item-icon">
+                                                <IonIcon icon={fileTrayFull} />
                                             </div>
-                                        </IonCardHeader>
-                                    </IonCard>
-                                </IonCol>
-                            ))}
-                        </IonRow>
-                    </IonGrid>
-                )}
+                                            <IonCardTitle className="settings-item-title">
+                                                {brand.brand_name}
+                                            </IonCardTitle>
+                                        </div>
+                                        <div className="settings-item-actions">
+                                            <IonButton fill="clear" className="settings-icon-btn edit" onClick={() => handleOpenEdit(brand)}>
+                                                <IonIcon icon={pencilOutline} />
+                                            </IonButton>
+                                            <IonButton fill="clear" className="settings-icon-btn delete" onClick={() => handleDeleteRequest(brand.id_brand)}>
+                                                <IonIcon icon={trashOutline} />
+                                            </IonButton>
+                                        </div>
+                                    </div>
+                                </IonCardHeader>
+                            </IonCard>
+                        ))
+                    )}
+                </div>
 
                 <BrandModal
                     key={modalKey}

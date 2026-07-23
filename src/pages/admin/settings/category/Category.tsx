@@ -4,9 +4,6 @@ import {
     IonPage,
     IonButton,
     IonIcon,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -31,6 +28,7 @@ import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../.
 import CategoryModal from './CategoryModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
+import '../../../css/settings.css';
 
 const Category: React.FC = () => {
     const history = useHistory();
@@ -88,50 +86,47 @@ const Category: React.FC = () => {
                 onAction={handleOpenCreate}
             />
 
-            <IonContent className="ion-padding">
-                <IonButton fill="clear" onClick={() => history.push('/admin/settings')} style={{ marginBottom: '10px' }}>
-                    <IonIcon slot="start" icon={arrowBackOutline} />
-                    Volver a Configuración
-                </IonButton>
+            <IonContent className="settings-page">
+                <div className="settings-list">
+                    <IonButton fill="clear" className="settings-back-link" onClick={() => history.push('/admin/settings')}>
+                        <IonIcon slot="start" icon={arrowBackOutline} />
+                        Volver a Configuración
+                    </IonButton>
 
-                {loading && categories.length === 0 ? (
-                    <LoadingSpinner text="Cargando categorías..." />
-                ) : categories.length === 0 ? (
-                    <EmptyState
-                        icon={fileTrayFull}
-                        title="No hay categorías"
-                        description="Aún no has creado ninguna categoría. ¡Comienza creando una!"
-                        actionText="Crear Categoría"
-                        onAction={handleOpenCreate}
-                    />
-                ) : (
-                    <IonGrid>
-                        <IonRow>
-                            {categories.map((category) => (
-                                <IonCol size="12" sizeMd="6" sizeLg="4" key={category.id_category}>
-                                    <IonCard style={{
-                                        borderRadius: '16px',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-                                        margin: '8px 0'
-                                    }}>
-                                        <IonCardHeader>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <div>
-                                                    <IonCardTitle style={{ fontSize: '1.1rem', fontWeight: '700' }}>
-                                                        {category.name}
-                                                    </IonCardTitle>
-                                                </div>
-                                                <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(category.id_category)}>
-                                                    <IonIcon icon={trashOutline} />
-                                                </IonButton>
+                    {loading && categories.length === 0 ? (
+                        <LoadingSpinner text="Cargando categorías..." />
+                    ) : categories.length === 0 ? (
+                        <EmptyState
+                            icon={fileTrayFull}
+                            title="No hay categorías"
+                            description="Aún no has creado ninguna categoría. ¡Comienza creando una!"
+                            actionText="Crear Categoría"
+                            onAction={handleOpenCreate}
+                        />
+                    ) : (
+                        categories.map((category) => (
+                            <IonCard className="settings-item-card" key={category.id_category}>
+                                <IonCardHeader>
+                                    <div className="settings-item-row">
+                                        <div className="settings-item-info">
+                                            <div className="settings-item-icon">
+                                                <IonIcon icon={fileTrayFull} />
                                             </div>
-                                        </IonCardHeader>
-                                    </IonCard>
-                                </IonCol>
-                            ))}
-                        </IonRow>
-                    </IonGrid>
-                )}
+                                            <IonCardTitle className="settings-item-title">
+                                                {category.name}
+                                            </IonCardTitle>
+                                        </div>
+                                        <div className="settings-item-actions">
+                                            <IonButton fill="clear" className="settings-icon-btn delete" onClick={() => handleDeleteRequest(category.id_category)}>
+                                                <IonIcon icon={trashOutline} />
+                                            </IonButton>
+                                        </div>
+                                    </div>
+                                </IonCardHeader>
+                            </IonCard>
+                        ))
+                    )}
+                </div>
 
                 <CategoryModal
                     key={modalKey}

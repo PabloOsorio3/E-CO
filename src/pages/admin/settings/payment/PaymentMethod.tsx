@@ -4,9 +4,6 @@ import {
     IonPage,
     IonButton,
     IonIcon,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -33,6 +30,7 @@ import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../.
 import PaymentModal from './PaymentMethodModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
+import '../../../css/settings.css';
 
 const PaymentMethod: React.FC = () => {
     const history = useHistory();
@@ -107,66 +105,50 @@ const PaymentMethod: React.FC = () => {
                 onAction={handleOpenCreate}
             />
 
-            <IonContent className="ion-padding">
-                <IonButton fill="clear" onClick={() => history.push('/admin/settings')} style={{ marginBottom: '10px' }}>
-                    <IonIcon slot="start" icon={arrowBackOutline} />
-                    Volver a Configuración
-                </IonButton>
+            <IonContent className="settings-page">
+                <div className="settings-list">
+                    <IonButton fill="clear" className="settings-back-link" onClick={() => history.push('/admin/settings')}>
+                        <IonIcon slot="start" icon={arrowBackOutline} />
+                        Volver a Configuración
+                    </IonButton>
 
-                {loading && payments.length === 0 ? (
-                    <LoadingSpinner text="Cargando tipos de pago..." />
-                ) : payments.length === 0 ? (
-                    <EmptyState
-                        icon={cardOutline}
-                        title="No hay tipos de pago"
-                        description="Aún no has creado ningún tipo de pago. ¡Comienza creando uno!"
-                        actionText="Crear Tipo de Pago"
-                        onAction={handleOpenCreate}
-                    />
-                ) : (
-                    <IonGrid>
-                        <IonRow>
-                            {payments.map((payment: PaymentMethodResponse) => (
-                                <IonCol size="12" sizeMd="6" sizeLg="4" key={payment.id_payment_method}>
-                                    <IonCard style={{
-                                        borderRadius: '16px',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-                                        margin: '8px 0'
-                                    }}>
-                                        <IonCardHeader>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                                    <div style={{
-                                                        width: '40px',
-                                                        height: '40px',
-                                                        borderRadius: '10px',
-                                                        background: 'var(--ion-color-warning)',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                    }}>
-                                                        <IonIcon icon={cardOutline} style={{ color: 'white', fontSize: '20px' }} />
-                                                    </div>
-                                                    <IonCardTitle style={{ fontSize: '1.1rem', fontWeight: '700' }}>
-                                                        {payment.name}
-                                                    </IonCardTitle>
-                                                </div>
-                                                <div>
-                                                    <IonButton fill="clear" color="primary" onClick={() => handleOpenEdit(payment)}>
-                                                        <IonIcon icon={pencilOutline} />
-                                                    </IonButton>
-                                                    <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(payment.id_payment_method)}>
-                                                        <IonIcon icon={trashOutline} />
-                                                    </IonButton>
-                                                </div>
+                    {loading && payments.length === 0 ? (
+                        <LoadingSpinner text="Cargando tipos de pago..." />
+                    ) : payments.length === 0 ? (
+                        <EmptyState
+                            icon={cardOutline}
+                            title="No hay tipos de pago"
+                            description="Aún no has creado ningún tipo de pago. ¡Comienza creando uno!"
+                            actionText="Crear Tipo de Pago"
+                            onAction={handleOpenCreate}
+                        />
+                    ) : (
+                        payments.map((payment: PaymentMethodResponse) => (
+                            <IonCard className="settings-item-card" key={payment.id_payment_method}>
+                                <IonCardHeader>
+                                    <div className="settings-item-row">
+                                        <div className="settings-item-info">
+                                            <div className="settings-item-icon">
+                                                <IonIcon icon={cardOutline} />
                                             </div>
-                                        </IonCardHeader>
-                                    </IonCard>
-                                </IonCol>
-                            ))}
-                        </IonRow>
-                    </IonGrid>
-                )}
+                                            <IonCardTitle className="settings-item-title">
+                                                {payment.name}
+                                            </IonCardTitle>
+                                        </div>
+                                        <div className="settings-item-actions">
+                                            <IonButton fill="clear" className="settings-icon-btn edit" onClick={() => handleOpenEdit(payment)}>
+                                                <IonIcon icon={pencilOutline} />
+                                            </IonButton>
+                                            <IonButton fill="clear" className="settings-icon-btn delete" onClick={() => handleDeleteRequest(payment.id_payment_method)}>
+                                                <IonIcon icon={trashOutline} />
+                                            </IonButton>
+                                        </div>
+                                    </div>
+                                </IonCardHeader>
+                            </IonCard>
+                        ))
+                    )}
+                </div>
 
                 <PaymentModal
                     key={modalKey}
