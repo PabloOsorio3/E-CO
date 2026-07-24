@@ -5,17 +5,15 @@ import { PageHeader } from '../../../components/shared';
 import Category from './category/Category';
 import Subcategory from './subcategory/Subcategory';
 import Brand from './brand/Brand';
-import PaymentMethod from './payment/PaymentMethod';
 import StatusPage from './status/StatusPage';
 import '../../css/settings.css';
 
-type SettingsTab = 'category' | 'subcategory' | 'brand' | 'payment' | 'status';
+type SettingsTab = 'category' | 'subcategory' | 'brand' | 'status';
 
 const TABS: { key: SettingsTab; label: string }[] = [
     { key: 'category', label: 'Categorías' },
     { key: 'subcategory', label: 'Subcategorías' },
     { key: 'brand', label: 'Marcas' },
-    { key: 'payment', label: 'Tipos de Pago' },
     { key: 'status', label: 'Estados' },
 ];
 
@@ -23,7 +21,6 @@ const PANELS: Record<SettingsTab, React.FC> = {
     category: Category,
     subcategory: Subcategory,
     brand: Brand,
-    payment: PaymentMethod,
     status: StatusPage,
 };
 

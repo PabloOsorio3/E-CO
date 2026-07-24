@@ -13,20 +13,20 @@ import {
     cardOutline,
 } from 'ionicons/icons';
 
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
     fetchPaymentMethods,
     createPaymentMethodThunk,
     updatePaymentMethodThunk,
     deletePaymentMethodThunk,
-} from '../../../../store/slices/payment.slice';
-import type { PaymentMethodCreate, PaymentMethodResponse } from '../../../../interface/payment.interface';
+} from '../../../store/slices/payment.slice';
+import type { PaymentMethodCreate, PaymentMethodResponse } from '../../../interface/payment.interface';
 
-import { LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
+import { LoadingSpinner, EmptyState, ConfirmModal } from '../../../components/shared';
 import PaymentModal from './PaymentMethodModal';
-import { showSuccessAlert } from '../../../../alerts/success/success-alert';
-import { showErrorAlert } from '../../../../alerts/error/error-alert';
-import '../../../css/settings.css';
+import { showSuccessAlert } from '../../../alerts/success/success-alert';
+import { showErrorAlert } from '../../../alerts/error/error-alert';
+import '../../css/settings.css';
 
 const PaymentMethod: React.FC = () => {
     const dispatch = useAppDispatch();

@@ -50,7 +50,7 @@ const menuSections: MenuSection[] = [
             { title: 'Customers', url: '/admin/customers', icon: peopleOutline },
             { title: 'Estados', url: '/admin/settings/status', icon: pricetagOutline },
             { title: 'Categories', url: '/admin/settings/category', icon: cubeOutline },
-            { title: 'Transaction', url: '/admin/settings/payment', icon: cardOutline },
+            { title: 'Transaction', url: '/admin/transaction', icon: cardOutline },
             { title: 'Brand', url: '/admin/settings/brand', icon: starOutline },
         ]
     },
