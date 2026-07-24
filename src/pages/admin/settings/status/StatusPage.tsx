@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonContent,
-    IonPage,
     IonButton,
     IonIcon,
     IonCard,
@@ -13,9 +11,7 @@ import {
     trashOutline,
     pencilOutline,
     gridOutline,
-    arrowBackOutline,
 } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
@@ -26,7 +22,7 @@ import {
 } from '../../../../store/slices/status.slice';
 import type { StatusCreate, StatusResponse } from '../../../../interface/status.interface';
 
-import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
+import { LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
 import StatusModal from './StatusModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
@@ -48,7 +44,6 @@ const getStatusColor = (name: string) => {
 };
 
 const StatusPage: React.FC = () => {
-    const history = useHistory();
     const dispatch = useAppDispatch();
     const { items: statuses, loading } = useAppSelector((state) => state.status);
 
@@ -112,82 +107,76 @@ const StatusPage: React.FC = () => {
     };
 
     return (
-        <IonPage>
-            <PageHeader
-                title="Estados"
-                subtitle="Gestionar estados de productos"
-                actionIcon={addOutline}
-                onAction={handleOpenCreate}
+        <div className="settings-panel">
+            <div className="settings-panel-toolbar">
+                <span className="settings-panel-count">
+                    {statuses.length} estado{statuses.length !== 1 ? 's' : ''}
+                </span>
+                <IonButton className="settings-panel-add-btn" onClick={handleOpenCreate}>
+                    <IonIcon slot="start" icon={addOutline} />
+                    Nuevo Estado
+                </IonButton>
+            </div>
+
+            {loading && statuses.length === 0 ? (
+                <LoadingSpinner text="Cargando estados..." />
+            ) : statuses.length === 0 ? (
+                <EmptyState
+                    icon={gridOutline}
+                    title="No hay estados"
+                    description="Aún no has creado ningún estado. ¡Comienza creando uno!"
+                    actionText="Crear Estado"
+                    onAction={handleOpenCreate}
+                />
+            ) : (
+                statuses.map((status: StatusResponse) => (
+                    <IonCard className="settings-item-card" key={status.id_status}>
+                        <IonCardHeader>
+                            <div className="settings-item-row">
+                                <div className="settings-item-info">
+                                    <div className="settings-item-icon" style={{ background: getStatusColor(status.name) }}>
+                                        <IonIcon icon={gridOutline} />
+                                    </div>
+                                    <IonCardTitle className="settings-item-title">
+                                        {status.name}
+                                    </IonCardTitle>
+                                </div>
+                                <div className="settings-item-actions">
+                                    <IonButton fill="clear" className="settings-icon-btn edit" onClick={() => handleOpenEdit(status)}>
+                                        <IonIcon icon={pencilOutline} />
+                                    </IonButton>
+                                    <IonButton fill="clear" className="settings-icon-btn delete" onClick={() => handleDeleteRequest(status.id_status)}>
+                                        <IonIcon icon={trashOutline} />
+                                    </IonButton>
+                                </div>
+                            </div>
+                        </IonCardHeader>
+                    </IonCard>
+                ))
+            )}
+
+            <StatusModal
+                key={modalKey}
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                onSave={handleSave}
+                status={selectedStatus}
+                loading={loading}
             />
 
-            <IonContent className="settings-page">
-                <div className="settings-list">
-                    <IonButton fill="clear" className="settings-back-link" onClick={() => history.push('/admin/settings')}>
-                        <IonIcon slot="start" icon={arrowBackOutline} />
-                        Volver a Configuración
-                    </IonButton>
-
-                    {loading && statuses.length === 0 ? (
-                        <LoadingSpinner text="Cargando estados..." />
-                    ) : statuses.length === 0 ? (
-                        <EmptyState
-                            icon={gridOutline}
-                            title="No hay estados"
-                            description="Aún no has creado ningún estado. ¡Comienza creando uno!"
-                            actionText="Crear Estado"
-                            onAction={handleOpenCreate}
-                        />
-                    ) : (
-                        statuses.map((status: StatusResponse) => (
-                            <IonCard className="settings-item-card" key={status.id_status}>
-                                <IonCardHeader>
-                                    <div className="settings-item-row">
-                                        <div className="settings-item-info">
-                                            <div className="settings-item-icon" style={{ background: getStatusColor(status.name) }}>
-                                                <IonIcon icon={gridOutline} />
-                                            </div>
-                                            <IonCardTitle className="settings-item-title">
-                                                {status.name}
-                                            </IonCardTitle>
-                                        </div>
-                                        <div className="settings-item-actions">
-                                            <IonButton fill="clear" className="settings-icon-btn edit" onClick={() => handleOpenEdit(status)}>
-                                                <IonIcon icon={pencilOutline} />
-                                            </IonButton>
-                                            <IonButton fill="clear" className="settings-icon-btn delete" onClick={() => handleDeleteRequest(status.id_status)}>
-                                                <IonIcon icon={trashOutline} />
-                                            </IonButton>
-                                        </div>
-                                    </div>
-                                </IonCardHeader>
-                            </IonCard>
-                        ))
-                    )}
-                </div>
-
-                <StatusModal
-                    key={modalKey}
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                    onSave={handleSave}
-                    status={selectedStatus}
-                    loading={loading}
-                />
-
-                <ConfirmModal
-                    isOpen={showDeleteConfirm}
-                    onClose={() => {
-                        setShowDeleteConfirm(false);
-                        setDeletingId(null);
-                    }}
-                    onConfirm={handleDeleteConfirm}
-                    title="¿Eliminar estado?"
-                    message="Esta acción eliminará el estado permanentemente. Asegúrate de que no haya productos asociados."
-                    confirmText="Eliminar"
-                    variant="danger"
-                />
-            </IonContent>
-        </IonPage>
+            <ConfirmModal
+                isOpen={showDeleteConfirm}
+                onClose={() => {
+                    setShowDeleteConfirm(false);
+                    setDeletingId(null);
+                }}
+                onConfirm={handleDeleteConfirm}
+                title="¿Eliminar estado?"
+                message="Esta acción eliminará el estado permanentemente. Asegúrate de que no haya productos asociados."
+                confirmText="Eliminar"
+                variant="danger"
+            />
+        </div>
     );
 };
 

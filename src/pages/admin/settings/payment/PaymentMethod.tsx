@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IonContent,
-    IonPage,
     IonButton,
     IonIcon,
     IonCard,
@@ -13,9 +11,7 @@ import {
     trashOutline,
     pencilOutline,
     cardOutline,
-    arrowBackOutline,
 } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
@@ -26,14 +22,13 @@ import {
 } from '../../../../store/slices/payment.slice';
 import type { PaymentMethodCreate, PaymentMethodResponse } from '../../../../interface/payment.interface';
 
-import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
+import { LoadingSpinner, EmptyState, ConfirmModal } from '../../../../components/shared';
 import PaymentModal from './PaymentMethodModal';
 import { showSuccessAlert } from '../../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../../alerts/error/error-alert';
 import '../../../css/settings.css';
 
 const PaymentMethod: React.FC = () => {
-    const history = useHistory();
     const dispatch = useAppDispatch();
     const { items: payments, loading } = useAppSelector((state) => state.payment);
 
@@ -97,82 +92,76 @@ const PaymentMethod: React.FC = () => {
     };
 
     return (
-        <IonPage>
-            <PageHeader
-                title="Tipos de Pago"
-                subtitle="Gestionar métodos de pago aceptados"
-                actionIcon={addOutline}
-                onAction={handleOpenCreate}
+        <div className="settings-panel">
+            <div className="settings-panel-toolbar">
+                <span className="settings-panel-count">
+                    {payments.length} tipo{payments.length !== 1 ? 's' : ''} de pago
+                </span>
+                <IonButton className="settings-panel-add-btn" onClick={handleOpenCreate}>
+                    <IonIcon slot="start" icon={addOutline} />
+                    Nuevo Tipo de Pago
+                </IonButton>
+            </div>
+
+            {loading && payments.length === 0 ? (
+                <LoadingSpinner text="Cargando tipos de pago..." />
+            ) : payments.length === 0 ? (
+                <EmptyState
+                    icon={cardOutline}
+                    title="No hay tipos de pago"
+                    description="Aún no has creado ningún tipo de pago. ¡Comienza creando uno!"
+                    actionText="Crear Tipo de Pago"
+                    onAction={handleOpenCreate}
+                />
+            ) : (
+                payments.map((payment: PaymentMethodResponse) => (
+                    <IonCard className="settings-item-card" key={payment.id_payment_method}>
+                        <IonCardHeader>
+                            <div className="settings-item-row">
+                                <div className="settings-item-info">
+                                    <div className="settings-item-icon">
+                                        <IonIcon icon={cardOutline} />
+                                    </div>
+                                    <IonCardTitle className="settings-item-title">
+                                        {payment.name}
+                                    </IonCardTitle>
+                                </div>
+                                <div className="settings-item-actions">
+                                    <IonButton fill="clear" className="settings-icon-btn edit" onClick={() => handleOpenEdit(payment)}>
+                                        <IonIcon icon={pencilOutline} />
+                                    </IonButton>
+                                    <IonButton fill="clear" className="settings-icon-btn delete" onClick={() => handleDeleteRequest(payment.id_payment_method)}>
+                                        <IonIcon icon={trashOutline} />
+                                    </IonButton>
+                                </div>
+                            </div>
+                        </IonCardHeader>
+                    </IonCard>
+                ))
+            )}
+
+            <PaymentModal
+                key={modalKey}
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                onSave={handleSave}
+                payment={selectedPayment}
+                loading={loading}
             />
 
-            <IonContent className="settings-page">
-                <div className="settings-list">
-                    <IonButton fill="clear" className="settings-back-link" onClick={() => history.push('/admin/settings')}>
-                        <IonIcon slot="start" icon={arrowBackOutline} />
-                        Volver a Configuración
-                    </IonButton>
-
-                    {loading && payments.length === 0 ? (
-                        <LoadingSpinner text="Cargando tipos de pago..." />
-                    ) : payments.length === 0 ? (
-                        <EmptyState
-                            icon={cardOutline}
-                            title="No hay tipos de pago"
-                            description="Aún no has creado ningún tipo de pago. ¡Comienza creando uno!"
-                            actionText="Crear Tipo de Pago"
-                            onAction={handleOpenCreate}
-                        />
-                    ) : (
-                        payments.map((payment: PaymentMethodResponse) => (
-                            <IonCard className="settings-item-card" key={payment.id_payment_method}>
-                                <IonCardHeader>
-                                    <div className="settings-item-row">
-                                        <div className="settings-item-info">
-                                            <div className="settings-item-icon">
-                                                <IonIcon icon={cardOutline} />
-                                            </div>
-                                            <IonCardTitle className="settings-item-title">
-                                                {payment.name}
-                                            </IonCardTitle>
-                                        </div>
-                                        <div className="settings-item-actions">
-                                            <IonButton fill="clear" className="settings-icon-btn edit" onClick={() => handleOpenEdit(payment)}>
-                                                <IonIcon icon={pencilOutline} />
-                                            </IonButton>
-                                            <IonButton fill="clear" className="settings-icon-btn delete" onClick={() => handleDeleteRequest(payment.id_payment_method)}>
-                                                <IonIcon icon={trashOutline} />
-                                            </IonButton>
-                                        </div>
-                                    </div>
-                                </IonCardHeader>
-                            </IonCard>
-                        ))
-                    )}
-                </div>
-
-                <PaymentModal
-                    key={modalKey}
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                    onSave={handleSave}
-                    payment={selectedPayment}
-                    loading={loading}
-                />
-
-                <ConfirmModal
-                    isOpen={showDeleteConfirm}
-                    onClose={() => {
-                        setShowDeleteConfirm(false);
-                        setDeletingId(null);
-                    }}
-                    onConfirm={handleDeleteConfirm}
-                    title="¿Eliminar tipo de pago?"
-                    message="Esta acción eliminará el tipo de pago permanentemente."
-                    confirmText="Eliminar"
-                    variant="danger"
-                />
-            </IonContent>
-        </IonPage>
+            <ConfirmModal
+                isOpen={showDeleteConfirm}
+                onClose={() => {
+                    setShowDeleteConfirm(false);
+                    setDeletingId(null);
+                }}
+                onConfirm={handleDeleteConfirm}
+                title="¿Eliminar tipo de pago?"
+                message="Esta acción eliminará el tipo de pago permanentemente."
+                confirmText="Eliminar"
+                variant="danger"
+            />
+        </div>
     );
 };
 
