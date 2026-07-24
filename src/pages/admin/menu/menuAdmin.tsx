@@ -48,10 +48,10 @@ const menuSections: MenuSection[] = [
             { title: 'Dashboard', url: '/admin/home', icon: gridOutline },
             { title: 'Order Management', url: '/admin/orders', icon: cartOutline },
             { title: 'Customers', url: '/admin/customers', icon: peopleOutline },
-            { title: 'Estados', url: '/admin/settings-status', icon: pricetagOutline },
-            { title: 'Categories', url: '/admin/settings-category', icon: cubeOutline },
-            { title: 'Transaction', url: '/admin/settings-payments', icon: cardOutline },
-            { title: 'Brand', url: '/admin/settings-brands', icon: starOutline },
+            { title: 'Estados', url: '/admin/settings/status', icon: pricetagOutline },
+            { title: 'Categories', url: '/admin/settings/category', icon: cubeOutline },
+            { title: 'Transaction', url: '/admin/settings/payment', icon: cardOutline },
+            { title: 'Brand', url: '/admin/settings/brand', icon: starOutline },
         ]
     },
     {

@@ -1,60 +1,61 @@
 import React from 'react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonIcon, IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/react';
-import { bookmarkOutline, fileTrayFull, fileTrayStacked, gridOutline, settingsOutline, cardOutline, arrowForwardOutline } from 'ionicons/icons';
+import { IonPage, IonContent } from '@ionic/react';
+import { useHistory, useParams } from 'react-router-dom';
 import { PageHeader } from '../../../components/shared';
+import Category from './category/Category';
+import Subcategory from './subcategory/Subcategory';
+import Brand from './brand/Brand';
+import PaymentMethod from './payment/PaymentMethod';
+import StatusPage from './status/StatusPage';
 import '../../css/settings.css';
 
-import { useHistory } from 'react-router-dom';
+type SettingsTab = 'category' | 'subcategory' | 'brand' | 'payment' | 'status';
+
+const TABS: { key: SettingsTab; label: string }[] = [
+    { key: 'category', label: 'Categorías' },
+    { key: 'subcategory', label: 'Subcategorías' },
+    { key: 'brand', label: 'Marcas' },
+    { key: 'payment', label: 'Tipos de Pago' },
+    { key: 'status', label: 'Estados' },
+];
+
+const PANELS: Record<SettingsTab, React.FC> = {
+    category: Category,
+    subcategory: Subcategory,
+    brand: Brand,
+    payment: PaymentMethod,
+    status: StatusPage,
+};
 
 const Setting: React.FC = () => {
     const history = useHistory();
-
-    const settings = [
-        { title: 'Categorías', subtitle: 'Gestionar categorías de productos', color: '#4ea674', icon: fileTrayFull, url: '/admin/settings-category' },
-        { title: 'Subcategorías', subtitle: 'Gestionar subcategorías de productos', color: '#023337', icon: fileTrayStacked, url: '/admin/settings-subcategory' },
-        { title: 'Marcas', subtitle: 'Gestionar marcas de productos', color: '#6467f2', icon: bookmarkOutline, url: '/admin/settings-brands' },
-        { title: 'Estados', subtitle: 'Gestionar estados de productos', color: '#21c45d', icon: gridOutline, url: '/admin/settings-status' },
-        { title: 'Tipos de Pago', subtitle: 'Gestionar tipos de pago', color: '#fbbd23', icon: cardOutline, url: '/admin/settings-payments' },
-    ];
+    const { tab } = useParams<{ tab?: string }>();
+    const activeTab: SettingsTab = TABS.some((t) => t.key === tab) ? (tab as SettingsTab) : 'category';
+    const ActivePanel = PANELS[activeTab];
 
     return (
         <IonPage>
             <PageHeader
                 title="Configuración"
                 subtitle="Gestión de parámetros del sistema"
-                actionIcon={settingsOutline}
-                onAction={() => { }}
             />
             <IonContent className="settings-page">
-                <IonGrid style={{ padding: '16px' }}>
-                    <IonRow>
-                        {settings.map((setting, index) => (
-                            <IonCol size="12" sizeMd="6" sizeLg="4" key={index}>
-                                <IonCard
-                                    onClick={() => history.push(setting.url)}
-                                    className="settings-hub-card"
-                                >
-                                    <div className="settings-hub-card-body">
-                                        <div className="settings-hub-icon" style={{ background: setting.color }}>
-                                            <IonIcon icon={setting.icon} />
-                                        </div>
+                <div className="settings-tabs">
+                    {TABS.map((t) => (
+                        <button
+                            key={t.key}
+                            className={`settings-tab ${activeTab === t.key ? 'active' : ''}`}
+                            onClick={() => history.push(`/admin/settings/${t.key}`)}
+                        >
+                            {t.label}
+                        </button>
+                    ))}
+                </div>
 
-                                        <IonCardHeader style={{ padding: '0', marginBottom: '12px' }}>
-                                            <IonCardTitle className="settings-hub-title">{setting.title}</IonCardTitle>
-                                            <IonCardSubtitle className="settings-hub-subtitle">{setting.subtitle}</IonCardSubtitle>
-                                        </IonCardHeader>
-
-                                        <div className="settings-hub-cta" style={{ color: setting.color }}>
-                                            Gestionar <IonIcon icon={arrowForwardOutline} />
-                                        </div>
-                                    </div>
-                                </IonCard>
-                            </IonCol>
-                        ))}
-                    </IonRow>
-                </IonGrid>
+                <ActivePanel />
             </IonContent>
         </IonPage>
     );
-}
+};
+
 export default Setting;

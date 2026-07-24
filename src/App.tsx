@@ -29,11 +29,6 @@ import { MenuAdmin } from './pages/admin/menu/menuAdmin.tsx';
 import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
 import Setting from './pages/admin/settings/Setting.tsx';
-import Category from './pages/admin/settings/category/Category.tsx';
-import Subcategory from './pages/admin/settings/subcategory/Subcategory.tsx';
-import Brand from './pages/admin/settings/brand/Brand.tsx';
-import Payment from './pages/admin/settings/payment/PaymentMethod.tsx';
-import StatusPage from './pages/admin/settings/status/StatusPage.tsx';
 import Signup from './pages/signup/Signup.tsx';
 import Customer from './pages/admin/customer/Customer.tsx';
 import Profile from './pages/admin/profile/Profile.tsx';
@@ -62,23 +57,8 @@ const AdminLayout: React.FC = () => (
       <Route path="/admin/orders">
         <Orders />
       </Route>
-      <Route path="/admin/settings">
+      <Route exact path="/admin/settings/:tab?">
         <Setting />
-      </Route>
-      <Route path="/admin/settings-category">
-        <Category />
-      </Route>
-      <Route path="/admin/settings-subcategory">
-        <Subcategory />
-      </Route>
-      <Route path="/admin/settings-brands">
-        <Brand />
-      </Route>
-      <Route path="/admin/settings-payments">
-        <Payment />
-      </Route>
-      <Route path="/admin/settings-status">
-        <StatusPage />
       </Route>
       <Route path="/admin/customers">
         <Customer />
