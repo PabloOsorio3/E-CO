@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   IonContent,
   IonPage,
@@ -13,6 +13,8 @@ import {
   cubeOutline,
   swapVerticalOutline,
   imagesOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
 } from 'ionicons/icons';
 
 import { useHistory } from 'react-router-dom';
@@ -36,6 +38,8 @@ import { showErrorAlert } from '../../../alerts/error/error-alert';
 
 import '../../css/products.css';
 
+const PAGE_SIZE = 10;
+
 const Products: React.FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -46,6 +50,7 @@ const Products: React.FC = () => {
   const productsActive = products.filter((p) => p.status_id === 1 || p.status_id === 5);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<ProductResponse | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -69,6 +74,17 @@ const Products: React.FC = () => {
       p.description.toLowerCase().includes(term)
     );
   });
+
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PAGE_SIZE));
+  const pageProducts = useMemo(
+    () => filteredProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [filteredProducts, currentPage]
+  );
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
 
   const handleOpenCreate = () => {
     history.push('/admin/products/add');
@@ -153,7 +169,7 @@ const Products: React.FC = () => {
       <IonContent className="products-page">
         <SearchBar
           value={searchTerm}
-          onSearch={setSearchTerm}
+          onSearch={handleSearch}
           placeholder="Buscar por nombre, marca..."
         />
 
@@ -194,7 +210,7 @@ const Products: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProducts.map((product) => {
+                {pageProducts.map((product) => {
                   const subCat = subcategory.find(s => s.id_subcategory === product.subcategory_id);
                   const subCatName = subCat ? subCat.name : 'N/A';
                   const brandObj = brands.find(b => b.id_brand === product.brand_id);
@@ -214,20 +230,20 @@ const Products: React.FC = () => {
                       </td>
                       <td className="product-stock-cell">{product.stock}</td>
                       <td>
-                        <IonGrid className="product-actions-cell">
-                          <IonButton fill="clear" color="primary" onClick={() => handleOpenEdit(product)}>
+                        <div className="product-actions-cell">
+                          <IonButton fill="clear" className="product-icon-btn edit" onClick={() => handleOpenEdit(product)}>
                             <IonIcon icon={createOutline} />
                           </IonButton>
-                          <IonButton fill="clear" color="medium" onClick={() => handleOpenStock(product)} title="Ajustar stock">
+                          <IonButton fill="clear" className="product-icon-btn neutral" onClick={() => handleOpenStock(product)} title="Ajustar stock">
                             <IonIcon icon={swapVerticalOutline} />
                           </IonButton>
-                          <IonButton fill="clear" color="medium" onClick={() => handleOpenImages(product)} title="Gestionar imágenes">
+                          <IonButton fill="clear" className="product-icon-btn neutral" onClick={() => handleOpenImages(product)} title="Gestionar imágenes">
                             <IonIcon icon={imagesOutline} />
                           </IonButton>
-                          <IonButton fill="clear" color="danger" onClick={() => handleDeleteRequest(product.id_product)}>
+                          <IonButton fill="clear" className="product-icon-btn delete" onClick={() => handleDeleteRequest(product.id_product)}>
                             <IonIcon icon={trashOutline} />
                           </IonButton>
-                        </IonGrid>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -235,6 +251,40 @@ const Products: React.FC = () => {
               </tbody>
             </table>
           </IonGrid>
+        )}
+
+        {totalPages > 1 && (
+          <div className="products-pagination-controls">
+            <button
+              className="products-pagination-nav-btn"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            >
+              <IonIcon icon={chevronBackOutline} />
+              Previous
+            </button>
+
+            <div className="products-pagination-numbers-list">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  className={`products-pagination-num-btn ${currentPage === pageNum ? 'active' : ''}`}
+                  onClick={() => setCurrentPage(pageNum)}
+                >
+                  {pageNum}
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="products-pagination-nav-btn"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            >
+              Next
+              <IonIcon icon={chevronForwardOutline} />
+            </button>
+          </div>
         )}
 
         <ProductModal

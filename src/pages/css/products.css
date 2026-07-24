@@ -1,5 +1,13 @@
 .products-page {
-    --background: #f4f5f7;
+    --background: #f9fafb;
+}
+
+.products-page .shared-searchbar {
+    --box-shadow: 0 0 0 1px #e5e7eb;
+}
+
+.products-page .shared-searchbar.searchbar-has-focus {
+    --box-shadow: 0 0 0 2px rgba(78, 166, 116, 0.3);
 }
 
 .products-toolbar {
@@ -13,13 +21,13 @@
 
 .products-toolbar .products-count {
     font-size: 13px;
-    color: #6b7280;
+    color: #6a717f;
     font-weight: 500;
 }
 
 .btn-new-product {
     --border-radius: 12px;
-    --box-shadow: 0 4px 14px rgba(255, 206, 0, 0.3);
+    --box-shadow: 0 4px 14px rgba(78, 166, 116, 0.3);
     font-weight: 600;
     text-transform: none;
     height: 42px;
@@ -27,10 +35,11 @@
 }
 
 .products-table-wrapper {
-    margin: 0 16px 24px;
+    margin: 0 16px 16px;
     background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     overflow: hidden;
 }
 
@@ -40,16 +49,15 @@
 }
 
 .products-table thead {
-    background: #f9fafb;
-    border-bottom: 2px solid #f0f0f0;
+    background: #eaf8e7;
 }
 
 .products-table th {
     text-align: left;
-    padding: 14px 16px;
+    padding: 12px 16px;
     font-size: 12px;
-    font-weight: 600;
-    color: #6b7280;
+    font-weight: 700;
+    color: #023337;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -57,8 +65,8 @@
 .products-table td {
     padding: 16px;
     font-size: 14px;
-    color: #1e1e1e;
-    border-bottom: 1px solid #f3f4f6;
+    color: #23272e;
+    border-bottom: 1px solid #e5e7eb;
     vertical-align: middle;
 }
 
@@ -67,7 +75,7 @@
 }
 
 .products-table tbody tr:hover {
-    background: rgba(255, 215, 0, 0.04);
+    background: rgba(78, 166, 116, 0.05);
 }
 
 .products-table tbody tr:last-child td {
@@ -76,31 +84,111 @@
 
 .product-name-cell {
     font-weight: 600;
-    color: #1e1e1e;
+    color: #023337;
 }
 
 .product-brand-cell {
-    color: #6b7280;
+    color: #6a717f;
     font-size: 13px;
 }
 
 .product-price-cell {
     font-weight: 700;
-    color: #059669;
+    color: #4ea674;
     font-size: 15px;
 }
 
 .product-actions-cell {
     display: flex;
-    gap: 6px;
+    gap: 4px;
     align-items: center;
 }
 
-.product-actions-cell ion-button {
+.product-icon-btn {
+    --border-radius: 8px;
     --padding-start: 8px;
     --padding-end: 8px;
     height: 34px;
+    margin: 0;
     font-size: 18px;
+}
+
+.product-icon-btn.edit {
+    --color: #4ea674;
+}
+
+.product-icon-btn.neutral {
+    --color: #6a717f;
+}
+
+.product-icon-btn.delete {
+    --color: #ef4343;
+}
+
+/* Pagination (mirrors the pattern established in customer.css) */
+.products-pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 16px 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.products-pagination-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #023337;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.products-pagination-nav-btn:hover:not(:disabled) {
+    background: #f9fafb;
+}
+
+.products-pagination-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.products-pagination-numbers-list {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.products-pagination-num-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #023337;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.products-pagination-num-btn:hover {
+    background: #f9fafb;
+}
+
+.products-pagination-num-btn.active {
+    background: #4ea674;
+    border-color: #4ea674;
+    color: #ffffff;
 }
 
 .product-modal {
