@@ -29,6 +29,7 @@ import { MenuAdmin } from './pages/admin/menu/menuAdmin.tsx';
 import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
 import Setting from './pages/admin/settings/Setting.tsx';
+import Transaction from './pages/admin/transaction/Transaction.tsx';
 import Signup from './pages/signup/Signup.tsx';
 import Customer from './pages/admin/customer/Customer.tsx';
 import Profile from './pages/admin/profile/Profile.tsx';
@@ -59,6 +60,9 @@ const AdminLayout: React.FC = () => (
       </Route>
       <Route exact path="/admin/settings/:tab?">
         <Setting />
+      </Route>
+      <Route exact path="/admin/transaction">
+        <Transaction />
       </Route>
       <Route path="/admin/customers">
         <Customer />

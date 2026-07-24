@@ -16,7 +16,7 @@ import {
     IonTextarea,
 } from '@ionic/react';
 import { closeOutline, saveOutline } from 'ionicons/icons';
-import type { PaymentMethodCreate, PaymentMethodResponse } from '../../../../interface/payment.interface';
+import type { PaymentMethodCreate, PaymentMethodResponse } from '../../../interface/payment.interface';
 
 interface PaymentModalProps {
     isOpen: boolean;
