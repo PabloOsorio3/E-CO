@@ -13,6 +13,7 @@ import dashboardReducer from './slices/dashboard.slice';
 import inventoryReducer from './slices/inventory.slice';
 import imageReducer from './slices/image.slice';
 import userReducer from './slices/user.slice';
+import cartReducer from './slices/cart.slice';
 
 export const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ export const store = configureStore({
     inventory: inventoryReducer,
     images: imageReducer,
     users: userReducer,
+    cart: cartReducer,
   },
 });
 

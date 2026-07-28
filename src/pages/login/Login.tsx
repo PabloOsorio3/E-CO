@@ -9,17 +9,14 @@ import {
     IonRow,
     IonCol
 } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
 import { lockClosedOutline, mailOutline, storefrontOutline } from 'ionicons/icons';
 import { loginApi as apiLogin } from '../../api/login/login.api';
 
 import '../css/login.css';
 
-import { showSuccessAlert } from '../../alerts/success/success-alert';
 import { showErrorAlert } from '../../alerts/error/error-alert';
 
 const Login: React.FC = () => {
-    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -27,8 +24,6 @@ const Login: React.FC = () => {
         e.preventDefault();
         try {
             await apiLogin({ email, password });
-            showSuccessAlert('¡Inicio de sesión exitoso! Bienvenido.');
-            history.push('/admin/home');
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             showErrorAlert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
