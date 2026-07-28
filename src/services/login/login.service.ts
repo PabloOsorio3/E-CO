@@ -15,7 +15,8 @@ export const loginService = async (res: any) => {
                 return true;
             }
 
-            return res
+            window.location.href = '/store/catalog';
+            return true;
         } else {
             showErrorAlert(res.message);
             return null;

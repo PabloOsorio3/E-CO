@@ -33,6 +33,7 @@ import Transaction from './pages/admin/transaction/Transaction.tsx';
 import Signup from './pages/signup/Signup.tsx';
 import Customer from './pages/admin/customer/Customer.tsx';
 import Profile from './pages/admin/profile/Profile.tsx';
+import StoreLayout from './pages/store/StoreLayout.tsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.tsx';
 
 
@@ -90,6 +91,7 @@ const App: React.FC = () => {
           </Route>
 
           <ProtectedRoute path="/admin" component={AdminLayout} />
+          <ProtectedRoute path="/store" component={StoreLayout} allowedRoles={['2']} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

@@ -17,3 +17,7 @@ export interface OrderResponse {
 export interface OrderStatusUpdate {
     status_id: number;
 }
+
+export interface OrderCreate {
+    shipping_method_id: number;
+}
