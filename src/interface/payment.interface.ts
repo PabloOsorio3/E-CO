@@ -14,3 +14,12 @@ export interface PaymentMethodUpdate {
     name: string;
     description: string;
 }
+
+export interface PaymentResponse {
+    id_payment: number;
+    order_id: number;
+    payment_date: string;
+    amount: number;
+    payment_method_id: number;
+    status_id: number;
+}
