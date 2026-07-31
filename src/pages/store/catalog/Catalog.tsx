@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { IonIcon } from '@ionic/react';
-import { cartOutline, imageOutline } from 'ionicons/icons';
+import { cartOutline, heart, heartOutline, imageOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchProducts } from '../../../store/slices/product.slice';
 import { fetchBrands } from '../../../store/slices/brand.slice';
 import { fetchImagesThunk } from '../../../store/slices/image.slice';
 import { addToCartThunk } from '../../../store/slices/cart.slice';
+import { addToWishlistThunk, removeFromWishlistThunk } from '../../../store/slices/wishlist.slice';
 import { STATIC_BASE_URL } from '../../../api/instance/instance';
 import { SearchBar, LoadingSpinner, EmptyState } from '../../../components/shared';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
@@ -16,6 +17,7 @@ import type { ProductResponse } from '../../../interface/product.interface';
 const ProductCard: React.FC<{ product: ProductResponse; brandName: string; onOpen: () => void }> = ({ product, brandName, onOpen }) => {
     const dispatch = useAppDispatch();
     const { items: images } = useAppSelector((state) => state.images);
+    const { items: wishlist } = useAppSelector((state) => state.wishlist);
 
     useEffect(() => {
         dispatch(fetchImagesThunk(product.id_product));
@@ -23,6 +25,8 @@ const ProductCard: React.FC<{ product: ProductResponse; brandName: string; onOpe
 
     const mainImage = images.find((img) => img.product_id === product.id_product && img.is_main)
         ?? images.find((img) => img.product_id === product.id_product);
+
+    const wishlistEntry = wishlist.find((w) => w.product_id === product.id_product);
 
     const formatPrice = (price: number) =>
         new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(price);
@@ -37,6 +41,19 @@ const ProductCard: React.FC<{ product: ProductResponse; brandName: string; onOpe
         }
     };
 
+    const handleToggleWishlist = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        try {
+            if (wishlistEntry) {
+                await dispatch(removeFromWishlistThunk(wishlistEntry.id_wish_list)).unwrap();
+            } else {
+                await dispatch(addToWishlistThunk({ product_id: product.id_product })).unwrap();
+            }
+        } catch (error: any) {
+            showErrorAlert(error || 'Error al actualizar la lista de deseos');
+        }
+    };
+
     return (
         <div className="store-product-card" onClick={onOpen}>
             <div className="store-product-image">
@@ -45,6 +62,13 @@ const ProductCard: React.FC<{ product: ProductResponse; brandName: string; onOpe
                 ) : (
                     <IonIcon icon={imageOutline} />
                 )}
+                <button
+                    className={`store-wishlist-btn ${wishlistEntry ? 'active' : ''}`}
+                    onClick={handleToggleWishlist}
+                    title={wishlistEntry ? 'Quitar de la lista de deseos' : 'Agregar a la lista de deseos'}
+                >
+                    <IonIcon icon={wishlistEntry ? heart : heartOutline} />
+                </button>
             </div>
             <div className="store-product-info">
                 <span className="store-product-brand">{brandName}</span>
