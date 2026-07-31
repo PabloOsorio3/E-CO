@@ -15,6 +15,7 @@ import imageReducer from './slices/image.slice';
 import userReducer from './slices/user.slice';
 import cartReducer from './slices/cart.slice';
 import dataUserReducer from './slices/dataUser.slice';
+import wishlistReducer from './slices/wishlist.slice';
 
 export const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ export const store = configureStore({
     users: userReducer,
     cart: cartReducer,
     dataUser: dataUserReducer,
+    wishlist: wishlistReducer,
   },
 });
 
