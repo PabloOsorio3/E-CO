@@ -366,6 +366,137 @@
     font-size: 32px;
 }
 
+/* Sales report (bar chart) */
+.home-sales-report-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 160px;
+    padding-top: 8px;
+}
+
+.home-sales-report-bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+}
+
+.home-sales-report-bar-track {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.home-sales-report-bar-fill {
+    width: 100%;
+    min-height: 4px;
+    background: #4ea674;
+    border-radius: 4px 4px 0 0;
+}
+
+.home-sales-report-bar-label {
+    font-size: 12px;
+    color: #6a717f;
+    text-transform: capitalize;
+}
+
+/* Best selling products (compact list) */
+.home-best-selling-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.home-best-selling-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #23272e;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.home-best-selling-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.home-best-selling-rank {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #eaf8e7;
+    color: #023337;
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.home-best-selling-name {
+    flex: 1;
+    font-weight: 600;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.home-best-selling-qty {
+    color: #6a717f;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+/* Best selling product (spotlight) */
+.home-best-selling-spotlight {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.home-best-selling-spotlight-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: #eaf8e7;
+    color: #4ea674;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.home-best-selling-spotlight-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.home-best-selling-spotlight-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #023337;
+}
+
+.home-best-selling-spotlight-metrics {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #6a717f;
+}
+
 .home-placeholder-body p {
     font-size: 14px;
     margin: 0;

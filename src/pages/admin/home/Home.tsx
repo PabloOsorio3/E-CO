@@ -4,7 +4,11 @@ import { useHistory } from "react-router-dom";
 
 import { PageHeader, LoadingSpinner, PlaceholderCard } from "../../../components/shared";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { fetchDashboardStatsThunk } from "../../../store/slices/dashboard.slice";
+import {
+  fetchDashboardStatsThunk,
+  fetchSalesReportThunk,
+  fetchBestSellingProductsThunk,
+} from "../../../store/slices/dashboard.slice";
 import { fetchOrdersThunk } from "../../../store/slices/order.slice";
 import { showInfoAlert } from "../../../alerts/info/info-alert";
 
@@ -12,6 +16,9 @@ import DashboardStatCard from "./components/DashboardStatCard";
 import DashboardPendingCard from "./components/DashboardPendingCard";
 import DashboardTransactionsTable from "./components/DashboardTransactionsTable";
 import DashboardQuickProducts from "./components/DashboardQuickProducts";
+import DashboardSalesReportCard from "./components/DashboardSalesReportCard";
+import DashboardBestSellingList from "./components/DashboardBestSellingList";
+import DashboardBestSellingSpotlight from "./components/DashboardBestSellingSpotlight";
 
 import "../../css/dashboard.css";
 
@@ -25,7 +32,7 @@ const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const { stats, loading } = useAppSelector((state) => state.dashboard);
+  const { stats, salesReport, bestSellingProducts, loading } = useAppSelector((state) => state.dashboard);
   const { items: orders } = useAppSelector((state) => state.order);
   const { items: statuses } = useAppSelector((state) => state.status);
   const { items: categories } = useAppSelector((state) => state.category);
@@ -34,6 +41,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     dispatch(fetchDashboardStatsThunk());
     dispatch(fetchOrdersThunk());
+    dispatch(fetchSalesReportThunk(7));
+    dispatch(fetchBestSellingProductsThunk(5));
   }, [dispatch]);
 
   const pendingCount = orders.filter((o) => {
@@ -78,7 +87,7 @@ const Home: React.FC = () => {
             </div>
 
             <div className="home-content-row">
-              <PlaceholderCard title="Report for this week" />
+              <DashboardSalesReportCard report={salesReport} />
               <PlaceholderCard title="Sales by Country" />
             </div>
 
@@ -89,16 +98,19 @@ const Home: React.FC = () => {
                 onFilter={() => showInfoAlert("Función no disponible todavía")}
                 onDetails={() => history.push("/admin/orders")}
               />
-              <PlaceholderCard title="Best Selling Products" />
+              <DashboardBestSellingList products={bestSellingProducts} />
             </div>
 
             <div className="home-content-row">
-              <PlaceholderCard title="Best Selling Product" />
+              <DashboardBestSellingSpotlight
+                product={bestSellingProducts[0] ?? null}
+                onDetails={() => history.push("/admin/products")}
+              />
               <DashboardQuickProducts
                 categories={categories}
                 products={activeProducts}
                 onAddNew={() => history.push("/admin/products")}
-                onSeeMoreCategories={() => history.push("/admin/settings-category")}
+                onSeeMoreCategories={() => history.push("/admin/settings/category")}
                 onSeeMoreProducts={() => history.push("/admin/products")}
                 onAddProduct={() => showInfoAlert("Función no disponible todavía")}
               />
