@@ -7,16 +7,17 @@ import {
     updateCustomerThunk,
 } from '../../../store/slices/customer.slice';
 import { fetchAllUsersThunk } from '../../../store/slices/user.slice';
+import { fetchOrdersThunk } from '../../../store/slices/order.slice';
 import type { CustomerCreate, CustomerResponse, CustomerUpdate } from '../../../interface/customer.interface';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
 import { showInfoAlert } from '../../../alerts/info/info-alert';
 import CustomerTopBar from './components/CustomerTopBar';
 import CustomerKpiCards from './components/CustomerKpiCards';
+import CustomerOverview from './components/CustomerOverview';
 import CustomerTable from './components/CustomerTable';
 import CustomerProfileSidebar from './components/CustomerProfileSidebar';
 import CustomerModal from './CustomerModal';
-import { PlaceholderCard } from '../../../components/shared';
 import '../../css/customer.css';
 
 const PAGE_SIZE = 10;
@@ -47,6 +48,7 @@ const Customer: React.FC = () => {
             }
         };
         loadCustomers();
+        dispatch(fetchOrdersThunk());
     }, [dispatch]);
 
     const filteredCustomers = useMemo(() => {
@@ -155,7 +157,7 @@ const Customer: React.FC = () => {
                         <div className="dashboard-left-column">
                             <CustomerKpiCards total={kpis.total} active={kpis.active} inactive={kpis.inactive} />
 
-                            <PlaceholderCard title="Customer Overview" />
+                            <CustomerOverview />
 
                             <CustomerTable
                                 loading={loading}

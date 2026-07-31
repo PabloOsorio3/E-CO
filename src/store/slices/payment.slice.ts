@@ -3,19 +3,35 @@ import { getPaymentMethod } from '../../api/admin/get/get_pyment_method.ts';
 import { postPaymentMethod } from '../../api/admin/post/post_pyment_method.ts';
 import { updatePaymentMethod } from '../../api/admin/put/put_pyment_method.ts';
 import { deletePaymentMethod } from '../../api/admin/delete/delete_pyment_method.ts';
-import type { PaymentMethodResponse, PaymentMethodCreate, PaymentMethodUpdate } from '../../interface/payment.interface';
+import { getAllPayments } from '../../api/admin/get/get_all_payments';
+import type { PaymentMethodResponse, PaymentMethodCreate, PaymentMethodUpdate, PaymentResponse } from '../../interface/payment.interface';
 
 interface PaymentState {
     items: PaymentMethodResponse[];
+    payments: PaymentResponse[];
+    paymentsLoading: boolean;
     loading: boolean;
     error: string | null;
 }
 
 const initialState: PaymentState = {
     items: [],
+    payments: [],
+    paymentsLoading: false,
     loading: false,
     error: null,
 };
+
+export const fetchPaymentsThunk = createAsyncThunk(
+    'payments/fetchTransactions',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await getAllPayments();
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.detail || 'Error al cargar las transacciones');
+        }
+    }
+);
 
 export const fetchPaymentMethods = createAsyncThunk(
     'payments/fetchAll',
@@ -120,6 +136,19 @@ const paymentSlice = createSlice({
             })
             .addCase(deletePaymentMethodThunk.rejected, (state, action) => {
                 state.loading = false;
+                state.error = action.payload as string;
+            })
+            // Transactions (payments)
+            .addCase(fetchPaymentsThunk.pending, (state) => {
+                state.paymentsLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchPaymentsThunk.fulfilled, (state, action: PayloadAction<PaymentResponse[]>) => {
+                state.paymentsLoading = false;
+                state.payments = action.payload;
+            })
+            .addCase(fetchPaymentsThunk.rejected, (state, action) => {
+                state.paymentsLoading = false;
                 state.error = action.payload as string;
             });
     },
