@@ -6,3 +6,15 @@ export interface DashboardStatsResponse {
     products_count: number;
     customers_count: number;
 }
+
+export interface SalesReportItem {
+    date: string;
+    total: number;
+}
+
+export interface BestSellingProductItem {
+    id_product: number;
+    name: string;
+    quantity_sold: number;
+    revenue: number;
+}
