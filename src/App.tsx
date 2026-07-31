@@ -90,7 +90,7 @@ const App: React.FC = () => {
             <Signup />
           </Route>
 
-          <ProtectedRoute path="/admin" component={AdminLayout} />
+          <ProtectedRoute path="/admin" component={AdminLayout} allowedRoles={['1']} />
           <ProtectedRoute path="/store" component={StoreLayout} allowedRoles={['2']} />
         </IonRouterOutlet>
       </IonReactRouter>
