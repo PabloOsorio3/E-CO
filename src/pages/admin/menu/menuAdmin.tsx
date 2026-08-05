@@ -27,7 +27,8 @@ import {
     personCircleOutline,
     settingsOutline,
     logOutOutline,
-    openOutline
+    openOutline,
+    pricetagsOutline,
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -52,6 +53,7 @@ const menuSections: MenuSection[] = [
             { title: 'Categories', url: '/admin/settings/category', icon: cubeOutline },
             { title: 'Transaction', url: '/admin/transaction', icon: cardOutline },
             { title: 'Brand', url: '/admin/settings/brand', icon: starOutline },
+            { title: 'Promotions', url: '/admin/promotions', icon: pricetagsOutline },
         ]
     },
     {
@@ -66,7 +68,6 @@ const menuSections: MenuSection[] = [
         title: 'Admin',
         pages: [
             { title: 'Admin role', url: '/admin/profile', icon: personOutline },
-            { title: 'Control Authority', url: '/admin/settings', icon: settingsOutline },
         ]
     }
 ];

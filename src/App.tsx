@@ -30,6 +30,7 @@ import './pages/css/app.css';
 import { useAppInit } from './hooks/useAppInit';
 import Setting from './pages/admin/settings/Setting.tsx';
 import Transaction from './pages/admin/transaction/Transaction.tsx';
+import Promotions from './pages/admin/promotions/Promotions.tsx';
 import Signup from './pages/signup/Signup.tsx';
 import Customer from './pages/admin/customer/Customer.tsx';
 import Profile from './pages/admin/profile/Profile.tsx';
@@ -64,6 +65,9 @@ const AdminLayout: React.FC = () => (
       </Route>
       <Route exact path="/admin/transaction">
         <Transaction />
+      </Route>
+      <Route exact path="/admin/promotions">
+        <Promotions />
       </Route>
       <Route path="/admin/customers">
         <Customer />
