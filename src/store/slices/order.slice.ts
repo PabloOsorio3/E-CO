@@ -1,16 +1,21 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import { getOrders } from '../../api/admin/get/get_orders';
 import { updateOrderStatus } from '../../api/admin/put/put_order';
+import { getMyOrders } from '../../api/store/get_my_orders';
 import type { OrderResponse, OrderStatusUpdate } from '../../interface/order.interface';
 
 interface OrderState {
     items: OrderResponse[];
+    myOrders: OrderResponse[];
+    myOrdersLoading: boolean;
     loading: boolean;
     error: string | null;
 }
 
 const initialState: OrderState = {
     items: [],
+    myOrders: [],
+    myOrdersLoading: false,
     loading: false,
     error: null,
 };
@@ -22,6 +27,17 @@ export const fetchOrdersThunk = createAsyncThunk(
             return await getOrders();
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.detail || 'Error al cargar órdenes');
+        }
+    }
+);
+
+export const fetchMyOrdersThunk = createAsyncThunk(
+    'orders/fetchMine',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await getMyOrders();
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.detail || 'Error al cargar tus pedidos');
         }
     }
 );
@@ -74,6 +90,19 @@ const orderSlice = createSlice({
             })
             .addCase(updateOrderStatusThunk.rejected, (state, action) => {
                 state.loading = false;
+                state.error = action.payload as string;
+            })
+            // My orders (customer storefront)
+            .addCase(fetchMyOrdersThunk.pending, (state) => {
+                state.myOrdersLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchMyOrdersThunk.fulfilled, (state, action: PayloadAction<OrderResponse[]>) => {
+                state.myOrdersLoading = false;
+                state.myOrders = action.payload;
+            })
+            .addCase(fetchMyOrdersThunk.rejected, (state, action) => {
+                state.myOrdersLoading = false;
                 state.error = action.payload as string;
             });
     },

@@ -10,6 +10,7 @@ import Catalog from './catalog/Catalog';
 import ProductDetail from './product/ProductDetail';
 import Cart from './cart/Cart';
 import Wishlist from './wishlist/Wishlist';
+import OrderHistory from './orders/OrderHistory';
 import './store.css';
 
 const StoreLayout: React.FC = () => {
@@ -48,6 +49,12 @@ const StoreLayout: React.FC = () => {
                         >
                             Catálogo
                         </button>
+                        <button
+                            className={`store-nav-link ${location.pathname === '/store/orders' ? 'active' : ''}`}
+                            onClick={() => history.push('/store/orders')}
+                        >
+                            Mis Pedidos
+                        </button>
                     </nav>
 
                     <div className="store-header-actions">
@@ -78,6 +85,9 @@ const StoreLayout: React.FC = () => {
                 </Route>
                 <Route exact path="/store/wishlist">
                     <Wishlist />
+                </Route>
+                <Route exact path="/store/orders">
+                    <OrderHistory />
                 </Route>
             </IonRouterOutlet>
         </div>
