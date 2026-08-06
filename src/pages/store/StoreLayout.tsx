@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { IonRouterOutlet, IonIcon } from '@ionic/react';
 import { Route, useHistory, useLocation } from 'react-router-dom';
-import { cartOutline, heartOutline, logOutOutline, storefrontOutline } from 'ionicons/icons';
+import { cartOutline, heartOutline, logOutOutline, personCircleOutline, storefrontOutline } from 'ionicons/icons';
 import { clearSession } from '../../core/current_user';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchCartThunk } from '../../store/slices/cart.slice';
@@ -11,6 +11,7 @@ import ProductDetail from './product/ProductDetail';
 import Cart from './cart/Cart';
 import Wishlist from './wishlist/Wishlist';
 import OrderHistory from './orders/OrderHistory';
+import Account from './account/Account';
 import './store.css';
 
 const StoreLayout: React.FC = () => {
@@ -66,6 +67,9 @@ const StoreLayout: React.FC = () => {
                             <IonIcon icon={cartOutline} />
                             {cartCount > 0 && <span className="store-cart-badge">{cartCount}</span>}
                         </button>
+                        <button className="store-cart-btn" onClick={() => history.push('/store/account')} title="Mi cuenta">
+                            <IonIcon icon={personCircleOutline} />
+                        </button>
                         <button className="store-logout-btn" onClick={handleLogout} title="Cerrar sesión">
                             <IonIcon icon={logOutOutline} />
                         </button>
@@ -88,6 +92,9 @@ const StoreLayout: React.FC = () => {
                 </Route>
                 <Route exact path="/store/orders">
                     <OrderHistory />
+                </Route>
+                <Route exact path="/store/account">
+                    <Account />
                 </Route>
             </IonRouterOutlet>
         </div>
