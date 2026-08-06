@@ -12,6 +12,7 @@ import { STATIC_BASE_URL } from '../../../api/instance/instance';
 import { SearchBar, LoadingSpinner, EmptyState } from '../../../components/shared';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
+import PromotionsBanner from './PromotionsBanner';
 import type { ProductResponse } from '../../../interface/product.interface';
 
 const ProductCard: React.FC<{ product: ProductResponse; brandName: string; onOpen: () => void }> = ({ product, brandName, onOpen }) => {
@@ -118,6 +119,7 @@ const Catalog: React.FC = () => {
 
     return (
         <div className="store-page">
+            <PromotionsBanner />
             <div className="store-page-header">
                 <h1>Catálogo</h1>
                 <SearchBar
