@@ -10,14 +10,12 @@ import {
 import { PageHeader } from '../../../components/shared';
 import { getCurrentUser } from '../../../core/current_user';
 import { changePasswordApi } from '../../../api/admin/put/put_change_password';
+import { recoverPasswordApi } from '../../../api/admin/post/post_recover_password';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchMyDataThunk, updateMyDataThunk } from '../../../store/slices/dataUser.slice';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
-import { showInfoAlert } from '../../../alerts/info/info-alert';
 import '../../css/profile.css';
-
-const notAvailable = () => showInfoAlert('Función no disponible todavía');
 
 const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +30,7 @@ const Profile: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [savingPassword, setSavingPassword] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
 
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [phoneInput, setPhoneInput] = useState('');
@@ -63,8 +62,17 @@ const Profile: React.FC = () => {
     showSuccessAlert('Correo copiado al portapapeles');
   };
 
+  const handleToggleForgotMode = () => {
+    if (!forgotMode) setCurrentPassword('');
+    setForgotMode(!forgotMode);
+  };
+
   const handleChangePassword = async () => {
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    if (!forgotMode && !currentPassword) {
+      showErrorAlert('Completa los tres campos de contraseña');
+      return;
+    }
+    if (!newPassword || !confirmPassword) {
       showErrorAlert('Completa los tres campos de contraseña');
       return;
     }
@@ -74,16 +82,41 @@ const Profile: React.FC = () => {
     }
     setSavingPassword(true);
     try {
-      await changePasswordApi({ current_password: currentPassword, new_password: newPassword });
+      if (forgotMode) {
+        await recoverPasswordApi({ password: newPassword });
+      } else {
+        await changePasswordApi({ current_password: currentPassword, new_password: newPassword });
+      }
       showSuccessAlert('Contraseña actualizada exitosamente');
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
+      setForgotMode(false);
     } catch (error: any) {
       showErrorAlert(error.response?.data?.detail || 'Error al cambiar la contraseña');
     } finally {
       setSavingPassword(false);
     }
+  };
+
+  const handleShareProfile = async () => {
+    const shareText = [fullName, email].filter(Boolean).join(' — ');
+    if (!shareText) {
+      showErrorAlert('No hay datos de perfil para compartir');
+      return;
+    }
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Perfil E-CO', text: shareText });
+      } catch (error: any) {
+        if (error?.name !== 'AbortError') {
+          showErrorAlert('No se pudo compartir el perfil');
+        }
+      }
+      return;
+    }
+    await navigator.clipboard.writeText(shareText);
+    showSuccessAlert('Datos del perfil copiados al portapapeles');
   };
 
   return (
@@ -95,10 +128,10 @@ const Profile: React.FC = () => {
             {/* Profile summary card */}
             <div className="profile-page-card">
               <div className="profile-page-card-actions">
-                <button className="profile-icon-btn" title="Editar" onClick={notAvailable}>
+                <button className="profile-icon-btn" title="Editar" onClick={handleStartEdit}>
                   <IonIcon icon={createOutline} />
                 </button>
-                <button className="profile-icon-btn" title="Compartir" onClick={notAvailable}>
+                <button className="profile-icon-btn" title="Compartir" onClick={handleShareProfile}>
                   <IonIcon icon={shareSocialOutline} />
                 </button>
               </div>
@@ -128,16 +161,17 @@ const Profile: React.FC = () => {
                 <div className="profile-field-input">
                   <input
                     type="password"
-                    placeholder="Enter password"
+                    placeholder={forgotMode ? 'No es necesaria' : 'Enter password'}
                     value={currentPassword}
+                    disabled={forgotMode}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                   />
                   <IonIcon icon={eyeOffOutline} />
                 </div>
               </div>
 
-              <p className="profile-field-hint" onClick={notAvailable} style={{ cursor: 'pointer' }}>
-                Forgot Current Password? Click here
+              <p className="profile-field-hint" onClick={handleToggleForgotMode} style={{ cursor: 'pointer' }}>
+                {forgotMode ? 'Sí recuerdo mi contraseña actual' : 'Forgot Current Password? Click here'}
               </p>
 
               <div className="profile-field">
