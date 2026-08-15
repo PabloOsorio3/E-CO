@@ -4,6 +4,12 @@ import { chatboxEllipsesOutline, createOutline, addOutline, chevronBackOutline, 
 import type { CustomerResponse } from '../../../../interface/customer.interface';
 import StatusBadge from '../../../../components/shared/StatusBadge';
 
+const currencyFormatter = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0,
+});
+
 interface CustomerTableProps {
     loading: boolean;
     pageCustomers: CustomerResponse[];
@@ -47,6 +53,8 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Teléfono</th>
+                            <th>Pedidos</th>
+                            <th>Total Gastado</th>
                             <th>Estado</th>
                             <th>Acción</th>
                         </tr>
@@ -54,13 +62,13 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan={6} style={{ textAlign: 'center', padding: '40px' }}>
+                                <td colSpan={8} style={{ textAlign: 'center', padding: '40px' }}>
                                     Cargando clientes...
                                 </td>
                             </tr>
                         ) : pageCustomers.length === 0 ? (
                             <tr>
-                                <td colSpan={6} style={{ textAlign: 'center', padding: '40px' }}>
+                                <td colSpan={8} style={{ textAlign: 'center', padding: '40px' }}>
                                     No se encontraron clientes.
                                 </td>
                             </tr>
@@ -77,6 +85,8 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                                         <td className="cust-name-col">{displayName}</td>
                                         <td>{cust.email ?? '—'}</td>
                                         <td>{cust.phone ?? '—'}</td>
+                                        <td>{cust.order_count ?? 0}</td>
+                                        <td>{currencyFormatter.format(cust.total_spend ?? 0)}</td>
                                         <td>
                                             <StatusBadge statusId={cust.status_id} />
                                         </td>

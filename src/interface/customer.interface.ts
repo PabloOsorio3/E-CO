@@ -7,6 +7,8 @@ export interface CustomerResponse {
     email?: string;
     phone?: string;
     address?: string;
+    order_count?: number;
+    total_spend?: number;
 }
 
 export interface CustomerCreate {
