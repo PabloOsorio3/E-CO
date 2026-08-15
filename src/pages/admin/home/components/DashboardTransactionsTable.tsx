@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import type { OrderResponse } from '../../../../interface/order.interface';
 import type { StatusResponse } from '../../../../interface/status.interface';
 
 interface DashboardTransactionsTableProps {
   orders: OrderResponse[];
   statuses: StatusResponse[];
-  onFilter: () => void;
   onDetails: () => void;
 }
 
@@ -33,10 +32,17 @@ const statusVisual = (name: string | undefined) => {
 const DashboardTransactionsTable: React.FC<DashboardTransactionsTableProps> = ({
   orders,
   statuses,
-  onFilter,
   onDetails,
 }) => {
+  const [statusFilter, setStatusFilter] = useState<number | 'all'>('all');
+
+  const usedStatuses = useMemo(() => {
+    const ids = new Set(orders.map((o) => o.status_id));
+    return statuses.filter((s) => ids.has(s.id_status));
+  }, [orders, statuses]);
+
   const rows = [...orders]
+    .filter((o) => statusFilter === 'all' || o.status_id === statusFilter)
     .sort((a, b) => new Date(b.order_date).getTime() - new Date(a.order_date).getTime())
     .slice(0, 5);
 
@@ -44,11 +50,22 @@ const DashboardTransactionsTable: React.FC<DashboardTransactionsTableProps> = ({
     <div className="home-card home-transactions-card">
       <div className="home-card-title-row">
         <h2>Transaction</h2>
-        <button className="home-filter-btn" onClick={onFilter}>Filter</button>
+        <select
+          className="home-filter-select"
+          value={statusFilter === 'all' ? 'all' : String(statusFilter)}
+          onChange={(e) => setStatusFilter(e.target.value === 'all' ? 'all' : Number(e.target.value))}
+        >
+          <option value="all">Todos</option>
+          {usedStatuses.map((s) => (
+            <option key={s.id_status} value={s.id_status}>{s.name}</option>
+          ))}
+        </select>
       </div>
 
       {rows.length === 0 ? (
-        <p className="home-empty-hint">Aún no hay órdenes registradas.</p>
+        <p className="home-empty-hint">
+          {statusFilter === 'all' ? 'Aún no hay órdenes registradas.' : 'No hay órdenes con ese estado.'}
+        </p>
       ) : (
         <div className="home-transactions-table">
           <div className="home-transactions-row home-transactions-head">
