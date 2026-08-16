@@ -86,6 +86,36 @@
     background: #f9fafb;
 }
 
+.store-guest-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #023337;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 0 14px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.store-guest-btn:hover {
+    background: #f9fafb;
+}
+
+.store-guest-btn.primary {
+    background: #4ea674;
+    border-color: #4ea674;
+    color: #ffffff;
+}
+
+.store-guest-btn.primary:hover {
+    background: #439461;
+}
+
 .store-cart-badge {
     position: absolute;
     top: -6px;

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { IonIcon } from '@ionic/react';
+import { useHistory } from 'react-router-dom';
 import { cartOutline, heart, heartOutline, imageOutline } from 'ionicons/icons';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchImagesThunk } from '../../../store/slices/image.slice';
 import { addToCartThunk } from '../../../store/slices/cart.slice';
 import { addToWishlistThunk, removeFromWishlistThunk } from '../../../store/slices/wishlist.slice';
 import { STATIC_BASE_URL } from '../../../api/instance/instance';
+import { requireCustomerAuth } from '../../../core/require_auth';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
 import type { ProductResponse } from '../../../interface/product.interface';
@@ -19,6 +21,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, brandName, onOpen, badge }) => {
     const dispatch = useAppDispatch();
+    const history = useHistory();
     const { items: images } = useAppSelector((state) => state.images);
     const { items: wishlist } = useAppSelector((state) => state.wishlist);
 
@@ -36,6 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, brandName, onOpen, b
 
     const handleAddToCart = async (e: React.MouseEvent) => {
         e.stopPropagation();
+        if (!requireCustomerAuth(() => history.push('/'))) return;
         try {
             await dispatch(addToCartThunk({ product_id: product.id_product, quantity: 1 })).unwrap();
             showSuccessAlert('Producto agregado al carrito');
@@ -46,6 +50,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, brandName, onOpen, b
 
     const handleToggleWishlist = async (e: React.MouseEvent) => {
         e.stopPropagation();
+        if (!requireCustomerAuth(() => history.push('/'))) return;
         try {
             if (wishlistEntry) {
                 await dispatch(removeFromWishlistThunk(wishlistEntry.id_wish_list)).unwrap();

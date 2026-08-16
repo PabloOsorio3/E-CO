@@ -1,11 +1,20 @@
 import React, { useEffect } from 'react';
 import { IonRouterOutlet, IonIcon } from '@ionic/react';
 import { Route, Redirect, useHistory, useLocation } from 'react-router-dom';
-import { cartOutline, heartOutline, logOutOutline, personCircleOutline, storefrontOutline } from 'ionicons/icons';
-import { clearSession } from '../../core/current_user';
+import {
+    cartOutline,
+    heartOutline,
+    logInOutline,
+    logOutOutline,
+    personAddOutline,
+    personCircleOutline,
+    storefrontOutline,
+} from 'ionicons/icons';
+import { clearSession, getCurrentToken } from '../../core/current_user';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchCartThunk } from '../../store/slices/cart.slice';
 import { fetchWishlistThunk } from '../../store/slices/wishlist.slice';
+import ProtectedRoute from '../../components/auth/ProtectedRoute';
 import Landing from './landing/Landing';
 import Catalog from './catalog/Catalog';
 import ProductDetail from './product/ProductDetail';
@@ -19,16 +28,18 @@ const StoreLayout: React.FC = () => {
     const dispatch = useAppDispatch();
     const history = useHistory();
     const location = useLocation();
+    const isLoggedIn = !!getCurrentToken();
     const { items: cartItems } = useAppSelector((state) => state.cart);
     const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
 
-    const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    const wishlistCount = wishlistItems.length;
+    const cartCount = isLoggedIn ? cartItems.reduce((sum, item) => sum + item.quantity, 0) : 0;
+    const wishlistCount = isLoggedIn ? wishlistItems.length : 0;
 
     useEffect(() => {
+        if (!isLoggedIn) return;
         dispatch(fetchCartThunk());
         dispatch(fetchWishlistThunk());
-    }, [dispatch]);
+    }, [dispatch, isLoggedIn]);
 
     const handleLogout = () => {
         clearSession();
@@ -57,29 +68,46 @@ const StoreLayout: React.FC = () => {
                         >
                             Catálogo
                         </button>
-                        <button
-                            className={`store-nav-link ${location.pathname === '/store/orders' ? 'active' : ''}`}
-                            onClick={() => history.push('/store/orders')}
-                        >
-                            Mis Pedidos
-                        </button>
+                        {isLoggedIn && (
+                            <button
+                                className={`store-nav-link ${location.pathname === '/store/orders' ? 'active' : ''}`}
+                                onClick={() => history.push('/store/orders')}
+                            >
+                                Mis Pedidos
+                            </button>
+                        )}
                     </nav>
 
                     <div className="store-header-actions">
-                        <button className="store-cart-btn" onClick={() => history.push('/store/wishlist')} title="Lista de deseos">
-                            <IonIcon icon={heartOutline} />
-                            {wishlistCount > 0 && <span className="store-cart-badge">{wishlistCount}</span>}
-                        </button>
-                        <button className="store-cart-btn" onClick={() => history.push('/store/cart')}>
-                            <IonIcon icon={cartOutline} />
-                            {cartCount > 0 && <span className="store-cart-badge">{cartCount}</span>}
-                        </button>
-                        <button className="store-cart-btn" onClick={() => history.push('/store/account')} title="Mi cuenta">
-                            <IonIcon icon={personCircleOutline} />
-                        </button>
-                        <button className="store-logout-btn" onClick={handleLogout} title="Cerrar sesión">
-                            <IonIcon icon={logOutOutline} />
-                        </button>
+                        {isLoggedIn ? (
+                            <>
+                                <button className="store-cart-btn" onClick={() => history.push('/store/wishlist')} title="Lista de deseos">
+                                    <IonIcon icon={heartOutline} />
+                                    {wishlistCount > 0 && <span className="store-cart-badge">{wishlistCount}</span>}
+                                </button>
+                                <button className="store-cart-btn" onClick={() => history.push('/store/cart')}>
+                                    <IonIcon icon={cartOutline} />
+                                    {cartCount > 0 && <span className="store-cart-badge">{cartCount}</span>}
+                                </button>
+                                <button className="store-cart-btn" onClick={() => history.push('/store/account')} title="Mi cuenta">
+                                    <IonIcon icon={personCircleOutline} />
+                                </button>
+                                <button className="store-logout-btn" onClick={handleLogout} title="Cerrar sesión">
+                                    <IonIcon icon={logOutOutline} />
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button className="store-guest-btn" onClick={() => history.push('/')}>
+                                    <IonIcon icon={logInOutline} />
+                                    Iniciar sesión
+                                </button>
+                                <button className="store-guest-btn primary" onClick={() => history.push('/signup')}>
+                                    <IonIcon icon={personAddOutline} />
+                                    Crear cuenta
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
             </header>
@@ -97,18 +125,10 @@ const StoreLayout: React.FC = () => {
                 <Route exact path="/store/product/:id">
                     <ProductDetail />
                 </Route>
-                <Route exact path="/store/cart">
-                    <Cart />
-                </Route>
-                <Route exact path="/store/wishlist">
-                    <Wishlist />
-                </Route>
-                <Route exact path="/store/orders">
-                    <OrderHistory />
-                </Route>
-                <Route exact path="/store/account">
-                    <Account />
-                </Route>
+                <ProtectedRoute exact path="/store/cart" component={Cart} allowedRoles={['2']} />
+                <ProtectedRoute exact path="/store/wishlist" component={Wishlist} allowedRoles={['2']} />
+                <ProtectedRoute exact path="/store/orders" component={OrderHistory} allowedRoles={['2']} />
+                <ProtectedRoute exact path="/store/account" component={Account} allowedRoles={['2']} />
             </IonRouterOutlet>
 
             <footer className="store-footer">

@@ -10,6 +10,7 @@ import { fetchImagesThunk } from '../../../store/slices/image.slice';
 import { addToCartThunk } from '../../../store/slices/cart.slice';
 import { addToWishlistThunk, removeFromWishlistThunk } from '../../../store/slices/wishlist.slice';
 import { STATIC_BASE_URL } from '../../../api/instance/instance';
+import { requireCustomerAuth } from '../../../core/require_auth';
 import { LoadingSpinner, EmptyState } from '../../../components/shared';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
@@ -59,6 +60,7 @@ const ProductDetail: React.FC = () => {
 
     const handleAddToCart = async () => {
         if (!product) return;
+        if (!requireCustomerAuth(() => history.push('/'))) return;
         try {
             await dispatch(addToCartThunk({ product_id: product.id_product, quantity })).unwrap();
             showSuccessAlert('Producto agregado al carrito');
@@ -69,6 +71,7 @@ const ProductDetail: React.FC = () => {
 
     const handleToggleWishlist = async () => {
         if (!product) return;
+        if (!requireCustomerAuth(() => history.push('/'))) return;
         try {
             if (wishlistEntry) {
                 await dispatch(removeFromWishlistThunk(wishlistEntry.id_wish_list)).unwrap();

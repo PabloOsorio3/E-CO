@@ -95,7 +95,9 @@ const App: React.FC = () => {
           </Route>
 
           <ProtectedRoute path="/admin" component={AdminLayout} allowedRoles={['1']} />
-          <ProtectedRoute path="/store" component={StoreLayout} allowedRoles={['2']} />
+          {/* /store is public browsing (landing, catalog, product detail); StoreLayout
+              gates cart/wishlist/orders/account behind login internally. */}
+          <Route path="/store" component={StoreLayout} />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
