@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { IonIcon } from '@ionic/react';
-import { arrowBackOutline, cartOutline, heartOutline, imageOutline, trashOutline } from 'ionicons/icons';
+import { cartOutline, heartOutline, imageOutline, trashOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchWishlistThunk, removeFromWishlistThunk } from '../../../store/slices/wishlist.slice';
 import { addToCartThunk } from '../../../store/slices/cart.slice';
 import { LoadingSpinner, EmptyState } from '../../../components/shared';
+import StorePageHeader from '../components/StorePageHeader';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
 
@@ -48,12 +49,7 @@ const Wishlist: React.FC = () => {
 
     return (
         <div className="store-page">
-            <button className="store-back-link" onClick={() => history.push('/store/catalog')}>
-                <IonIcon icon={arrowBackOutline} />
-                Seguir comprando
-            </button>
-
-            <h1>Tu Lista de Deseos</h1>
+            <StorePageHeader title="Tu Lista de Deseos" backTo="/store/catalog" backLabel="Seguir comprando" />
 
             {items.length === 0 ? (
                 <EmptyState

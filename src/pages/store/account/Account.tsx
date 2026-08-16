@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { IonIcon } from '@ionic/react';
-import { arrowBackOutline, createOutline, personCircleOutline } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
+import { createOutline, personCircleOutline } from 'ionicons/icons';
 import { getCurrentUser } from '../../../core/current_user';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchMyDataThunk, updateMyDataThunk } from '../../../store/slices/dataUser.slice';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
+import StorePageHeader from '../components/StorePageHeader';
 
 const Account: React.FC = () => {
     const dispatch = useAppDispatch();
-    const history = useHistory();
     const currentUser = getCurrentUser();
     const email = currentUser?.email ?? '';
     const fullName = currentUser?.full_name ?? '';
@@ -43,12 +42,7 @@ const Account: React.FC = () => {
 
     return (
         <div className="store-page">
-            <button className="store-back-link" onClick={() => history.push('/store/catalog')}>
-                <IonIcon icon={arrowBackOutline} />
-                Seguir comprando
-            </button>
-
-            <h1>Mi Cuenta</h1>
+            <StorePageHeader title="Mi Cuenta" backTo="/store/catalog" backLabel="Seguir comprando" />
 
             <div className="store-account-card">
                 <div className="store-account-header">

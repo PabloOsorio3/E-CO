@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IonIcon } from '@ionic/react';
-import { addOutline, arrowBackOutline, cartOutline, heart, heartOutline, imageOutline, removeOutline } from 'ionicons/icons';
+import { addOutline, cartOutline, heart, heartOutline, imageOutline, removeOutline } from 'ionicons/icons';
 import { useHistory, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchProducts } from '../../../store/slices/product.slice';
@@ -12,6 +12,7 @@ import { addToWishlistThunk, removeFromWishlistThunk } from '../../../store/slic
 import { STATIC_BASE_URL } from '../../../api/instance/instance';
 import { requireCustomerAuth } from '../../../core/require_auth';
 import { LoadingSpinner, EmptyState } from '../../../components/shared';
+import StorePageHeader from '../components/StorePageHeader';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
 
@@ -101,10 +102,7 @@ const ProductDetail: React.FC = () => {
 
     return (
         <div className="store-page">
-            <button className="store-back-link" onClick={() => history.push('/store/catalog')}>
-                <IonIcon icon={arrowBackOutline} />
-                Volver al catálogo
-            </button>
+            <StorePageHeader backTo="/store/catalog" backLabel="Volver al catálogo" />
 
             <div className="store-product-detail">
                 <div className="store-detail-gallery">
