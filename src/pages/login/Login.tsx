@@ -10,6 +10,7 @@ import {
     IonCol
 } from '@ionic/react';
 import { lockClosedOutline, mailOutline, storefrontOutline } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
 import { loginApi as apiLogin } from '../../api/login/login.api';
 
 import '../css/login.css';
@@ -17,6 +18,7 @@ import '../css/login.css';
 import { showErrorAlert } from '../../alerts/error/error-alert';
 
 const Login: React.FC = () => {
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -85,6 +87,12 @@ const Login: React.FC = () => {
                         </IonButton>
                     </IonRow>
                 </form>
+
+                <IonRow className="forgot-password">
+                    <IonButton fill="clear" onClick={() => history.push('/store/home')}>
+                        Explorar como invitado
+                    </IonButton>
+                </IonRow>
             </IonGrid>
         </IonPage>
     );

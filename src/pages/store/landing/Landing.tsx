@@ -9,6 +9,7 @@ import {
     arrowForwardOutline,
 } from 'ionicons/icons';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { getCurrentToken } from '../../../core/current_user';
 import { fetchProducts } from '../../../store/slices/product.slice';
 import { fetchBrands } from '../../../store/slices/brand.slice';
 import { fetchCategory } from '../../../store/slices/category.slice';
@@ -45,10 +46,14 @@ const Landing: React.FC = () => {
         if (brands.length === 0) dispatch(fetchBrands());
         if (categories.length === 0) dispatch(fetchCategory());
         dispatch(fetchPromotions());
-        getBestSellingProducts(8)
-            .then(setBestSelling)
-            .catch(() => setBestSelling([]))
-            .finally(() => setBestSellingLoading(false));
+        if (getCurrentToken()) {
+            getBestSellingProducts(8)
+                .then(setBestSelling)
+                .catch(() => setBestSelling([]))
+                .finally(() => setBestSellingLoading(false));
+        } else {
+            setBestSellingLoading(false);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
