@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { IonRouterOutlet, IonIcon } from '@ionic/react';
+import { IonIcon } from '@ionic/react';
 import { Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import {
     cartOutline,
@@ -112,7 +112,7 @@ const StoreLayout: React.FC = () => {
                 </div>
             </header>
 
-            <IonRouterOutlet animated={false}>
+            <div className="store-router-outlet">
                 <Route exact path="/store">
                     <Redirect to="/store/home" />
                 </Route>
@@ -129,7 +129,7 @@ const StoreLayout: React.FC = () => {
                 <ProtectedRoute exact path="/store/wishlist" component={Wishlist} allowedRoles={['2']} />
                 <ProtectedRoute exact path="/store/orders" component={OrderHistory} allowedRoles={['2']} />
                 <ProtectedRoute exact path="/store/account" component={Account} allowedRoles={['2']} />
-            </IonRouterOutlet>
+            </div>
 
             <footer className="store-footer">
                 <div className="store-footer-inner">
