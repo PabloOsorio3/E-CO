@@ -7,6 +7,7 @@ import { fetchCategory } from '../../../store/slices/category.slice';
 import { SearchBar, LoadingSpinner, EmptyState } from '../../../components/shared';
 import PromotionsBanner from './PromotionsBanner';
 import ProductCard from '../components/ProductCard';
+import StorePageHeader from '../components/StorePageHeader';
 
 const Catalog: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -60,14 +61,16 @@ const Catalog: React.FC = () => {
     return (
         <div className="store-page">
             <PromotionsBanner />
-            <div className="store-page-header">
-                <h1>{activeCategoryName ?? 'Catálogo'}</h1>
-                <SearchBar
-                    value={searchTerm}
-                    onSearch={setSearchTerm}
-                    placeholder="Buscar por nombre, marca..."
-                />
-            </div>
+            <StorePageHeader
+                title={activeCategoryName ?? 'Catálogo'}
+                action={
+                    <SearchBar
+                        value={searchTerm}
+                        onSearch={setSearchTerm}
+                        placeholder="Buscar por nombre, marca..."
+                    />
+                }
+            />
             {categoryId && (
                 <button className="store-clear-filter-btn" onClick={() => history.push('/store/catalog')}>
                     Quitar filtro de categoría

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { IonIcon } from '@ionic/react';
-import { addOutline, arrowBackOutline, cartOutline, imageOutline, removeOutline, trashOutline } from 'ionicons/icons';
+import { addOutline, cartOutline, imageOutline, removeOutline, trashOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
@@ -13,6 +13,7 @@ import {
     createCheckoutSessionThunk,
 } from '../../../store/slices/cart.slice';
 import { LoadingSpinner, EmptyState, ConfirmModal } from '../../../components/shared';
+import StorePageHeader from '../components/StorePageHeader';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
 
@@ -103,12 +104,7 @@ const Cart: React.FC = () => {
 
     return (
         <div className="store-page">
-            <button className="store-back-link" onClick={() => history.push('/store/catalog')}>
-                <IonIcon icon={arrowBackOutline} />
-                Seguir comprando
-            </button>
-
-            <h1>Tu Carrito</h1>
+            <StorePageHeader title="Tu Carrito" backTo="/store/catalog" backLabel="Seguir comprando" />
 
             {items.length === 0 ? (
                 <EmptyState

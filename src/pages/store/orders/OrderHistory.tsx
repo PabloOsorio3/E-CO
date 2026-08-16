@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { IonIcon } from '@ionic/react';
-import { arrowBackOutline, receiptOutline } from 'ionicons/icons';
+import { receiptOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchMyOrdersThunk } from '../../../store/slices/order.slice';
 import { LoadingSpinner, EmptyState, StatusBadge } from '../../../components/shared';
+import StorePageHeader from '../components/StorePageHeader';
 
 const currencyFormatter = new Intl.NumberFormat('es-CO', {
     style: 'currency',
@@ -39,12 +39,7 @@ const OrderHistory: React.FC = () => {
 
     return (
         <div className="store-page">
-            <button className="store-back-link" onClick={() => history.push('/store/catalog')}>
-                <IonIcon icon={arrowBackOutline} />
-                Seguir comprando
-            </button>
-
-            <h1>Mis Pedidos</h1>
+            <StorePageHeader title="Mis Pedidos" backTo="/store/catalog" backLabel="Seguir comprando" />
 
             {myOrders.length === 0 ? (
                 <EmptyState
