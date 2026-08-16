@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { IonRouterOutlet, IonIcon } from '@ionic/react';
-import { Route, useHistory, useLocation } from 'react-router-dom';
+import { Route, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { cartOutline, heartOutline, logOutOutline, personCircleOutline, storefrontOutline } from 'ionicons/icons';
 import { clearSession } from '../../core/current_user';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchCartThunk } from '../../store/slices/cart.slice';
 import { fetchWishlistThunk } from '../../store/slices/wishlist.slice';
+import Landing from './landing/Landing';
 import Catalog from './catalog/Catalog';
 import ProductDetail from './product/ProductDetail';
 import Cart from './cart/Cart';
@@ -38,12 +39,18 @@ const StoreLayout: React.FC = () => {
         <div className="store-shell">
             <header className="store-header">
                 <div className="store-header-inner">
-                    <div className="store-logo" onClick={() => history.push('/store/catalog')}>
+                    <div className="store-logo" onClick={() => history.push('/store/home')}>
                         <IonIcon icon={storefrontOutline} />
                         <span>E-CO</span>
                     </div>
 
                     <nav className="store-nav">
+                        <button
+                            className={`store-nav-link ${location.pathname === '/store/home' ? 'active' : ''}`}
+                            onClick={() => history.push('/store/home')}
+                        >
+                            Inicio
+                        </button>
                         <button
                             className={`store-nav-link ${location.pathname === '/store/catalog' ? 'active' : ''}`}
                             onClick={() => history.push('/store/catalog')}
@@ -78,6 +85,12 @@ const StoreLayout: React.FC = () => {
             </header>
 
             <IonRouterOutlet animated={false}>
+                <Route exact path="/store">
+                    <Redirect to="/store/home" />
+                </Route>
+                <Route exact path="/store/home">
+                    <Landing />
+                </Route>
                 <Route exact path="/store/catalog">
                     <Catalog />
                 </Route>
@@ -97,6 +110,33 @@ const StoreLayout: React.FC = () => {
                     <Account />
                 </Route>
             </IonRouterOutlet>
+
+            <footer className="store-footer">
+                <div className="store-footer-inner">
+                    <div className="store-footer-brand">
+                        <div className="store-logo">
+                            <IonIcon icon={storefrontOutline} />
+                            <span>E-CO</span>
+                        </div>
+                        <p>Comercio electrónico para tu negocio, de punta a punta.</p>
+                    </div>
+
+                    <div className="store-footer-col">
+                        <h3>Explorar</h3>
+                        <button onClick={() => history.push('/store/home')}>Inicio</button>
+                        <button onClick={() => history.push('/store/catalog')}>Catálogo</button>
+                    </div>
+
+                    <div className="store-footer-col">
+                        <h3>Mi cuenta</h3>
+                        <button onClick={() => history.push('/store/orders')}>Mis pedidos</button>
+                        <button onClick={() => history.push('/store/wishlist')}>Lista de deseos</button>
+                        <button onClick={() => history.push('/store/cart')}>Carrito</button>
+                        <button onClick={() => history.push('/store/account')}>Mi cuenta</button>
+                    </div>
+                </div>
+                <p className="store-footer-copyright">© {new Date().getFullYear()} E-CO. Todos los derechos reservados.</p>
+            </footer>
         </div>
     );
 };
