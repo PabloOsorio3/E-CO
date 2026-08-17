@@ -129,7 +129,7 @@ const Signup = () => {
                                 placeholder="correo@ejemplo.com"
                                 type="email"
                                 value={email}
-                                onIonChange={(e) => setEmail(e.detail.value!)}
+                                onIonInput={(e) => setEmail(e.detail.value!)}
                                 disabled={isLoading}
                                 required
                             >
@@ -163,7 +163,7 @@ const Signup = () => {
                                 required
                                 placeholder="Introduce tu contraseña"
                                 value={password}
-                                onIonChange={(e) => setPassword(e.detail.value!)}
+                                onIonInput={(e) => setPassword(e.detail.value!)}
                                 className="custom-input"
                                 disabled={isLoading}
                             >
@@ -179,7 +179,7 @@ const Signup = () => {
                                 type="password"
                                 required
                                 value={confirmPassword}
-                                onIonChange={(e) => {
+                                onIonInput={(e) => {
                                     const val = e.detail.value!;
                                     setConfirmPassword(val);
                                     if (password === val) setPasswordsMatch(true);
