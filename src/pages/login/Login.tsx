@@ -57,7 +57,7 @@ const Login: React.FC = () => {
                             required
                             placeholder="Micorreo@ejemplo.com"
                             value={email}
-                            onIonChange={(e) => setEmail(e.detail.value!)}
+                            onIonInput={(e) => setEmail(e.detail.value!)}
                             className="custom-input"
                         >
                             <IonIcon slot="start" icon={mailOutline} aria-hidden="true" />
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
                             required
                             placeholder="Introduce tu contraseña"
                             value={password}
-                            onIonChange={(e) => setPassword(e.detail.value!)}
+                            onIonInput={(e) => setPassword(e.detail.value!)}
                             className="custom-input"
                         >
                             <IonIcon slot="start" icon={lockClosedOutline} aria-hidden="true" />
