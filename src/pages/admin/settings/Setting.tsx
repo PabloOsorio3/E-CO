@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonPage, IonContent } from '@ionic/react';
 import { useHistory, useParams } from 'react-router-dom';
-import { PageHeader } from '../../../components/shared';
+import { AdminTopBar } from '../../../components/shared';
 import Category from './category/Category';
 import Subcategory from './subcategory/Subcategory';
 import Brand from './brand/Brand';
@@ -32,10 +32,7 @@ const Setting: React.FC = () => {
 
     return (
         <IonPage>
-            <PageHeader
-                title="Configuración"
-                subtitle="Gestión de parámetros del sistema"
-            />
+            <AdminTopBar title="Configuración" />
             <IonContent className="settings-page">
                 <div className="settings-tabs">
                     {TABS.map((t) => (

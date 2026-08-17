@@ -13,7 +13,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import { cloudUploadOutline, trashOutline, checkmarkCircleOutline } from 'ionicons/icons';
 
-import { PageHeader, PlaceholderCard, ConfirmModal } from '../../../components/shared';
+import { AdminTopBar, PlaceholderCard, ConfirmModal } from '../../../components/shared';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createProductThunk } from '../../../store/slices/product.slice';
 import { fetchImagesThunk, uploadImageThunk, deleteImageThunk, clearImages } from '../../../store/slices/image.slice';
@@ -121,12 +121,7 @@ const AddProduct: React.FC = () => {
 
   return (
     <IonPage>
-      <PageHeader
-        title="Agregar Producto"
-        subtitle="Nuevo producto para el catálogo"
-        showBackButton
-        defaultBackHref="/admin/products"
-      />
+      <AdminTopBar title="Agregar Producto" backTo="/admin/products" />
 
       <IonContent className="products-page">
         <div className="home-page-inner">

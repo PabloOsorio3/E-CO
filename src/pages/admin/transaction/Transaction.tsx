@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { IonPage, IonContent } from '@ionic/react';
 import { receiptOutline } from 'ionicons/icons';
-import { PageHeader, EmptyState, LoadingSpinner, StatusBadge } from '../../../components/shared';
+import { AdminTopBar, EmptyState, LoadingSpinner, StatusBadge } from '../../../components/shared';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { fetchPaymentsThunk } from '../../../store/slices/payment.slice';
 import PaymentMethod from './PaymentMethod';
@@ -26,10 +26,7 @@ const Transaction: React.FC = () => {
 
     return (
         <IonPage>
-            <PageHeader
-                title="Transacciones"
-                subtitle="Métodos de pago e historial de transacciones"
-            />
+            <AdminTopBar title="Transacciones" />
             <IonContent className="settings-page">
                 <h2 className="transaction-section-title">Métodos de Pago Aceptados</h2>
                 <div className="settings-panel">

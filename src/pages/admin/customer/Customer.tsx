@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { IonContent, IonPage, IonHeader, IonToolbar } from '@ionic/react';
+import { IonContent, IonPage } from '@ionic/react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
     fetchCustomersThunk,
@@ -12,7 +12,7 @@ import type { CustomerCreate, CustomerResponse, CustomerUpdate } from '../../../
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
 import { showInfoAlert } from '../../../alerts/info/info-alert';
-import CustomerTopBar from './components/CustomerTopBar';
+import { AdminTopBar } from '../../../components/shared';
 import CustomerKpiCards from './components/CustomerKpiCards';
 import CustomerOverview from './components/CustomerOverview';
 import CustomerTable from './components/CustomerTable';
@@ -27,8 +27,8 @@ const Customer: React.FC = () => {
     const dispatch = useAppDispatch();
     const { customers, loading } = useAppSelector((state) => state.customer);
     const { items: users } = useAppSelector((state) => state.users);
+    const darkMode = useAppSelector((state) => state.theme.darkMode);
 
-    const [darkMode, setDarkMode] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [selectedCustomer, setSelectedCustomer] = useState<CustomerResponse | null>(null);
@@ -139,16 +139,14 @@ const Customer: React.FC = () => {
 
     return (
         <IonPage className={darkMode ? 'dark-theme' : ''}>
-            <IonHeader className="ion-no-border" style={{ background: 'var(--dash-bg)' }}>
-                <IonToolbar style={{ '--background': 'var(--dash-bg)', '--border-style': 'none', padding: '16px 24px 8px 24px' }}>
-                    <CustomerTopBar
-                        darkMode={darkMode}
-                        onToggleDarkMode={() => setDarkMode(!darkMode)}
-                        searchQuery={searchQuery}
-                        onSearchChange={handleSearchChange}
-                    />
-                </IonToolbar>
-            </IonHeader>
+            <AdminTopBar
+                title="Customers"
+                search={{
+                    value: searchQuery,
+                    onChange: handleSearchChange,
+                    placeholder: 'Search data, users, or reports',
+                }}
+            />
             <IonContent className="ion-no-padding">
                 <div className="customer-dashboard-container">
                     <div className="dashboard-grid">

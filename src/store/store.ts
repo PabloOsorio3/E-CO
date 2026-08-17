@@ -17,6 +17,7 @@ import cartReducer from './slices/cart.slice';
 import dataUserReducer from './slices/dataUser.slice';
 import wishlistReducer from './slices/wishlist.slice';
 import promotionReducer from './slices/promotion.slice';
+import themeReducer from './slices/theme.slice';
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ export const store = configureStore({
     dataUser: dataUserReducer,
     wishlist: wishlistReducer,
     promotions: promotionReducer,
+    theme: themeReducer,
   },
 });
 
