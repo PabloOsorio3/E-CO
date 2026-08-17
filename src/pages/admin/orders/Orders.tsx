@@ -20,7 +20,7 @@ import {
 import { fetchProducts } from '../../../store/slices/product.slice';
 import type { OrderResponse, OrderStatusUpdate } from '../../../interface/order.interface';
 
-import { PageHeader, SearchBar, LoadingSpinner, EmptyState, StatusBadge } from '../../../components/shared';
+import { AdminTopBar, LoadingSpinner, EmptyState, StatusBadge } from '../../../components/shared';
 import OrderModal from './OrderModal';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
@@ -130,9 +130,9 @@ const Orders: React.FC = () => {
 
     return (
         <IonPage>
-            <PageHeader
+            <AdminTopBar
                 title="Órdenes"
-                subtitle="Gestionar órdenes de clientes"
+                search={{ value: searchTerm, onChange: handleSearch, placeholder: 'Buscar por ID o producto...' }}
             />
 
             <IonContent className="orders-page">
@@ -177,12 +177,6 @@ const Orders: React.FC = () => {
                                     </button>
                                 ))}
                             </div>
-
-                            <SearchBar
-                                value={searchTerm}
-                                onSearch={handleSearch}
-                                placeholder="Buscar por ID o producto..."
-                            />
                         </div>
 
                         {filteredOrders.length === 0 ? (

@@ -24,7 +24,7 @@ import {
 } from '../../../store/slices/promotion.slice';
 import type { PromotionCreate, PromotionResponse } from '../../../interface/promotion.interface';
 
-import { PageHeader, LoadingSpinner, EmptyState, ConfirmModal } from '../../../components/shared';
+import { AdminTopBar, LoadingSpinner, EmptyState, ConfirmModal } from '../../../components/shared';
 import PromotionModal from './PromotionModal';
 import { showSuccessAlert } from '../../../alerts/success/success-alert';
 import { showErrorAlert } from '../../../alerts/error/error-alert';
@@ -92,10 +92,7 @@ const Promotions: React.FC = () => {
 
     return (
         <IonPage>
-            <PageHeader
-                title="Promociones"
-                subtitle="Gestionar descuentos y promociones"
-            />
+            <AdminTopBar title="Promociones" />
             <IonContent className="settings-page">
                 <div className="settings-panel">
                     <div className="settings-panel-toolbar">

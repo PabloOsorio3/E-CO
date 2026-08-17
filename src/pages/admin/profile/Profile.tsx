@@ -7,7 +7,7 @@ import {
   createOutline,
   shareSocialOutline,
 } from 'ionicons/icons';
-import { PageHeader } from '../../../components/shared';
+import { AdminTopBar } from '../../../components/shared';
 import { getCurrentUser } from '../../../core/current_user';
 import { changePasswordApi } from '../../../api/admin/put/put_change_password';
 import { recoverPasswordApi } from '../../../api/admin/post/post_recover_password';
@@ -121,7 +121,7 @@ const Profile: React.FC = () => {
 
   return (
     <IonPage>
-      <PageHeader title="Admin role" subtitle="Perfil del administrador" />
+      <AdminTopBar title="Admin role" />
       <IonContent className="profile-page">
         <div className="profile-grid">
           <div className="profile-left-column">

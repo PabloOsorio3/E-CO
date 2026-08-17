@@ -28,7 +28,7 @@ import { createInventoryMovementThunk } from '../../../store/slices/inventory.sl
 import type { ProductCreate, ProductResponse, ProductUpdate } from '../../../interface/product.interface';
 import type { InventoryMovementCreate } from '../../../interface/inventory.interface';
 
-import { PageHeader, SearchBar, LoadingSpinner, EmptyState, ConfirmModal, StatusBadge } from '../../../components/shared';
+import { AdminTopBar, LoadingSpinner, EmptyState, ConfirmModal, StatusBadge } from '../../../components/shared';
 import ProductModal from './ProductModal';
 import StockModal from './StockModal';
 import ImageManagerModal from './ImageManagerModal';
@@ -159,20 +159,13 @@ const Products: React.FC = () => {
 
   return (
     <IonPage>
-      <PageHeader
+      <AdminTopBar
         title="Productos"
-        subtitle="Gestión del catálogo"
-        actionIcon={addOutline}
-        onAction={handleOpenCreate}
+        search={{ value: searchTerm, onChange: handleSearch, placeholder: 'Buscar por nombre, marca...' }}
+        action={{ icon: addOutline, onClick: handleOpenCreate, label: 'Agregar producto' }}
       />
 
       <IonContent className="products-page">
-        <SearchBar
-          value={searchTerm}
-          onSearch={handleSearch}
-          placeholder="Buscar por nombre, marca..."
-        />
-
         <IonGrid className="products-toolbar">
           <span className="products-count">
             {filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} encontrado{filteredProducts.length !== 1 ? 's' : ''}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IonContent, IonPage } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 
-import { PageHeader, LoadingSpinner, PlaceholderCard } from "../../../components/shared";
+import { AdminTopBar, LoadingSpinner, PlaceholderCard } from "../../../components/shared";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   fetchDashboardStatsThunk,
@@ -89,7 +89,7 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <PageHeader title="E - CO" subtitle="Panel de Administración" />
+      <AdminTopBar title="Dashboard" />
 
       <IonContent className="home-dashboard-content" scrollY={true}>
         {loading && !stats ? (
